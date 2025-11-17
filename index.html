@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datagram - Decentralized Data Infrastructure</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+    <style>
+        :root {
+            --primary-color: #0a0a23;
+            --secondary-color: #1a1a3a;
+            --accent-color: #4a4af0;
+            --text-color: #ffffff;
+            --light-text: #b0b0d0;
+            --border-radius: 12px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 0 var(--spacing-md);
+            margin: 0 auto;
+        }
+
+        header {
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            background-color: var(--primary-color);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .wallet-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .wallet-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .wallet-btn.connected {
+            background-color: #2ecc71;
+        }
+
+        .hero {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(90deg, #4a4af0, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            color: var(--light-text);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-md);
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-label {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .tab-container {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab {
+            padding: var(--spacing-md) var(--spacing-lg);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .invite-section {
+            background: linear-gradient(135deg, #4a4af0, #8a2be2);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .invite-section h3 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .invite-link {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .referral-code {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 1px;
+        }
+
+        .alert {
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-success {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+        }
+
+        .alert-error {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+        }
+
+        .alert-info {
+            background-color: rgba(52, 152, 219, 0.2);
+            border: 1px solid #3498db;
+        }
+
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-md);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+        }
+
+        .price-item {
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-bottom: 4px;
+        }
+
+        .price-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--primary-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--spacing-md);
+            display: flex;
+            justify-content: space-around;
+            z-index: 99;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--light-text);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .wallet-instructions {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .wallet-instructions h3 {
+            margin-bottom: var(--spacing-sm);
+            color: var(--accent-color);
+        }
+
+        .wallet-instructions p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <span>Datagram</span>
+                </div>
+                <button id="connectWallet" class="wallet-btn">Connect Wallet</button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1>Decentralized Data Infrastructure</h1>
+            <p>Powering the next generation of decentralized personal infrastructure (DePIN) networks</p>
+        </section>
+
+        <div id="alertContainer"></div>
+
+        <!-- 钱包使用说明 -->
+        <div class="wallet-instructions">
+            <h3>How to Connect Your Wallet</h3>
+            <p>1. Open this page in TokenPocket or MetaMask browser</p>
+            <p>2. Make sure you're on BSC network</p>
+            <p>3. Click "Connect Wallet" button above</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="tokenBalance">0 DGRAM</div>
+                <div class="stat-label">My Balance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="bnbBalance">0 BNB</div>
+                <div class="stat-label">BNB Balance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="referralCount">0</div>
+                <div class="stat-label">Referrals</div>
+            </div>
+        </div>
+
+        <div class="price-info">
+            <div class="price-item">
+                <div class="price-label">Token Price</div>
+                <div class="price-value">1 BNB = 184,600 DGRAM</div>
+            </div>
+            <div class="price-item">
+                <div class="price-label">Min Purchase</div>
+                <div class="price-value">0.5 BNB</div>
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="buy">Buy Tokens</div>
+                <div class="tab" data-tab="invite">Invite Friends</div>
+            </div>
+
+            <div class="tab-content active" id="buy-tab">
+                <div class="card">
+                    <h2>Buy DGRAM Tokens</h2>
+                    <div class="form-group">
+                        <label for="buyAmount">Amount (BNB)</label>
+                        <input type="number" id="buyAmount" class="form-control" placeholder="0.5" min="0.5" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="buyReferrer">Referrer Address (Optional)</label>
+                        <input type="text" id="buyReferrer" class="form-control" placeholder="0x...">
+                    </div>
+                    <button id="buyTokens" class="btn-primary">Buy Tokens</button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="invite-tab">
+                <div class="invite-section">
+                    <h3>Invite Friends & Earn Rewards</h3>
+                    <p style="margin-bottom: var(--spacing-md);">Invite friends to join Datagram and both get rewards</p>
+                    <div class="referral-code" id="referralCode">Connect wallet to generate</div>
+                    <div class="invite-link" id="inviteLink">Connect wallet to generate</div>
+                    <button id="copyLink" class="copy-btn">Copy Invite Link</button>
+                </div>
+                <div class="card">
+                    <h3>Referral Program</h3>
+                    <p style="margin-bottom: var(--spacing-md); color: var(--light-text);">Earn 10% of your referrals' purchases in DGRAM tokens</p>
+                    <ul style="color: var(--light-text); padding-left: var(--spacing-lg);">
+                        <li>Share your unique referral link</li>
+                        <li>When someone buys using your link, you earn 10% of their purchase</li>
+                        <li>Rewards are automatically sent to your wallet</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="nav-item active" data-tab="buy">
+            <div class="nav-icon">🏠</div>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" data-tab="buy">
+            <div class="nav-icon">💰</div>
+            <span>Trade</span>
+        </div>
+        <div class="nav-item" data-tab="invite">
+            <div class="nav-icon">👥</div>
+            <span>Invite</span>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">ℹ️</div>
+            <span>Info</span>
+        </div>
+    </footer>
+
+    <script>
+        // Smart contract information
+        const contractAddress = "0x0EfaE330e0Ff66Cd59c24aa1721Ef9F95f550470";
+        const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"nonpayable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+
+        // Global variables
+        let web3;
+        let contract;
+        let userAccount;
+        let isInitialized = false;
+
+        // DOM elements
+        const connectWalletBtn = document.getElementById('connectWallet');
+        const tokenBalanceEl = document.getElementById('tokenBalance');
+        const bnbBalanceEl = document.getElementById('bnbBalance');
+        const referralCountEl = document.getElementById('referralCount');
+        const buyTokensBtn = document.getElementById('buyTokens');
+        const copyLinkBtn = document.getElementById('copyLink');
+        const referralCodeEl = document.getElementById('referralCode');
+        const inviteLinkEl = document.getElementById('inviteLink');
+        const alertContainer = document.getElementById('alertContainer');
+
+        // 检测Web3是否加载成功
+        function checkWeb3Loaded() {
+            if (typeof Web3 === 'undefined') {
+                showAlert('Web3 library failed to load. Please refresh the page.', 'error');
+                return false;
+            }
+            return true;
+        }
+
+        // Tab switching
+        function setupTabs() {
+            document.querySelectorAll('.tab, .nav-item').forEach(element => {
+                element.addEventListener('click', () => {
+                    const tabName = element.dataset.tab;
+                    if (!tabName) return;
+                    
+                    // Remove active class from all tabs and contents
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                    
+                    // Add active class to current tab and content
+                    element.classList.add('active');
+                    document.getElementById(`${tabName}-tab`).classList.add('active');
+                });
+            });
+        }
+
+        // 检测钱包提供程序
+        function getWalletProvider() {
+            // 检查各种钱包提供程序
+            if (typeof window.ethereum !== 'undefined') {
+                return window.ethereum;
+            } else if (typeof window.web3 !== 'undefined') {
+                return window.web3.currentProvider;
+            } else if (window.tokenpocket) {
+                return window.tokenpocket;
+            } else if (window.BinanceChain) {
+                return window.BinanceChain;
+            }
+            return null;
+        }
+
+        // Initialization function
+        async function init() {
+            if (isInitialized) return;
+            
+            if (!checkWeb3Loaded()) {
+                return;
+            }
+            
+            const provider = getWalletProvider();
+            
+            if (provider) {
+                try {
+                    showAlert('Connecting to wallet...', 'info');
+                    connectWalletBtn.disabled = true;
+                    connectWalletBtn.innerHTML = '<div class="loading"></div>';
+                    
+                    // Request account access
+                    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+                    userAccount = accounts[0];
+                    
+                    // Initialize Web3
+                    web3 = new Web3(provider);
+                    
+                    // Check if we're connected to BSC
+                    const chainId = await web3.eth.getChainId();
+                    const bscChainIds = [56, 97]; // BSC Mainnet and Testnet
+                    
+                    if (!bscChainIds.includes(chainId)) {
+                        showAlert('Please switch to BSC Network (Mainnet or Testnet)', 'error');
+                        connectWalletBtn.disabled = false;
+                        connectWalletBtn.textContent = 'Connect Wallet';
+                        return;
+                    }
+                    
+                    // Initialize contract
+                    contract = new web3.eth.Contract(contractABI, contractAddress);
+                    
+                    // Update UI
+                    updateWalletStatus();
+                    updateBalances();
+                    updateReferralInfo();
+                    
+                    // Listen for account changes
+                    provider.on('accountsChanged', (accounts) => {
+                        if (accounts.length === 0) {
+                            // User disconnected
+                            userAccount = null;
+                            updateWalletStatus();
+                            showAlert('Wallet disconnected', 'info');
+                        } else {
+                            userAccount = accounts[0];
+                            updateWalletStatus();
+                            updateBalances();
+                            showAlert('Wallet account changed', 'info');
+                        }
+                    });
+
+                    // Listen for chain changes
+                    provider.on('chainChanged', (chainId) => {
+                        window.location.reload();
+                    });
+                    
+                    isInitialized = true;
+                    showAlert('Wallet connected successfully!', 'success');
+                    
+                } catch (error) {
+                    console.error('Failed to connect wallet:', error);
+                    let errorMsg = 'Failed to connect wallet';
+                    
+                    if (error.code === 4001) {
+                        errorMsg = 'Connection rejected by user';
+                    } else if (error.code === -32002) {
+                        errorMsg = 'Connection request already pending. Please check your wallet.';
+                    }
+                    
+                    showAlert(errorMsg, 'error');
+                    connectWalletBtn.disabled = false;
+                    connectWalletBtn.textContent = 'Connect Wallet';
+                }
+            } else {
+                showAlert('No Web3 wallet found. Please install TokenPocket, MetaMask, or Trust Wallet.', 'error');
+            }
+        }
+
+        // Update wallet status
+        function updateWalletStatus() {
+            if (userAccount) {
+                connectWalletBtn.textContent = `${userAccount.substring(0, 6)}...${userAccount.substring(38)}`;
+                connectWalletBtn.classList.add('connected');
+                connectWalletBtn.disabled = false;
+            } else {
+                connectWalletBtn.textContent = 'Connect Wallet';
+                connectWalletBtn.classList.remove('connected');
+                connectWalletBtn.disabled = false;
+            }
+        }
+
+        // Update balances
+        async function updateBalances() {
+            if (!userAccount || !contract) return;
+            
+            try {
+                // Get token balance
+                const tokenBalance = await contract.methods.balanceOf(userAccount).call();
+                const decimals = await contract.methods.decimals().call();
+                const formattedTokenBalance = web3.utils.fromWei(tokenBalance, 'ether');
+                tokenBalanceEl.textContent = `${parseFloat(formattedTokenBalance).toFixed(2)} DGRAM`;
+                
+                // Get BNB balance
+                const bnbBalance = await web3.eth.getBalance(userAccount);
+                const formattedBnbBalance = web3.utils.fromWei(bnbBalance, 'ether');
+                bnbBalanceEl.textContent = `${parseFloat(formattedBnbBalance).toFixed(4)} BNB`;
+                
+            } catch (error) {
+                console.error('Failed to get balances:', error);
+                showAlert('Failed to load balances', 'error');
+            }
+        }
+
+        // Update referral info
+        function updateReferralInfo() {
+            if (!userAccount) return;
+            
+            // Generate referral code (using last 6 characters of address)
+            const referralCode = userAccount.substring(userAccount.length - 6).toUpperCase();
+            referralCodeEl.textContent = referralCode;
+            
+            // Generate invite link
+            const inviteLink = `${window.location.origin}${window.location.pathname}?ref=${userAccount}`;
+            inviteLinkEl.textContent = inviteLink;
+        }
+
+        // Buy tokens
+        buyTokensBtn.addEventListener('click', async () => {
+            if (!userAccount) {
+                showAlert('Please connect your wallet first', 'error');
+                return;
+            }
+            
+            const amount = document.getElementById('buyAmount').value;
+            const referrer = document.getElementById('buyReferrer').value;
+            
+            if (!amount || parseFloat(amount) < 0.5) {
+                showAlert('Please enter at least 0.5 BNB', 'error');
+                return;
+            }
+            
+            try {
+                buyTokensBtn.disabled = true;
+                buyTokensBtn.textContent = 'Processing...';
+                
+                const weiAmount = web3.utils.toWei(amount, 'ether');
+                let referrerAddress = referrer || '0x0000000000000000000000000000000000000000';
+                
+                // Execute purchase
+                await contract.methods.buy(referrerAddress).send({
+                    from: userAccount,
+                    value: weiAmount
+                });
+                
+                showAlert('Purchase successful!', 'success');
+                updateBalances();
+                
+            } catch (error) {
+                console.error('Purchase failed:', error);
+                showAlert('Purchase failed: ' + (error.message || 'Unknown error'), 'error');
+            } finally {
+                buyTokensBtn.disabled = false;
+                buyTokensBtn.textContent = 'Buy Tokens';
+            }
+        });
+
+        // Copy invite link
+        copyLinkBtn.addEventListener('click', () => {
+            const inviteLink = inviteLinkEl.textContent;
+            if (inviteLink === 'Connect wallet to generate') {
+                showAlert('Please connect wallet first to generate referral link', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(inviteLink).then(() => {
+                showAlert('Invite link copied to clipboard', 'success');
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = inviteLink;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showAlert('Invite link copied to clipboard', 'success');
+            });
+        });
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            alertContainer.appendChild(alert);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        // Check for referral parameter in URL
+        function checkReferralFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refAddress = urlParams.get('ref');
+            
+            if (refAddress) {
+                // Auto-fill referrer address
+                document.getElementById('buyReferrer').value = refAddress;
+                
+                showAlert('Referral relationship automatically confirmed', 'success');
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            setupTabs();
+            checkReferralFromURL();
+            
+            // Connect wallet button event
+            connectWalletBtn.addEventListener('click', init);
+            
+            // Auto-connect if already authorized
+            const provider = getWalletProvider();
+            if (provider) {
+                provider.request({ method: 'eth_accounts' })
+                    .then(accounts => {
+                        if (accounts.length > 0) {
+                            userAccount = accounts[0];
+                            init();
+                        }
+                    })
+                    .catch(console.error);
+            }
+        });
+    </script>
+    
+    <!-- 备用Web3 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <!-- 如果上面的CDN失败，使用这个备用 -->
+    <script>
+        if (typeof Web3 === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.0/web3.min.js"><\/script>');
+        }
+    </script>
+</body>
+</html>
