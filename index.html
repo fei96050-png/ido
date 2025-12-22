@@ -40,7 +40,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -105,12 +105,12 @@
 
         /* Hero Section */
         .hero {
-            padding: 60px 0 40px;
+            padding: 40px 0 30px;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 16px;
             background: linear-gradient(90deg, #3a86ff, #8338ec);
             -webkit-background-clip: text;
@@ -120,24 +120,24 @@
 
         .hero p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1rem;
             max-width: 700px;
-            margin: 0 auto 40px;
+            margin: 0 auto 30px;
             line-height: 1.6;
         }
 
         /* Stats */
         .stats-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
         .stat-card {
             background-color: var(--card-bg);
             border-radius: 16px;
-            padding: 24px;
+            padding: 20px;
             border: 1px solid var(--border);
             transition: transform 0.3s ease;
         }
@@ -148,7 +148,7 @@
         }
 
         .stat-value {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 8px;
         }
@@ -163,20 +163,21 @@
             background: linear-gradient(90deg, rgba(58, 134, 255, 0.1), rgba(131, 56, 236, 0.1));
             border: 1px solid rgba(58, 134, 255, 0.3);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
+            padding: 16px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .referral-icon {
             color: var(--accent);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         .referral-text {
             flex: 1;
+            font-size: 0.9rem;
         }
 
         .referral-text strong {
@@ -187,11 +188,12 @@
             background: rgba(58, 134, 255, 0.2);
             border: 1px solid rgba(58, 134, 255, 0.5);
             color: var(--accent);
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .copy-referral-btn:hover {
@@ -200,30 +202,22 @@
 
         /* Main Content */
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        @media (min-width: 992px) {
-            .main-content {
-                grid-template-columns: 1fr 1fr;
-            }
+            margin-bottom: 50px;
         }
 
         /* Cards */
         .card {
             background-color: var(--card-bg);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
+            margin-bottom: 25px;
         }
 
         .card-title {
-            font-size: 1.5rem;
-            margin-bottom: 24px;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -235,7 +229,7 @@
 
         /* Form Elements */
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .input-label {
@@ -251,7 +245,7 @@
 
         .input-with-icon input {
             width: 100%;
-            padding: 16px 16px 16px 50px;
+            padding: 14px 14px 14px 45px;
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -275,36 +269,36 @@
         }
 
         .input-hint {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .price-display {
             background: rgba(58, 134, 255, 0.1);
             border-radius: 12px;
-            padding: 16px;
-            margin: 20px 0;
+            padding: 14px;
+            margin: 18px 0;
             text-align: center;
             border: 1px solid rgba(58, 134, 255, 0.3);
         }
 
         .price-display .price {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--accent);
         }
 
         .price-display .label {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         /* Buttons */
         .btn {
             display: block;
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             border-radius: 12px;
             border: none;
             font-weight: 600;
@@ -326,17 +320,6 @@
             box-shadow: 0 10px 25px rgba(58, 134, 255, 0.4);
         }
 
-        .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent);
-        }
-
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -347,15 +330,16 @@
         .status-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
+            gap: 12px;
+            margin-top: 25px;
         }
 
         .status-item {
             display: flex;
             justify-content: space-between;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
         }
 
         .status-label {
@@ -374,55 +358,27 @@
             color: var(--error);
         }
 
-        /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 24px;
-        }
-
-        .tab {
-            padding: 12px 24px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .tab.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
         /* Footer */
         footer {
-            padding: 40px 0;
+            padding: 30px 0;
             border-top: 1px solid var(--border);
             text-align: center;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s ease;
+            font-size: 0.85rem;
         }
 
         .footer-links a:hover {
@@ -443,13 +399,14 @@
         .toast {
             background-color: var(--secondary);
             border-left: 4px solid var(--accent);
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-radius: 8px;
             box-shadow: var(--shadow);
             display: flex;
             align-items: center;
-            gap: 12px;
-            min-width: 300px;
+            gap: 10px;
+            min-width: 280px;
+            max-width: 350px;
             animation: slideIn 0.3s ease;
         }
 
@@ -486,15 +443,15 @@
             }
             .nav-links {
                 display: flex;
-                gap: 30px;
+                gap: 25px;
             }
         }
 
         /* Loading Spinner */
         .spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: white;
@@ -508,19 +465,86 @@
         /* Responsive adjustments */
         @media (max-width: 767px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             .card {
                 padding: 20px;
             }
             .stats-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
             .referral-banner {
                 flex-direction: column;
                 text-align: center;
                 gap: 10px;
             }
+        }
+
+        @media (max-width: 480px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .card-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Short address display */
+        .short-address {
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Token info section */
+        .token-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .token-info-item {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .token-info-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .token-info-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .referral-rewards {
+            background: linear-gradient(90deg, rgba(10, 191, 158, 0.1), rgba(58, 134, 255, 0.1));
+            border: 1px solid rgba(10, 191, 158, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .referral-rewards-title {
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .referral-rewards-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -541,7 +565,6 @@
                 <a href="#home">Home</a>
                 <a href="#buy">Buy</a>
                 <a href="#about">About</a>
-                <a href="#stats">Stats</a>
             </div>
             
             <button id="connectWallet" class="wallet-btn">
@@ -557,14 +580,13 @@
             <h1>KDK Token Platform</h1>
             <p>
                 Kodiak is a vertically integrated decentralized liquidity platform that supports token issuance, trading, and advanced liquidity management. 
-                The platform is incubated by the Berachain [BuildaBera] accelerator and has secured over $5.3 million in funding from top investment institutions 
-                including HackVC, Amber Group, dao5, and CitizenX.
+                Incubated by Berachain and backed by top investment firms.
             </p>
             
             <div class="referral-banner" id="referralBanner" style="display: none;">
                 <i class="fas fa-user-friends referral-icon"></i>
                 <div class="referral-text">
-                    You are using referral from: <strong id="referrerAddress">0x...</strong>
+                    Using referral from: <strong id="referrerAddress" class="short-address">0x...</strong>
                 </div>
                 <button class="copy-referral-btn" id="copyReferralLink">
                     <i class="fas fa-copy"></i> Copy Your Link
@@ -594,175 +616,113 @@
 
     <!-- Main Content -->
     <section class="container main-content">
-        <!-- Buy/Airdrop Card -->
+        <!-- Buy Card -->
         <div class="card">
-            <div class="tabs">
-                <div class="tab active" data-tab="buy">Buy Tokens</div>
-                <div class="tab" data-tab="airdrop">Get Airdrop</div>
+            <div class="card-title">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Buy KDK Tokens</span>
             </div>
             
-            <!-- Buy Tab -->
-            <div id="buy-tab" class="tab-content active">
-                <div class="card-title">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Buy KDK Tokens</span>
+            <div class="token-info">
+                <div class="token-info-item">
+                    <div class="token-info-label">Token Name</div>
+                    <div class="token-info-value" id="tokenName">KDK</div>
                 </div>
-                
-                <div class="price-display">
-                    <div class="price">$0.05 per token</div>
-                    <div class="label">Minimum purchase: 0.4 BNB</div>
+                <div class="token-info-item">
+                    <div class="token-info-label">Token Symbol</div>
+                    <div class="token-info-value" id="tokenSymbol">KDK</div>
                 </div>
-                
-                <div class="input-group">
-                    <label class="input-label">BNB Amount</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-coins input-icon"></i>
-                        <input type="number" id="bnbAmount" placeholder="0.4" min="0.4" step="0.1" value="0.4">
-                    </div>
-                    <div class="input-hint">Minimum 0.4 BNB required for purchase</div>
+                <div class="token-info-item">
+                    <div class="token-info-label">Decimals</div>
+                    <div class="token-info-value" id="tokenDecimals">18</div>
                 </div>
-                
-                <div class="input-group">
-                    <label class="input-label">Referral Address (Auto-filled from URL)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-user-friends input-icon"></i>
-                        <input type="text" id="referralAddress" placeholder="0x..." readonly>
-                    </div>
-                    <div class="input-hint">Automatically set from referral link. You earn 20% referral rewards!</div>
-                </div>
-                
-                <div class="input-group">
-                    <label class="input-label">You will receive</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-gift input-icon"></i>
-                        <input type="text" id="tokensToReceive" readonly value="0 KDK">
-                    </div>
-                </div>
-                
-                <button id="buyTokens" class="btn btn-primary">
-                    <span>Buy Tokens</span>
-                </button>
-                
-                <div class="status-container">
-                    <div class="status-item">
-                        <span class="status-label">Sale Active</span>
-                        <span id="saleActiveStatus" class="status-value active">Yes</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Remaining Blocks</span>
-                        <span id="remainingBlocks" class="status-value">0</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Contract Balance</span>
-                        <span id="contractBalance" class="status-value">0 BNB</span>
-                    </div>
+                <div class="token-info-item">
+                    <div class="token-info-label">Total Supply</div>
+                    <div class="token-info-value" id="totalSupply">1,000,000,000</div>
                 </div>
             </div>
             
-            <!-- Airdrop Tab -->
-            <div id="airdrop-tab" class="tab-content">
-                <div class="card-title">
-                    <i class="fas fa-parachute-box"></i>
-                    <span>Get Free Airdrop</span>
+            <div class="price-display">
+                <div class="price">$0.05 per token</div>
+                <div class="label">Minimum purchase: 0.4 BNB</div>
+            </div>
+            
+            <div class="referral-rewards">
+                <div class="referral-rewards-title">20% Referral Rewards!</div>
+                <div class="referral-rewards-desc">When someone buys using your referral link, you earn 20% of their purchase in KDK tokens</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">BNB Amount</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-coins input-icon"></i>
+                    <input type="number" id="bnbAmount" placeholder="0.4" min="0.4" step="0.1" value="0.4">
                 </div>
-                
-                <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                    Claim your free KDK token airdrop! Limited to one claim per address.
-                </p>
-                
-                <div class="input-group">
-                    <label class="input-label">Referral Address (Auto-filled from URL)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-user-friends input-icon"></i>
-                        <input type="text" id="airdropReferral" placeholder="0x..." readonly>
-                    </div>
-                    <div class="input-hint">Automatically set from referral link. You earn 20% referral rewards!</div>
+                <div class="input-hint">Minimum 0.4 BNB required for purchase</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Referral Address (Auto-filled)</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user-friends input-icon"></i>
+                    <input type="text" id="referralAddress" placeholder="0x..." readonly>
                 </div>
-                
-                <div class="price-display">
-                    <div class="price">100,000 KDK</div>
-                    <div class="label">Free tokens per airdrop</div>
+                <div class="input-hint">Automatically set from referral link. Earn 20% referral rewards!</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">You will receive</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-gift input-icon"></i>
+                    <input type="text" id="tokensToReceive" readonly value="0 KDK">
                 </div>
-                
-                <button id="claimAirdrop" class="btn btn-secondary">
-                    <span>Claim Airdrop</span>
-                </button>
-                
-                <div class="status-container">
-                    <div class="status-item">
-                        <span class="status-label">Airdrop Active</span>
-                        <span id="airdropActiveStatus" class="status-value active">Yes</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Airdrop Cost</span>
-                        <span id="airdropCost" class="status-value">0 BNB</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Already Claimed</span>
-                        <span id="airdropClaimed" class="status-value">No</span>
-                    </div>
+            </div>
+            
+            <button id="buyTokens" class="btn btn-primary">
+                <span>Buy Tokens</span>
+            </button>
+            
+            <div class="status-container">
+                <div class="status-item">
+                    <span class="status-label">Sale Active</span>
+                    <span id="saleActiveStatus" class="status-value active">Yes</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Remaining Blocks</span>
+                    <span id="remainingBlocks" class="status-value">0</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Connected Address</span>
+                    <span id="connectedAddress" class="status-value short-address">Not connected</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Your Referral Link</span>
+                    <span id="yourReferralLink" class="status-value" style="color: var(--accent); cursor: pointer; font-size: 0.85rem;" title="Click to copy">Click to generate</span>
                 </div>
             </div>
         </div>
         
-        <!-- Info & Contract Status Card -->
+        <!-- About Section -->
         <div class="card">
             <div class="card-title">
-                <i class="fas fa-info-circle"></i>
-                <span>Contract Information</span>
-            </div>
-            
-            <div class="status-container">
-                <div class="status-item">
-                    <span class="status-label">Token Name</span>
-                    <span id="tokenName" class="status-value">KDK</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Token Symbol</span>
-                    <span id="tokenSymbol" class="status-value">KDK</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Decimals</span>
-                    <span id="tokenDecimals" class="status-value">18</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Total Supply</span>
-                    <span id="totalSupply" class="status-value">1,000,000,000</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Contract Address</span>
-                    <span id="contractAddress" class="status-value" style="font-size: 0.85rem;">0x6bfcA5254F4C106AD9173434da7DC26C5120eB6C</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Connected Address</span>
-                    <span id="connectedAddress" class="status-value" style="font-size: 0.85rem;">Not connected</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Your Referral Link</span>
-                    <span id="yourReferralLink" class="status-value" style="font-size: 0.85rem; color: var(--accent); cursor: pointer;" title="Click to copy">Click to generate</span>
-                </div>
-            </div>
-            
-            <div class="card-title" style="margin-top: 30px;">
                 <i class="fas fa-chart-line"></i>
                 <span>About Kodiak Finance</span>
             </div>
             
-            <p style="color: var(--text-secondary); line-height: 1.6; margin-top: 10px;">
+            <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 15px; font-size: 0.95rem;">
                 Kodiak holds over 90% of the spot and perpetual contract decentralized exchange market share on the Berachain network, 
                 making it the highest revenue protocol on the network. Its full-stack DeFi suite covers spot and perpetual trading, 
                 aggregation services, automated liquidity management, incentive layers, automatic compound vaults, validators, and no-code token deployment.
             </p>
             
-            <p style="color: var(--text-secondary); line-height: 1.6; margin-top: 10px;">
+            <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 15px; font-size: 0.95rem;">
                 Kodiak ranks as the second largest liquidity management platform by TVL, among the top 16 DEXs, 
                 among the top 70 DEXs by trading volume, among the top 160 protocols by fees, and among the top 40 platforms by DEX fees.
             </p>
             
-            <button id="viewContract" class="btn btn-secondary" style="margin-top: 20px;">
-                <i class="fas fa-external-link-alt"></i>
-                <span>View Contract on BscScan</span>
-            </button>
+            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">
+                Kodiak is rapidly advancing toward its vision—to become the only end-to-end platform needed for every user's DeFi journey.
+            </p>
         </div>
     </section>
 
@@ -775,7 +735,9 @@
                 <a href="#" id="switchNetwork">Switch to BSC</a>
             </div>
             <p>© 2025 KDK Token DApp. All rights reserved.</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">This interface is designed for TokenPocket wallet on BSC network.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; color: rgba(160, 174, 192, 0.7);">
+                This interface is designed for TokenPocket wallet on BSC network.
+            </p>
         </div>
     </footer>
 
@@ -785,20 +747,12 @@
     <script>
         // Contract details
         const contractAddress = "0x6bfcA5254F4C106AD9173434da7DC26C5120eB6C";
-        const bscScanUrl = "https://bscscan.com/address/" + contractAddress;
         
         // Contract ABI (simplified version for the required functions)
         const contractABI = [
             {
                 "inputs": [],
                 "name": "buy",
-                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "inputs": [{"internalType": "address", "name": "_refer", "type": "address"}],
-                "name": "airdrop",
                 "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
                 "stateMutability": "payable",
                 "type": "function"
@@ -822,13 +776,6 @@
                 "inputs": [{"internalType": "address", "name": "account", "type": "address"}],
                 "name": "balanceOf",
                 "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [{"internalType": "address", "name": "", "type": "address"}],
-                "name": "airdropReceive",
-                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
                 "stateMutability": "view",
                 "type": "function"
             },
@@ -874,34 +821,24 @@
         // DOM elements
         const connectWalletBtn = document.getElementById('connectWallet');
         const buyTokensBtn = document.getElementById('buyTokens');
-        const claimAirdropBtn = document.getElementById('claimAirdrop');
         const bnbAmountInput = document.getElementById('bnbAmount');
         const tokensToReceiveInput = document.getElementById('tokensToReceive');
         const referralAddressInput = document.getElementById('referralAddress');
-        const airdropReferralInput = document.getElementById('airdropReferral');
-        const viewContractBtn = document.getElementById('viewContract');
         const addTokenBtn = document.getElementById('addToken');
         const switchNetworkBtn = document.getElementById('switchNetwork');
         const userBalanceEl = document.getElementById('userBalance');
         const connectedAddressEl = document.getElementById('connectedAddress');
         const saleActiveStatusEl = document.getElementById('saleActiveStatus');
         const remainingBlocksEl = document.getElementById('remainingBlocks');
-        const contractBalanceEl = document.getElementById('contractBalance');
-        const airdropActiveStatusEl = document.getElementById('airdropActiveStatus');
-        const airdropCostEl = document.getElementById('airdropCost');
-        const airdropClaimedEl = document.getElementById('airdropClaimed');
         const tokenNameEl = document.getElementById('tokenName');
         const tokenSymbolEl = document.getElementById('tokenSymbol');
         const tokenDecimalsEl = document.getElementById('tokenDecimals');
         const totalSupplyEl = document.getElementById('totalSupply');
-        const contractAddressEl = document.getElementById('contractAddress');
         const saleStatusEl = document.getElementById('saleStatus');
         const referralBanner = document.getElementById('referralBanner');
         const referrerAddressEl = document.getElementById('referrerAddress');
         const copyReferralLinkBtn = document.getElementById('copyReferralLink');
         const yourReferralLinkEl = document.getElementById('yourReferralLink');
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -943,7 +880,6 @@
                 
                 // Update referral input fields
                 referralAddressInput.value = currentReferrer;
-                airdropReferralInput.value = currentReferrer;
                 
                 showToast('Referral address detected and applied!', 'success');
             } else {
@@ -954,7 +890,6 @@
                     referralBanner.style.display = 'flex';
                     referrerAddressEl.textContent = shortenAddress(currentReferrer);
                     referralAddressInput.value = currentReferrer;
-                    airdropReferralInput.value = currentReferrer;
                 }
             }
         }
@@ -967,14 +902,6 @@
             // Buy tokens button
             buyTokensBtn.addEventListener('click', buyTokens);
             
-            // Claim airdrop button
-            claimAirdropBtn.addEventListener('click', claimAirdrop);
-            
-            // View contract button
-            viewContractBtn.addEventListener('click', () => {
-                window.open(bscScanUrl, '_blank');
-            });
-            
             // Add token to wallet
             addTokenBtn.addEventListener('click', addTokenToWallet);
             
@@ -986,14 +913,6 @@
             
             // Your referral link click
             yourReferralLinkEl.addEventListener('click', generateUserReferralLink);
-            
-            // Tab switching
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
-                    switchTab(tabId);
-                });
-            });
         }
 
         // Check if wallet is already connected
@@ -1112,11 +1031,6 @@
                 const totalSupplyFormatted = web3.utils.fromWei(totalSupply, 'ether');
                 totalSupplyEl.textContent = parseFloat(totalSupplyFormatted).toLocaleString();
                 
-                // Check if user has claimed airdrop
-                const hasClaimedAirdrop = await contract.methods.airdropReceive(userAddress).call();
-                airdropClaimedEl.textContent = hasClaimedAirdrop ? 'Yes' : 'No';
-                airdropClaimedEl.className = `status-value ${hasClaimedAirdrop ? 'inactive' : 'active'}`;
-                
                 // Get user token balance
                 const userBalance = await contract.methods.balanceOf(userAddress).call();
                 const userBalanceFormatted = web3.utils.fromWei(userBalance, 'ether');
@@ -1136,17 +1050,9 @@
             saleActiveStatusEl.textContent = contractData.swSale ? 'Yes' : 'No';
             saleActiveStatusEl.className = `status-value ${contractData.swSale ? 'active' : 'inactive'}`;
             
-            // Update airdrop status
-            airdropActiveStatusEl.textContent = contractData.swAirdrop ? 'Yes' : 'No';
-            airdropActiveStatusEl.className = `status-value ${contractData.swAirdrop ? 'active' : 'inactive'}`;
-            
             // Update remaining blocks
             const remainingBlocks = contractData.sMaxBlock - contractData.nowBlock;
             remainingBlocksEl.textContent = remainingBlocks > 0 ? remainingBlocks : 'Sale Ended';
-            
-            // Update airdrop cost
-            const airdropCost = web3.utils.fromWei(contractData.airdropEth.toString(), 'ether');
-            airdropCostEl.textContent = airdropCost + ' BNB';
             
             // Update sale status in hero
             saleStatusEl.textContent = contractData.swSale ? 'Active' : 'Ended';
@@ -1154,7 +1060,6 @@
             
             // Update buttons based on status
             buyTokensBtn.disabled = !contractData.swSale;
-            claimAirdropBtn.disabled = !contractData.swAirdrop;
         }
 
         // Update token calculation
@@ -1167,7 +1072,7 @@
                 return;
             }
             
-            buyTokensBtn.disabled = false;
+            buyTokensBtn.disabled = !contractData.swSale;
             
             // If we have contract data with actual price, use it
             if (contractData.sPrice) {
@@ -1236,61 +1141,6 @@
                 console.error('Error buying tokens:', error);
                 buyTokensBtn.innerHTML = 'Buy Tokens';
                 buyTokensBtn.disabled = false;
-                
-                if (error.code === 4001) {
-                    showToast('Transaction was rejected', 'error');
-                } else {
-                    showToast('Transaction failed. Please try again.', 'error');
-                }
-            }
-        }
-
-        // Claim airdrop function
-        async function claimAirdrop() {
-            if (!isConnected) {
-                showToast('Please connect your wallet first', 'warning');
-                return;
-            }
-            
-            if (!contractData.swAirdrop) {
-                showToast('Airdrop is not active', 'error');
-                return;
-            }
-            
-            try {
-                // Get airdrop cost in wei
-                const airdropCostWei = contractData.airdropEth.toString();
-                
-                // Get referral address - use the one from URL or saved
-                let referAddress = currentReferrer;
-                if (!referAddress || referAddress === userAddress.toLowerCase()) {
-                    referAddress = userAddress; // Use own address if no valid referral
-                }
-                
-                // Show loading state
-                const originalText = claimAirdropBtn.innerHTML;
-                claimAirdropBtn.innerHTML = '<div class="spinner"></div> Processing...';
-                claimAirdropBtn.disabled = true;
-                
-                // Execute airdrop transaction
-                const result = await contract.methods.airdrop(referAddress).send({
-                    from: userAddress,
-                    value: airdropCostWei
-                });
-                
-                // Reset button
-                claimAirdropBtn.innerHTML = originalText;
-                claimAirdropBtn.disabled = false;
-                
-                showToast('Airdrop claimed successfully!', 'success');
-                
-                // Reload contract data to update balances
-                await loadContractData();
-                
-            } catch (error) {
-                console.error('Error claiming airdrop:', error);
-                claimAirdropBtn.innerHTML = 'Claim Airdrop';
-                claimAirdropBtn.disabled = false;
                 
                 if (error.code === 4001) {
                     showToast('Transaction was rejected', 'error');
@@ -1409,27 +1259,6 @@
                 console.error('Error adding token to wallet:', error);
                 showToast('Failed to add token to wallet', 'error');
             }
-        }
-
-        // Switch tab
-        function switchTab(tabId) {
-            // Update active tab
-            tabs.forEach(tab => {
-                if (tab.getAttribute('data-tab') === tabId) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
-                }
-            });
-            
-            // Update active tab content
-            tabContents.forEach(content => {
-                if (content.id === `${tabId}-tab`) {
-                    content.classList.add('active');
-                } else {
-                    content.classList.remove('active');
-                }
-            });
         }
 
         // Update wallet UI
