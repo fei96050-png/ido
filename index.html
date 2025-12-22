@@ -2,895 +2,524 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolPoker - Multi-language Poker DApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KDK Token | Kodiak Finance Style DApp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #9945FF;
-            --secondary: #14F195;
-            --dark: #0F0F23;
-            --darker: #0A0A18;
-            --light: #FFFFFF;
-            --gray: #8F8F9C;
-            --danger: #FF4757;
-            --warning: #FFA502;
-            --success: #2ED573;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        
+
+        :root {
+            --primary: #0a0b1e;
+            --secondary: #141632;
+            --accent: #3a86ff;
+            --accent-hover: #2667cc;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --border: #2d3748;
+            --card-bg: rgba(20, 22, 50, 0.8);
+            --gradient: linear-gradient(135deg, #3a86ff 0%, #8338ec 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
         body {
-            background-color: var(--dark);
-            color: var(--light);
-            line-height: 1.6;
+            background-color: var(--primary);
+            color: var(--text-primary);
+            min-height: 100vh;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(58, 134, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(131, 56, 236, 0.1) 0%, transparent 20%);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
-        /* Header Styles */
+
+        /* Header & Navigation */
         header {
-            background-color: var(--darker);
             padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border);
+            background-color: rgba(10, 11, 30, 0.9);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        
-        .header-content {
+
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.5rem;
         }
-        
-        .logo h1 {
-            font-size: 28px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .wallet-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(58, 134, 255, 0.3);
+        }
+
+        .wallet-btn.connected {
+            background: var(--success);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, #3a86ff, #8338ec);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .logo-icon {
-            font-size: 32px;
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
         }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
+
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
         }
-        
-        nav a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
         }
-        
-        nav a:hover {
-            color: var(--secondary);
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
         }
-        
-        .header-right {
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Referral Banner */
+        .referral-banner {
+            background: linear-gradient(90deg, rgba(58, 134, 255, 0.1), rgba(131, 56, 236, 0.1));
+            border: 1px solid rgba(58, 134, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
-        .language-selector {
+
+        .referral-icon {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .referral-text {
+            flex: 1;
+        }
+
+        .referral-text strong {
+            color: var(--accent);
+        }
+
+        .copy-referral-btn {
+            background: rgba(58, 134, 255, 0.2);
+            border: 1px solid rgba(58, 134, 255, 0.5);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-referral-btn:hover {
+            background: rgba(58, 134, 255, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
             display: flex;
+            align-items: center;
             gap: 10px;
         }
-        
-        .lang-btn {
-            background: transparent;
-            border: 1px solid var(--gray);
-            color: var(--gray);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
+
+        .card-title i {
+            color: var(--accent);
         }
-        
-        .lang-btn.active {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-        
-        .connect-wallet {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: var(--darker);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .connect-wallet:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Hero Section */
-        .hero {
-            padding: 80px 0;
-            text-align: center;
-            background: radial-gradient(circle at center, rgba(153, 69, 255, 0.1) 0%, rgba(20, 241, 149, 0.05) 50%, transparent 70%);
-        }
-        
-        .hero h2 {
-            font-size: 48px;
+
+        /* Form Elements */
+        .input-group {
             margin-bottom: 20px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
-        
-        .hero p {
-            font-size: 20px;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto 40px;
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
-        
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+
+        .input-with-icon {
+            position: relative;
         }
-        
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 16px 16px 16px 50px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .price-display {
+            background: rgba(58, 134, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(58, 134, 255, 0.3);
+        }
+
+        .price-display .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .price-display .label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
         .btn {
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
             border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 10px;
         }
-        
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--light);
-            border: 2px solid var(--primary);
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
         }
-        
-        .btn:hover {
+
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(58, 134, 255, 0.4);
         }
-        
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Status */
+        .status-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .status-label {
+            color: var(--text-secondary);
+        }
+
+        .status-value {
+            font-weight: 600;
+        }
+
+        .status-value.active {
+            color: var(--success);
+        }
+
+        .status-value.inactive {
+            color: var(--error);
+        }
+
         /* Tabs */
         .tabs {
             display: flex;
-            justify-content: center;
-            margin: 40px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
         }
-        
+
         .tab {
-            padding: 15px 30px;
+            padding: 12px 24px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            color: var(--text-secondary);
             border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
-        
+
         .tab.active {
-            border-bottom: 3px solid var(--primary);
-            color: var(--primary);
+            color: var(--accent);
+            border-bottom-color: var(--accent);
         }
-        
+
         .tab-content {
             display: none;
-            padding: 40px 0;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
-        /* Game Container */
-        .game-container {
-            display: flex;
-            gap: 30px;
-            margin: 40px 0;
-        }
-        
-        .game-area {
-            flex: 2;
-        }
-        
-        .game-info {
-            flex: 1;
-            background-color: var(--darker);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .game-status {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .game-status h2 {
-            color: var(--secondary);
-            margin-bottom: 10px;
-        }
-        
-        .player-list {
-            margin-bottom: 20px;
-        }
-        
-        .player-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .player-item.active {
-            color: var(--secondary);
-            font-weight: bold;
-        }
-        
-        .action-log {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .log-entry {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 14px;
-        }
-        
-        /* Poker Table */
-        .poker-table-container {
-            background-color: var(--darker);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            min-height: 600px;
-        }
-        
-        .table-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-            color: var(--secondary);
-        }
-        
-        .poker-table {
-            background-color: #1a6d2c;
-            border-radius: 50%;
-            height: 400px;
-            margin: 0 auto;
-            position: relative;
-            border: 15px solid #8B4513;
-            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 700px;
-        }
-        
-        .community-cards {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-        
-        .card {
-            width: 80px;
-            height: 112px;
-            background-color: white;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-        
-        .card.red {
-            color: #D40000;
-        }
-        
-        .card.black {
-            color: #000000;
-        }
-        
-        .card-top, .card-bottom {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .card-center {
-            font-size: 24px;
-            text-align: center;
-        }
-        
-        .card-back {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        
-        .player {
-            position: absolute;
-            background-color: var(--darker);
-            padding: 10px 15px;
-            border-radius: 20px;
-            min-width: 120px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s;
-        }
-        
-        .player-cards {
-            display: flex;
-            gap: 5px;
-            margin-top: 10px;
-            justify-content: center;
-        }
-        
-        .player-1 {
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .player-2 {
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-        }
-        
-        .player-3 {
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .player-4 {
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-        }
-        
-        .player-you {
-            border: 2px solid var(--secondary);
-        }
-        
-        .player.active {
-            box-shadow: 0 0 0 3px var(--primary);
-        }
-        
-        .player.folded {
-            opacity: 0.5;
-        }
-        
-        .player-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        
-        .pot-display {
-            position: absolute;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 20px;
-        }
-        
-        /* Game Controls */
-        .game-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .game-btn {
-            padding: 10px 25px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-        }
-        
-        .fold {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .check {
-            background-color: var(--warning);
-            color: white;
-        }
-        
-        .call {
-            background-color: var(--secondary);
-            color: var(--darker);
-        }
-        
-        .bet {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .bet-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
-        }
-        
-        .bet-input {
-            padding: 8px 15px;
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 120px;
-        }
-        
-        .bet-slider {
-            width: 200px;
-        }
-        
-        /* Game Setup */
-        .game-setup {
-            background-color: var(--darker);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .setup-title {
-            margin-bottom: 20px;
-            color: var(--secondary);
-        }
-        
-        .setup-options {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .option-group {
-            flex: 1;
-        }
-        
-        .option-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--gray);
-        }
-        
-        .option-select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-        
-        .start-game-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: var(--darker);
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        
-        .start-game-btn:hover {
-            opacity: 0.9;
-        }
-        
-        /* Rooms Section */
-        .rooms-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .room-card {
-            background-color: var(--darker);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-        }
-        
-        .room-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .room-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .room-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .room-stakes {
-            color: var(--secondary);
-            font-weight: bold;
-        }
-        
-        .room-players {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            color: var(--gray);
-        }
-        
-        .room-status {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        .status-waiting {
-            background-color: rgba(20, 241, 149, 0.2);
-            color: var(--secondary);
-        }
-        
-        .status-playing {
-            background-color: rgba(153, 69, 255, 0.2);
-            color: var(--primary);
-        }
-        
-        .join-room {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: var(--darker);
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        
-        .join-room:hover {
-            opacity: 0.9;
-        }
-        
-        /* Stake Section */
-        .stake-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        
-        .stake-card {
-            background-color: var(--darker);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .stake-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .stake-title {
-            font-size: 22px;
-            color: var(--secondary);
-        }
-        
-        .stake-balance {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
-        .stake-amount {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .stake-input {
-            flex: 1;
-            padding: 12px 15px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-        }
-        
-        .max-btn {
-            padding: 12px 15px;
-            background-color: rgba(153, 69, 255, 0.2);
-            color: var(--primary);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .stake-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-        
-        .stake-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .stake {
-            background-color: var(--secondary);
-            color: var(--darker);
-        }
-        
-        .unstake {
-            background-color: transparent;
-            color: var(--light);
-            border: 2px solid var(--primary);
-        }
-        
-        .rewards-info {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .reward-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .reward-label {
-            color: var(--gray);
-        }
-        
-        .reward-value {
-            font-weight: bold;
-        }
-        
-        /* Result Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: var(--darker);
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-        
-        .modal-title {
-            color: var(--secondary);
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .winner-info {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-        
-        .hand-info {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-        }
-        
-        .hand-cards {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .modal-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .play-again {
-            background-color: var(--secondary);
-            color: var(--darker);
-        }
-        
-        .exit-game {
-            background-color: transparent;
-            color: var(--light);
-            border: 2px solid var(--primary);
-        }
-        
-        /* Wallet Modal */
-        .wallet-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .wallet-option {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .wallet-option:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .wallet-icon {
-            font-size: 24px;
-        }
-        
-        .wallet-name {
-            font-weight: bold;
-        }
-        
+
         /* Footer */
         footer {
-            background-color: var(--darker);
             padding: 40px 0;
-            margin-top: 60px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
-        
-        .footer-content {
+
+        .footer-links {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .social-links {
-            display: flex;
+            justify-content: center;
             gap: 20px;
+            margin-bottom: 20px;
         }
-        
-        .social-link {
-            color: var(--gray);
-            font-size: 20px;
-            transition: color 0.3s;
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
-        
-        .social-link:hover {
-            color: var(--secondary);
+
+        .footer-links a:hover {
+            color: var(--accent);
         }
-        
-        .copyright {
-            color: var(--gray);
-            font-size: 14px;
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .game-container {
-                flex-direction: column;
+
+        .toast {
+            background-color: var(--secondary);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--error);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-btn {
+                display: none;
             }
-            
-            .stake-container {
+            .nav-links {
+                display: flex;
+                gap: 30px;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 20px;
+            }
+            .stats-container {
                 grid-template-columns: 1fr;
             }
-            
-            .poker-table {
-                height: 300px;
-            }
-            
-            .card {
-                width: 60px;
-                height: 84px;
-            }
-            
-            .hero h2 {
-                font-size: 36px;
-            }
-            
-            .header-content {
+            .referral-banner {
                 flex-direction: column;
-                gap: 20px;
-            }
-            
-            nav ul {
-                gap: 15px;
-            }
-            
-            .setup-options {
-                flex-direction: column;
+                text-align: center;
+                gap: 10px;
             }
         }
     </style>
@@ -898,1299 +527,969 @@
 <body>
     <!-- Header -->
     <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">♠️</div>
-                    <h1 data-i18n="brandName">SolPoker</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="active" data-i18n="navHome">首页</a></li>
-                        <li><a href="#" data-i18n="navGames">游戏</a></li>
-                        <li><a href="#" data-i18n="navStake">质押</a></li>
-                        <li><a href="#" data-i18n="navLeaderboard">排行榜</a></li>
-                        <li><a href="#" data-i18n="navDocs">文档</a></li>
-                    </ul>
-                </nav>
-                <div class="header-right">
-                    <div class="language-selector">
-                        <button class="lang-btn active" data-lang="en">EN</button>
-                        <button class="lang-btn" data-lang="zh">中文</button>
-                    </div>
-                    <button class="connect-wallet" data-i18n="connectWallet">连接钱包</button>
-                </div>
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-bear logo-icon"></i>
+                <span>KDK Token</span>
             </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#buy">Buy</a>
+                <a href="#about">About</a>
+                <a href="#stats">Stats</a>
+            </div>
+            
+            <button id="connectWallet" class="wallet-btn">
+                <i class="fas fa-wallet"></i>
+                <span>Connect Wallet</span>
+            </button>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="container">
-            <h2 data-i18n="heroTitle">Solana上的德州扑克平台</h2>
-            <p data-i18n="heroDescription">在Solana区块链上体验公平、透明、快速的德州扑克游戏。使用SPK代币参与游戏，质押获取平台收益分红。</p>
-            <div class="cta-buttons">
-                <button class="btn btn-primary" data-i18n="startPlaying">开始游戏</button>
-                <button class="btn btn-secondary" data-i18n="learnMore">了解更多</button>
+            <h1>KDK Token Platform</h1>
+            <p>
+                Kodiak is a vertically integrated decentralized liquidity platform that supports token issuance, trading, and advanced liquidity management. 
+                The platform is incubated by the Berachain [BuildaBera] accelerator and has secured over $5.3 million in funding from top investment institutions 
+                including HackVC, Amber Group, dao5, and CitizenX.
+            </p>
+            
+            <div class="referral-banner" id="referralBanner" style="display: none;">
+                <i class="fas fa-user-friends referral-icon"></i>
+                <div class="referral-text">
+                    You are using referral from: <strong id="referrerAddress">0x...</strong>
+                </div>
+                <button class="copy-referral-btn" id="copyReferralLink">
+                    <i class="fas fa-copy"></i> Copy Your Link
+                </button>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="tokenPrice">$0.05</div>
+                    <div class="stat-label">Token Price</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="userBalance">0 KDK</div>
+                    <div class="stat-label">Your Balance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="saleStatus">Active</div>
+                    <div class="stat-label">Sale Status</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="network">BSC</div>
+                    <div class="stat-label">Network</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Tabs -->
-    <div class="container">
-        <div class="tabs">
-            <div class="tab active" data-tab="poker" data-i18n="tabPoker">德州扑克</div>
-            <div class="tab" data-tab="rooms" data-i18n="tabRooms">游戏房间</div>
-            <div class="tab" data-tab="stake" data-i18n="tabStake">质押矿池</div>
-        </div>
-    </div>
-
-    <!-- Poker Tab -->
-    <div class="tab-content active" id="poker">
-        <div class="container">
-            <!-- Game Setup -->
-            <div class="game-setup" id="gameSetup">
-                <h2 class="setup-title" data-i18n="setupTitle">创建德州扑克游戏</h2>
-                <div class="setup-options">
-                    <div class="option-group">
-                        <label class="option-label" data-i18n="gameType">游戏类型</label>
-                        <select class="option-select" id="gameType">
-                            <option value="cash" data-i18n="cashGame">现金桌</option>
-                            <option value="tournament" data-i18n="tournament">锦标赛</option>
-                        </select>
-                    </div>
-                    <div class="option-group">
-                        <label class="option-label" data-i18n="blindLevel">盲注级别</label>
-                        <select class="option-select" id="blindLevel">
-                            <option value="1-2">1/2 SPK</option>
-                            <option value="2-5">2/5 SPK</option>
-                            <option value="5-10">5/10 SPK</option>
-                            <option value="10-20">10/20 SPK</option>
-                        </select>
-                    </div>
-                    <div class="option-group">
-                        <label class="option-label" data-i18n="playerCount">玩家人数</label>
-                        <select class="option-select" id="playerCount">
-                            <option value="2">2人</option>
-                            <option value="4" selected>4人</option>
-                            <option value="6">6人</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="start-game-btn" id="startGameBtn" data-i18n="startGame">开始游戏</button>
+    <!-- Main Content -->
+    <section class="container main-content">
+        <!-- Buy/Airdrop Card -->
+        <div class="card">
+            <div class="tabs">
+                <div class="tab active" data-tab="buy">Buy Tokens</div>
+                <div class="tab" data-tab="airdrop">Get Airdrop</div>
             </div>
-
-            <!-- Game Container -->
-            <div class="game-container" id="gameContainer" style="display: none;">
-                <div class="game-area">
-                    <div class="poker-table-container">
-                        <h2 class="table-title" data-i18n="pokerTable">德州扑克桌 #1234</h2>
-                        
-                        <!-- Community Cards -->
-                        <div class="community-cards" id="communityCards">
-                            <!-- Community cards will be added here by JavaScript -->
-                        </div>
-                        
-                        <!-- Poker Table -->
-                        <div class="poker-table">
-                            <!-- Players will be added here by JavaScript -->
-                            
-                            <!-- Pot Display -->
-                            <div class="pot-display" id="potDisplay" data-i18n="pot">底池: 0 SPK</div>
-                        </div>
-                        
-                        <!-- Game Controls -->
-                        <div class="game-controls" id="gameControls">
-                            <!-- Game controls will be added here by JavaScript -->
-                        </div>
+            
+            <!-- Buy Tab -->
+            <div id="buy-tab" class="tab-content active">
+                <div class="card-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Buy KDK Tokens</span>
+                </div>
+                
+                <div class="price-display">
+                    <div class="price">$0.05 per token</div>
+                    <div class="label">Minimum purchase: 0.4 BNB</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">BNB Amount</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-coins input-icon"></i>
+                        <input type="number" id="bnbAmount" placeholder="0.4" min="0.4" step="0.1" value="0.4">
+                    </div>
+                    <div class="input-hint">Minimum 0.4 BNB required for purchase</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Referral Address (Auto-filled from URL)</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user-friends input-icon"></i>
+                        <input type="text" id="referralAddress" placeholder="0x..." readonly>
+                    </div>
+                    <div class="input-hint">Automatically set from referral link. You earn 20% referral rewards!</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">You will receive</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-gift input-icon"></i>
+                        <input type="text" id="tokensToReceive" readonly value="0 KDK">
                     </div>
                 </div>
                 
-                <div class="game-info">
-                    <div class="game-status">
-                        <h2 data-i18n="gameStatus">游戏状态</h2>
-                        <div id="gameState" data-i18n="waitingToStart">等待开始...</div>
+                <button id="buyTokens" class="btn btn-primary">
+                    <span>Buy Tokens</span>
+                </button>
+                
+                <div class="status-container">
+                    <div class="status-item">
+                        <span class="status-label">Sale Active</span>
+                        <span id="saleActiveStatus" class="status-value active">Yes</span>
                     </div>
-                    
-                    <div class="player-list">
-                        <h2 data-i18n="playerInfo">玩家信息</h2>
-                        <div id="playersInfo">
-                            <!-- Player info will be added here by JavaScript -->
-                        </div>
+                    <div class="status-item">
+                        <span class="status-label">Remaining Blocks</span>
+                        <span id="remainingBlocks" class="status-value">0</span>
                     </div>
-                    
-                    <div class="action-log">
-                        <h2 data-i18n="actionLog">操作记录</h2>
-                        <div id="actionLog">
-                            <!-- Action log entries will be added here by JavaScript -->
-                        </div>
+                    <div class="status-item">
+                        <span class="status-label">Contract Balance</span>
+                        <span id="contractBalance" class="status-value">0 BNB</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Rooms Tab -->
-    <div class="tab-content" id="rooms">
-        <div class="container">
-            <h2 style="margin-bottom: 20px;" data-i18n="gameRooms">游戏房间</h2>
-            <div class="rooms-grid">
-                <!-- Room 1 -->
-                <div class="room-card">
-                    <div class="room-header">
-                        <div class="room-name" data-i18n="beginnerTable">初级桌</div>
-                        <div class="room-stakes">1-2 SPK</div>
-                    </div>
-                    <div class="room-players">
-                        <span data-i18n="players">4/6 玩家</span>
-                        <span class="room-status status-waiting" data-i18n="waiting">等待中</span>
-                    </div>
-                    <button class="join-room" data-i18n="joinGame">加入游戏</button>
+            
+            <!-- Airdrop Tab -->
+            <div id="airdrop-tab" class="tab-content">
+                <div class="card-title">
+                    <i class="fas fa-parachute-box"></i>
+                    <span>Get Free Airdrop</span>
                 </div>
                 
-                <!-- Room 2 -->
-                <div class="room-card">
-                    <div class="room-header">
-                        <div class="room-name" data-i18n="intermediateTable">中级桌</div>
-                        <div class="room-stakes">5-10 SPK</div>
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                    Claim your free KDK token airdrop! Limited to one claim per address.
+                </p>
+                
+                <div class="input-group">
+                    <label class="input-label">Referral Address (Auto-filled from URL)</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user-friends input-icon"></i>
+                        <input type="text" id="airdropReferral" placeholder="0x..." readonly>
                     </div>
-                    <div class="room-players">
-                        <span data-i18n="players">6/6 玩家</span>
-                        <span class="room-status status-playing" data-i18n="playing">游戏中</span>
-                    </div>
-                    <button class="join-room" disabled data-i18n="roomFull">房间已满</button>
+                    <div class="input-hint">Automatically set from referral link. You earn 20% referral rewards!</div>
                 </div>
                 
-                <!-- Room 3 -->
-                <div class="room-card">
-                    <div class="room-header">
-                        <div class="room-name" data-i18n="advancedTable">高级桌</div>
-                        <div class="room-stakes">25-50 SPK</div>
-                    </div>
-                    <div class="room-players">
-                        <span data-i18n="players">3/6 玩家</span>
-                        <span class="room-status status-waiting" data-i18n="waiting">等待中</span>
-                    </div>
-                    <button class="join-room" data-i18n="joinGame">加入游戏</button>
+                <div class="price-display">
+                    <div class="price">100,000 KDK</div>
+                    <div class="label">Free tokens per airdrop</div>
                 </div>
                 
-                <!-- Room 4 -->
-                <div class="room-card">
-                    <div class="room-header">
-                        <div class="room-name" data-i18n="tournament">锦标赛</div>
-                        <div class="room-stakes">100 SPK 入场</div>
-                    </div>
-                    <div class="room-players">
-                        <span data-i18n="players">12/20 玩家</span>
-                        <span class="room-status status-waiting" data-i18n="waiting">等待中</span>
-                    </div>
-                    <button class="join-room" data-i18n="joinGame">加入游戏</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stake Tab -->
-    <div class="tab-content" id="stake">
-        <div class="container">
-            <h2 style="margin-bottom: 30px;" data-i18n="stakePool">SPK 质押矿池</h2>
-            <div class="stake-container">
-                <!-- Stake Card -->
-                <div class="stake-card">
-                    <div class="stake-header">
-                        <div class="stake-title" data-i18n="stakeSPK">质押 SPK</div>
-                        <div class="stake-balance" data-i18n="balance">余额: 1,250 SPK</div>
-                    </div>
-                    <p style="color: var(--gray); margin-bottom: 20px;" data-i18n="stakeDescription">质押 SPK 代币以获取平台收益分红和治理权。</p>
-                    
-                    <div class="stake-amount">
-                        <input type="text" class="stake-input" data-i18n-ph="enterStakeAmount" placeholder="输入质押数量" value="500">
-                        <button class="max-btn" data-i18n="max">最大</button>
-                    </div>
-                    
-                    <div class="stake-actions">
-                        <button class="stake-btn stake" data-i18n="stake">质押</button>
-                        <button class="stake-btn unstake" data-i18n="unstake">取消质押</button>
-                    </div>
-                    
-                    <div class="rewards-info">
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="stakedAmount">已质押:</span>
-                            <span class="reward-value">750 SPK</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="pendingRewards">待领取奖励:</span>
-                            <span class="reward-value">42.5 SPK</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="apy">年化收益率:</span>
-                            <span class="reward-value">18.5%</span>
-                        </div>
-                    </div>
-                </div>
+                <button id="claimAirdrop" class="btn btn-secondary">
+                    <span>Claim Airdrop</span>
+                </button>
                 
-                <!-- Pool Info Card -->
-                <div class="stake-card">
-                    <div class="stake-header">
-                        <div class="stake-title" data-i18n="poolInfo">矿池信息</div>
+                <div class="status-container">
+                    <div class="status-item">
+                        <span class="status-label">Airdrop Active</span>
+                        <span id="airdropActiveStatus" class="status-value active">Yes</span>
                     </div>
-                    
-                    <div class="rewards-info">
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="totalStaked">总质押量:</span>
-                            <span class="reward-value">1,250,000 SPK</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="totalStakers">总质押者:</span>
-                            <span class="reward-value">2,548</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="yesterdayEarnings">昨日收益:</span>
-                            <span class="reward-value">625 SPK</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="yourShare">您的份额:</span>
-                            <span class="reward-value">0.06%</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-label" data-i18n="totalPlatformEarnings">平台总收益:</span>
-                            <span class="reward-value">125,000 SPK</span>
-                        </div>
+                    <div class="status-item">
+                        <span class="status-label">Airdrop Cost</span>
+                        <span id="airdropCost" class="status-value">0 BNB</span>
                     </div>
-                    
-                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                        <h3 style="margin-bottom: 15px; color: var(--secondary);" data-i18n="governanceRights">治理权益</h3>
-                        <p style="color: var(--gray); font-size: 14px;" data-i18n="governanceDescription">质押 SPK 可获得治理权，参与平台重要决策投票，包括手续费调整、新游戏添加等。</p>
+                    <div class="status-item">
+                        <span class="status-label">Already Claimed</span>
+                        <span id="airdropClaimed" class="status-value">No</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Result Modal -->
-    <div class="modal" id="resultModal">
-        <div class="modal-content">
-            <h2 class="modal-title" data-i18n="gameResult">游戏结果</h2>
-            <div class="winner-info" id="winnerInfo"></div>
-            <div class="hand-info">
-                <div data-i18n="winningHand">获胜手牌: <span id="winningHand"></span></div>
-                <div class="hand-cards" id="winningHandCards"></div>
+        
+        <!-- Info & Contract Status Card -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-info-circle"></i>
+                <span>Contract Information</span>
             </div>
-            <div class="modal-buttons">
-                <button class="modal-btn play-again" id="playAgainBtn" data-i18n="playAgain">再玩一次</button>
-                <button class="modal-btn exit-game" id="exitGameBtn" data-i18n="exitGame">退出游戏</button>
+            
+            <div class="status-container">
+                <div class="status-item">
+                    <span class="status-label">Token Name</span>
+                    <span id="tokenName" class="status-value">KDK</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Token Symbol</span>
+                    <span id="tokenSymbol" class="status-value">KDK</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Decimals</span>
+                    <span id="tokenDecimals" class="status-value">18</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Total Supply</span>
+                    <span id="totalSupply" class="status-value">1,000,000,000</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Contract Address</span>
+                    <span id="contractAddress" class="status-value" style="font-size: 0.85rem;">0x6bfcA5254F4C106AD9173434da7DC26C5120eB6C</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Connected Address</span>
+                    <span id="connectedAddress" class="status-value" style="font-size: 0.85rem;">Not connected</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Your Referral Link</span>
+                    <span id="yourReferralLink" class="status-value" style="font-size: 0.85rem; color: var(--accent); cursor: pointer;" title="Click to copy">Click to generate</span>
+                </div>
             </div>
+            
+            <div class="card-title" style="margin-top: 30px;">
+                <i class="fas fa-chart-line"></i>
+                <span>About Kodiak Finance</span>
+            </div>
+            
+            <p style="color: var(--text-secondary); line-height: 1.6; margin-top: 10px;">
+                Kodiak holds over 90% of the spot and perpetual contract decentralized exchange market share on the Berachain network, 
+                making it the highest revenue protocol on the network. Its full-stack DeFi suite covers spot and perpetual trading, 
+                aggregation services, automated liquidity management, incentive layers, automatic compound vaults, validators, and no-code token deployment.
+            </p>
+            
+            <p style="color: var(--text-secondary); line-height: 1.6; margin-top: 10px;">
+                Kodiak ranks as the second largest liquidity management platform by TVL, among the top 16 DEXs, 
+                among the top 70 DEXs by trading volume, among the top 160 protocols by fees, and among the top 40 platforms by DEX fees.
+            </p>
+            
+            <button id="viewContract" class="btn btn-secondary" style="margin-top: 20px;">
+                <i class="fas fa-external-link-alt"></i>
+                <span>View Contract on BscScan</span>
+            </button>
         </div>
-    </div>
-
-    <!-- Wallet Modal -->
-    <div class="modal" id="walletModal">
-        <div class="modal-content">
-            <h2 class="modal-title" data-i18n="connectWallet">连接钱包</h2>
-            <p style="color: var(--gray); margin-bottom: 20px;" data-i18n="selectWallet">选择要连接的钱包</p>
-            <div class="wallet-options">
-                <div class="wallet-option" data-wallet="phantom">
-                    <div class="wallet-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div class="wallet-info">
-                        <div class="wallet-name">Phantom</div>
-                        <div class="wallet-desc" data-i18n="phantomDesc">Solana生态最受欢迎的钱包</div>
-                    </div>
-                </div>
-                <div class="wallet-option" data-wallet="solflare">
-                    <div class="wallet-icon">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <div class="wallet-info">
-                        <div class="wallet-name">Solflare</div>
-                        <div class="wallet-desc" data-i18n="solflareDesc">功能强大的Solana钱包</div>
-                    </div>
-                </div>
-                <div class="wallet-option" data-wallet="demo">
-                    <div class="wallet-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="wallet-info">
-                        <div class="wallet-name" data-i18n="demoMode">演示模式</div>
-                        <div class="wallet-desc" data-i18n="demoDesc">无需真实钱包即可体验</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="logo">
-                    <div class="logo-icon">♠️</div>
-                    <h1 data-i18n="brandName">SolPoker</h1>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                </div>
-                <div class="copyright">
-                    &copy; 2023 SolPoker. <span data-i18n="allRightsReserved">All rights reserved.</span>
-                </div>
+            <div class="footer-links">
+                <a href="https://www.kodiak.finance/" target="_blank">Kodiak Finance</a>
+                <a href="#" id="addToken">Add KDK to Wallet</a>
+                <a href="#" id="switchNetwork">Switch to BSC</a>
             </div>
+            <p>© 2025 KDK Token DApp. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">This interface is designed for TokenPocket wallet on BSC network.</p>
         </div>
     </footer>
 
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <script>
-        // Internationalization
-        const translations = {
-            en: {
-                brandName: "SolPoker",
-                connectWallet: "Connect Wallet",
-                navHome: "Home",
-                navGames: "Games",
-                navStake: "Stake",
-                navLeaderboard: "Leaderboard",
-                navDocs: "Docs",
-                heroTitle: "Texas Hold'em on Solana",
-                heroDescription: "Experience fair, transparent, and fast Texas Hold'em on the Solana blockchain. Use SPK tokens to play and stake for platform revenue sharing.",
-                startPlaying: "Start Playing",
-                learnMore: "Learn More",
-                tabPoker: "Texas Hold'em",
-                tabRooms: "Game Rooms",
-                tabStake: "Staking Pool",
-                setupTitle: "Create Poker Game",
-                gameType: "Game Type",
-                cashGame: "Cash Game",
-                tournament: "Tournament",
-                blindLevel: "Blind Level",
-                playerCount: "Player Count",
-                startGame: "Start Game",
-                pokerTable: "Poker Table #1234",
-                pot: "Pot: 0 SPK",
-                gameStatus: "Game Status",
-                waitingToStart: "Waiting to start...",
-                playerInfo: "Player Info",
-                actionLog: "Action Log",
-                gameRooms: "Game Rooms",
-                beginnerTable: "Beginner Table",
-                intermediateTable: "Intermediate Table",
-                advancedTable: "Advanced Table",
-                players: "players",
-                waiting: "Waiting",
-                playing: "Playing",
-                joinGame: "Join Game",
-                roomFull: "Room Full",
-                stakePool: "SPK Staking Pool",
-                stakeSPK: "Stake SPK",
-                balance: "Balance: 1,250 SPK",
-                stakeDescription: "Stake SPK tokens to earn platform revenue sharing and governance rights.",
-                enterStakeAmount: "Enter stake amount",
-                max: "Max",
-                stake: "Stake",
-                unstake: "Unstake",
-                stakedAmount: "Staked:",
-                pendingRewards: "Pending Rewards:",
-                apy: "APY:",
-                poolInfo: "Pool Info",
-                totalStaked: "Total Staked:",
-                totalStakers: "Total Stakers:",
-                yesterdayEarnings: "Yesterday Earnings:",
-                yourShare: "Your Share:",
-                totalPlatformEarnings: "Total Platform Earnings:",
-                governanceRights: "Governance Rights",
-                governanceDescription: "Staking SPK gives you governance rights to vote on important platform decisions including fee adjustments, new game additions, etc.",
-                gameResult: "Game Result",
-                winningHand: "Winning Hand:",
-                playAgain: "Play Again",
-                exitGame: "Exit Game",
-                selectWallet: "Select a wallet to connect",
-                phantomDesc: "Most popular wallet in Solana ecosystem",
-                solflareDesc: "Feature-rich Solana wallet",
-                demoMode: "Demo Mode",
-                demoDesc: "Experience without a real wallet",
-                allRightsReserved: "All rights reserved."
+        // Contract details
+        const contractAddress = "0x6bfcA5254F4C106AD9173434da7DC26C5120eB6C";
+        const bscScanUrl = "https://bscscan.com/address/" + contractAddress;
+        
+        // Contract ABI (simplified version for the required functions)
+        const contractABI = [
+            {
+                "inputs": [],
+                "name": "buy",
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+                "stateMutability": "payable",
+                "type": "function"
             },
-            zh: {
-                brandName: "SolPoker",
-                connectWallet: "连接钱包",
-                navHome: "首页",
-                navGames: "游戏",
-                navStake: "质押",
-                navLeaderboard: "排行榜",
-                navDocs: "文档",
-                heroTitle: "Solana上的德州扑克平台",
-                heroDescription: "在Solana区块链上体验公平、透明、快速的德州扑克游戏。使用SPK代币参与游戏，质押获取平台收益分红。",
-                startPlaying: "开始游戏",
-                learnMore: "了解更多",
-                tabPoker: "德州扑克",
-                tabRooms: "游戏房间",
-                tabStake: "质押矿池",
-                setupTitle: "创建德州扑克游戏",
-                gameType: "游戏类型",
-                cashGame: "现金桌",
-                tournament: "锦标赛",
-                blindLevel: "盲注级别",
-                playerCount: "玩家人数",
-                startGame: "开始游戏",
-                pokerTable: "德州扑克桌 #1234",
-                pot: "底池: 0 SPK",
-                gameStatus: "游戏状态",
-                waitingToStart: "等待开始...",
-                playerInfo: "玩家信息",
-                actionLog: "操作记录",
-                gameRooms: "游戏房间",
-                beginnerTable: "初级桌",
-                intermediateTable: "中级桌",
-                advancedTable: "高级桌",
-                players: "玩家",
-                waiting: "等待中",
-                playing: "游戏中",
-                joinGame: "加入游戏",
-                roomFull: "房间已满",
-                stakePool: "SPK 质押矿池",
-                stakeSPK: "质押 SPK",
-                balance: "余额: 1,250 SPK",
-                stakeDescription: "质押 SPK 代币以获取平台收益分红和治理权。",
-                enterStakeAmount: "输入质押数量",
-                max: "最大",
-                stake: "质押",
-                unstake: "取消质押",
-                stakedAmount: "已质押:",
-                pendingRewards: "待领取奖励:",
-                apy: "年化收益率:",
-                poolInfo: "矿池信息",
-                totalStaked: "总质押量:",
-                totalStakers: "总质押者:",
-                yesterdayEarnings: "昨日收益:",
-                yourShare: "您的份额:",
-                totalPlatformEarnings: "平台总收益:",
-                governanceRights: "治理权益",
-                governanceDescription: "质押 SPK 可获得治理权，参与平台重要决策投票，包括手续费调整、新游戏添加等。",
-                gameResult: "游戏结果",
-                winningHand: "获胜手牌:",
-                playAgain: "再玩一次",
-                exitGame: "退出游戏",
-                selectWallet: "选择要连接的钱包",
-                phantomDesc: "Solana生态最受欢迎的钱包",
-                solflareDesc: "功能强大的Solana钱包",
-                demoMode: "演示模式",
-                demoDesc: "无需真实钱包即可体验",
-                allRightsReserved: "保留所有权利。"
+            {
+                "inputs": [{"internalType": "address", "name": "_refer", "type": "address"}],
+                "name": "airdrop",
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getBlock",
+                "outputs": [
+                    {"internalType": "bool", "name": "swAirdorp", "type": "bool"},
+                    {"internalType": "bool", "name": "swSale", "type": "bool"},
+                    {"internalType": "uint256", "name": "sPrice", "type": "uint256"},
+                    {"internalType": "uint256", "name": "sMaxBlock", "type": "uint256"},
+                    {"internalType": "uint256", "name": "nowBlock", "type": "uint256"},
+                    {"internalType": "uint256", "name": "balance", "type": "uint256"},
+                    {"internalType": "uint256", "name": "airdropEth", "type": "uint256"}
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "address", "name": "account", "type": "address"}],
+                "name": "balanceOf",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "address", "name": "", "type": "address"}],
+                "name": "airdropReceive",
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "name",
+                "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "symbol",
+                "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "decimals",
+                "outputs": [{"internalType": "uint8", "name": "", "type": "uint8"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
             }
-        };
+        ];
 
-        // Language management
-        let currentLanguage = 'zh';
+        // Global variables
+        let web3;
+        let contract;
+        let userAddress;
+        let isConnected = false;
+        let contractData = {};
+        let currentReferrer = null; // The referrer address from URL or saved
+        let userReferralLink = null;
 
-        function setLanguage(lang) {
-            currentLanguage = lang;
-            
-            // Update language buttons
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-lang') === lang) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            // Update all elements with data-i18n attribute
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
-            
-            // Update placeholders
-            document.querySelectorAll('[data-i18n-ph]').forEach(element => {
-                const key = element.getAttribute('data-i18n-ph');
-                if (translations[lang][key]) {
-                    element.setAttribute('placeholder', translations[lang][key]);
-                }
-            });
-        }
+        // DOM elements
+        const connectWalletBtn = document.getElementById('connectWallet');
+        const buyTokensBtn = document.getElementById('buyTokens');
+        const claimAirdropBtn = document.getElementById('claimAirdrop');
+        const bnbAmountInput = document.getElementById('bnbAmount');
+        const tokensToReceiveInput = document.getElementById('tokensToReceive');
+        const referralAddressInput = document.getElementById('referralAddress');
+        const airdropReferralInput = document.getElementById('airdropReferral');
+        const viewContractBtn = document.getElementById('viewContract');
+        const addTokenBtn = document.getElementById('addToken');
+        const switchNetworkBtn = document.getElementById('switchNetwork');
+        const userBalanceEl = document.getElementById('userBalance');
+        const connectedAddressEl = document.getElementById('connectedAddress');
+        const saleActiveStatusEl = document.getElementById('saleActiveStatus');
+        const remainingBlocksEl = document.getElementById('remainingBlocks');
+        const contractBalanceEl = document.getElementById('contractBalance');
+        const airdropActiveStatusEl = document.getElementById('airdropActiveStatus');
+        const airdropCostEl = document.getElementById('airdropCost');
+        const airdropClaimedEl = document.getElementById('airdropClaimed');
+        const tokenNameEl = document.getElementById('tokenName');
+        const tokenSymbolEl = document.getElementById('tokenSymbol');
+        const tokenDecimalsEl = document.getElementById('tokenDecimals');
+        const totalSupplyEl = document.getElementById('totalSupply');
+        const contractAddressEl = document.getElementById('contractAddress');
+        const saleStatusEl = document.getElementById('saleStatus');
+        const referralBanner = document.getElementById('referralBanner');
+        const referrerAddressEl = document.getElementById('referrerAddress');
+        const copyReferralLinkBtn = document.getElementById('copyReferralLink');
+        const yourReferralLinkEl = document.getElementById('yourReferralLink');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-        // Poker Game Class
-        class PokerGame {
-            constructor() {
-                this.players = [];
-                this.communityCards = [];
-                this.deck = [];
-                this.currentPlayerIndex = 0;
-                this.pot = 0;
-                this.currentBet = 0;
-                this.gamePhase = 'preflop'; // preflop, flop, turn, river, showdown
-                this.smallBlind = 1;
-                this.bigBlind = 2;
-                this.dealerPosition = 0;
-                this.gameStarted = false;
-                this.humanPlayerIndex = 2; // Player 3 is human
-                this.actionLog = [];
-                
-                // Initialize deck
-                this.initializeDeck();
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check URL for referral parameter
+            checkURLForReferral();
+            
+            // Check if TokenPocket is installed
+            if (typeof window.ethereum !== 'undefined') {
+                console.log('TokenPocket or other Web3 wallet is installed!');
+                // Try to connect automatically
+                checkWalletConnection();
+            } else {
+                showToast('Please install TokenPocket wallet to use this DApp', 'warning');
             }
             
-            initializeDeck() {
-                const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-                const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-                
-                this.deck = [];
-                for (let suit of suits) {
-                    for (let rank of ranks) {
-                        this.deck.push({ rank, suit });
-                    }
-                }
-            }
+            // Setup event listeners
+            setupEventListeners();
             
-            shuffleDeck() {
-                for (let i = this.deck.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
-                }
-            }
+            // Update token calculation when BNB amount changes
+            bnbAmountInput.addEventListener('input', updateTokenCalculation);
             
-            dealCard() {
-                return this.deck.pop();
-            }
+            // Initial token calculation
+            updateTokenCalculation();
+        });
+
+        // Check URL for referral parameter
+        function checkURLForReferral() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refParam = urlParams.get('ref');
             
-            startGame(playerCount, blindLevel) {
-                this.gameStarted = true;
-                this.players = [];
+            if (refParam && isValidEthereumAddress(refParam)) {
+                // Save referrer address from URL
+                currentReferrer = refParam.toLowerCase();
+                localStorage.setItem('kdk_referrer', currentReferrer);
                 
-                // Set blinds based on level
-                const blindValues = {
-                    '1-2': { small: 1, big: 2 },
-                    '2-5': { small: 2, big: 5 },
-                    '5-10': { small: 5, big: 10 },
-                    '10-20': { small: 10, big: 20 }
-                };
+                // Show referral banner
+                referralBanner.style.display = 'flex';
+                referrerAddressEl.textContent = shortenAddress(currentReferrer);
                 
-                this.smallBlind = blindValues[blindLevel].small;
-                this.bigBlind = blindValues[blindLevel].big;
+                // Update referral input fields
+                referralAddressInput.value = currentReferrer;
+                airdropReferralInput.value = currentReferrer;
                 
-                // Create players
-                for (let i = 0; i < playerCount; i++) {
-                    this.players.push({
-                        id: i,
-                        name: i === this.humanPlayerIndex ? (currentLanguage === 'zh' ? '您' : 'You') : 
-                              (currentLanguage === 'zh' ? `玩家${i+1}` : `Player ${i+1}`),
-                        chips: 1000,
-                        hand: [],
-                        currentBet: 0,
-                        folded: false,
-                        isHuman: i === this.humanPlayerIndex
-                    });
+                showToast('Referral address detected and applied!', 'success');
+            } else {
+                // Check if we have a saved referrer in localStorage
+                const savedReferrer = localStorage.getItem('kdk_referrer');
+                if (savedReferrer && isValidEthereumAddress(savedReferrer)) {
+                    currentReferrer = savedReferrer.toLowerCase();
+                    referralBanner.style.display = 'flex';
+                    referrerAddressEl.textContent = shortenAddress(currentReferrer);
+                    referralAddressInput.value = currentReferrer;
+                    airdropReferralInput.value = currentReferrer;
                 }
-                
-                // Reset game state
-                this.communityCards = [];
-                this.pot = 0;
-                this.currentBet = 0;
-                this.gamePhase = 'preflop';
-                this.dealerPosition = (this.dealerPosition + 1) % playerCount;
-                
-                // Shuffle and deal
-                this.initializeDeck();
-                this.shuffleDeck();
-                
-                // Deal cards to players
-                for (let player of this.players) {
-                    player.hand = [this.dealCard(), this.dealCard()];
-                    player.currentBet = 0;
-                    player.folded = false;
-                }
-                
-                // Post blinds
-                const smallBlindPlayer = (this.dealerPosition + 1) % playerCount;
-                const bigBlindPlayer = (this.dealerPosition + 2) % playerCount;
-                
-                this.players[smallBlindPlayer].chips -= this.smallBlind;
-                this.players[smallBlindPlayer].currentBet = this.smallBlind;
-                
-                this.players[bigBlindPlayer].chips -= this.bigBlind;
-                this.players[bigBlindPlayer].currentBet = this.bigBlind;
-                
-                this.pot = this.smallBlind + this.bigBlind;
-                this.currentBet = this.bigBlind;
-                
-                // Set first player to act
-                this.currentPlayerIndex = (this.dealerPosition + 3) % playerCount;
-                
-                // Log actions
-                this.addToLog(currentLanguage === 'zh' ? 
-                    `小盲注: 玩家${smallBlindPlayer+1} 下注 ${this.smallBlind} SPK` :
-                    `Small blind: Player ${smallBlindPlayer+1} bets ${this.smallBlind} SPK`);
-                    
-                this.addToLog(currentLanguage === 'zh' ? 
-                    `大盲注: 玩家${bigBlindPlayer+1} 下注 ${this.bigBlind} SPK` :
-                    `Big blind: Player ${bigBlindPlayer+1} bets ${this.bigBlind} SPK`);
-                
-                return this;
-            }
-            
-            addToLog(message) {
-                this.actionLog.unshift(message);
-                if (this.actionLog.length > 10) {
-                    this.actionLog.pop();
-                }
-            }
-            
-            playerAction(playerIndex, action, amount = 0) {
-                const player = this.players[playerIndex];
-                
-                if (player.folded) {
-                    return { success: false, message: currentLanguage === 'zh' ? '玩家已弃牌' : 'Player has folded' };
-                }
-                
-                switch (action) {
-                    case 'fold':
-                        player.folded = true;
-                        this.addToLog(`${player.name} ${currentLanguage === 'zh' ? '弃牌' : 'folds'}`);
-                        break;
-                        
-                    case 'check':
-                        if (player.currentBet < this.currentBet) {
-                            return { success: false, message: currentLanguage === 'zh' ? '不能过牌，需要跟注或加注' : 'Cannot check, must call or raise' };
-                        }
-                        this.addToLog(`${player.name} ${currentLanguage === 'zh' ? '过牌' : 'checks'}`);
-                        break;
-                        
-                    case 'call':
-                        const callAmount = this.currentBet - player.currentBet;
-                        if (callAmount > player.chips) {
-                            return { success: false, message: currentLanguage === 'zh' ? '筹码不足' : 'Not enough chips' };
-                        }
-                        player.chips -= callAmount;
-                        player.currentBet = this.currentBet;
-                        this.pot += callAmount;
-                        this.addToLog(`${player.name} ${currentLanguage === 'zh' ? '跟注' : 'calls'} ${callAmount} SPK`);
-                        break;
-                        
-                    case 'bet':
-                        if (amount < this.currentBet * 2) {
-                            return { success: false, message: currentLanguage === 'zh' ? '加注必须至少是当前下注的两倍' : 'Raise must be at least twice the current bet' };
-                        }
-                        if (amount > player.chips) {
-                            return { success: false, message: currentLanguage === 'zh' ? '筹码不足' : 'Not enough chips' };
-                        }
-                        const betAmount = amount - player.currentBet;
-                        player.chips -= betAmount;
-                        player.currentBet = amount;
-                        this.currentBet = amount;
-                        this.pot += betAmount;
-                        this.addToLog(`${player.name} ${currentLanguage === 'zh' ? '加注到' : 'raises to'} ${amount} SPK`);
-                        break;
-                }
-                
-                // Move to next player
-                this.nextPlayer();
-                
-                // Check if round is over
-                if (this.isRoundOver()) {
-                    this.nextPhase();
-                }
-                
-                return { success: true };
-            }
-            
-            nextPlayer() {
-                do {
-                    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
-                } while (this.players[this.currentPlayerIndex].folded && 
-                         this.countActivePlayers() > 1);
-            }
-            
-            countActivePlayers() {
-                return this.players.filter(p => !p.folded).length;
-            }
-            
-            isRoundOver() {
-                // Check if all players have acted and bets are equal
-                const activePlayers = this.players.filter(p => !p.folded);
-                
-                if (activePlayers.length <= 1) {
-                    return true;
-                }
-                
-                const allBetsEqual = activePlayers.every(p => p.currentBet === this.currentBet);
-                const allActed = activePlayers.every(p => 
-                    p.currentBet === this.currentBet || 
-                    this.players.indexOf(p) === this.currentPlayerIndex
-                );
-                
-                return allBetsEqual && allActed;
-            }
-            
-            nextPhase() {
-                switch (this.gamePhase) {
-                    case 'preflop':
-                        this.gamePhase = 'flop';
-                        // Deal flop
-                        for (let i = 0; i < 3; i++) {
-                            this.communityCards.push(this.dealCard());
-                        }
-                        this.addToLog((currentLanguage === 'zh' ? '翻牌: ' : 'Flop: ') + this.formatCards(this.communityCards));
-                        break;
-                        
-                    case 'flop':
-                        this.gamePhase = 'turn';
-                        // Deal turn
-                        this.communityCards.push(this.dealCard());
-                        this.addToLog((currentLanguage === 'zh' ? '转牌: ' : 'Turn: ') + this.formatCards([this.communityCards[3]]));
-                        break;
-                        
-                    case 'turn':
-                        this.gamePhase = 'river';
-                        // Deal river
-                        this.communityCards.push(this.dealCard());
-                        this.addToLog((currentLanguage === 'zh' ? '河牌: ' : 'River: ') + this.formatCards([this.communityCards[4]]));
-                        break;
-                        
-                    case 'river':
-                        this.gamePhase = 'showdown';
-                        this.determineWinner();
-                        return;
-                }
-                
-                // Reset current bets for new round
-                for (let player of this.players) {
-                    player.currentBet = 0;
-                }
-                this.currentBet = 0;
-                
-                // Set first player to act (first active player after dealer)
-                this.currentPlayerIndex = (this.dealerPosition + 1) % this.players.length;
-                while (this.players[this.currentPlayerIndex].folded) {
-                    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
-                }
-            }
-            
-            determineWinner() {
-                // Simplified winner determination - in a real game, you'd evaluate poker hands
-                const activePlayers = this.players.filter(p => !p.folded);
-                
-                if (activePlayers.length === 1) {
-                    // Only one player left, they win
-                    const winner = activePlayers[0];
-                    winner.chips += this.pot;
-                    this.addToLog(currentLanguage === 'zh' ? 
-                        `${winner.name} 获胜，赢得 ${this.pot} SPK` :
-                        `${winner.name} wins ${this.pot} SPK`);
-                    this.showResult(winner, currentLanguage === 'zh' ? "所有对手弃牌" : "All opponents folded");
-                } else {
-                    // Evaluate hands and determine winner (simplified)
-                    // In a real implementation, you would evaluate the actual poker hands
-                    const winnerIndex = Math.floor(Math.random() * activePlayers.length);
-                    const winner = activePlayers[winnerIndex];
-                    winner.chips += this.pot;
-                    
-                    // Generate a random hand description
-                    const handTypes = currentLanguage === 'zh' ? 
-                        ['同花顺', '四条', '满堂红', '同花', '顺子', '三条', '两对', '一对', '高牌'] :
-                        ['Royal Flush', 'Straight Flush', 'Four of a Kind', 'Full House', 'Flush', 'Straight', 'Three of a Kind', 'Two Pair', 'One Pair', 'High Card'];
-                    const winningHand = handTypes[Math.floor(Math.random() * handTypes.length)];
-                    
-                    this.addToLog(currentLanguage === 'zh' ? 
-                        `${winner.name} 以${winningHand}获胜，赢得 ${this.pot} SPK` :
-                        `${winner.name} wins with ${winningHand}, wins ${this.pot} SPK`);
-                    this.showResult(winner, winningHand);
-                }
-            }
-            
-            showResult(winner, handDescription) {
-                // This would be implemented to show the result modal
-                document.getElementById('winnerInfo').textContent = 
-                    currentLanguage === 'zh' ? `${winner.name} 获胜!` : `${winner.name} wins!`;
-                document.getElementById('winningHand').textContent = handDescription;
-                
-                // Show winner's cards
-                const winningHandCards = document.getElementById('winningHandCards');
-                winningHandCards.innerHTML = '';
-                
-                for (let card of winner.hand) {
-                    const cardElement = document.createElement('div');
-                    cardElement.className = `card ${card.suit === 'hearts' || card.suit === 'diamonds' ? 'red' : 'black'}`;
-                    
-                    const suitSymbol = this.getSuitSymbol(card.suit);
-                    const color = card.suit === 'hearts' || card.suit === 'diamonds' ? '#D40000' : '#000000';
-                    
-                    cardElement.innerHTML = `
-                        <div class="card-top">${card.rank}<span style="color: ${color};">${suitSymbol}</span></div>
-                        <div class="card-center"><span style="color: ${color};">${suitSymbol}</span></div>
-                        <div class="card-bottom">${card.rank}<span style="color: ${color};">${suitSymbol}</span></div>
-                    `;
-                    
-                    winningHandCards.appendChild(cardElement);
-                }
-                
-                document.getElementById('resultModal').style.display = 'flex';
-            }
-            
-            formatCards(cards) {
-                return cards.map(card => {
-                    const suitSymbol = this.getSuitSymbol(card.suit);
-                    return `${card.rank}${suitSymbol}`;
-                }).join(' ');
-            }
-            
-            getSuitSymbol(suit) {
-                switch(suit) {
-                    case 'hearts': return '♥';
-                    case 'diamonds': return '♦';
-                    case 'clubs': return '♣';
-                    case 'spades': return '♠';
-                    default: return '';
-                }
-            }
-            
-            getGameState() {
-                const phaseNames = currentLanguage === 'zh' ? {
-                    'preflop': '翻牌前',
-                    'flop': '翻牌圈',
-                    'turn': '转牌圈',
-                    'river': '河牌圈',
-                    'showdown': '摊牌'
-                } : {
-                    'preflop': 'Pre-flop',
-                    'flop': 'Flop',
-                    'turn': 'Turn',
-                    'river': 'River',
-                    'showdown': 'Showdown'
-                };
-                
-                const playerName = this.players[this.currentPlayerIndex].name;
-                
-                return `${phaseNames[this.gamePhase]} - ${playerName} ${currentLanguage === 'zh' ? '行动' : 'to act'}`;
             }
         }
 
-        // UI Controller
-        class PokerGameUI {
-            constructor() {
-                this.game = null;
-                this.setupEventListeners();
-            }
+        // Setup event listeners
+        function setupEventListeners() {
+            // Connect wallet button
+            connectWalletBtn.addEventListener('click', connectWallet);
             
-            setupEventListeners() {
-                document.getElementById('startGameBtn').addEventListener('click', () => {
-                    this.startGame();
+            // Buy tokens button
+            buyTokensBtn.addEventListener('click', buyTokens);
+            
+            // Claim airdrop button
+            claimAirdropBtn.addEventListener('click', claimAirdrop);
+            
+            // View contract button
+            viewContractBtn.addEventListener('click', () => {
+                window.open(bscScanUrl, '_blank');
+            });
+            
+            // Add token to wallet
+            addTokenBtn.addEventListener('click', addTokenToWallet);
+            
+            // Switch network button
+            switchNetworkBtn.addEventListener('click', switchToBSC);
+            
+            // Copy referral link button
+            copyReferralLinkBtn.addEventListener('click', copyUserReferralLink);
+            
+            // Your referral link click
+            yourReferralLinkEl.addEventListener('click', generateUserReferralLink);
+            
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    switchTab(tabId);
                 });
-                
-                document.getElementById('playAgainBtn').addEventListener('click', () => {
-                    this.playAgain();
-                });
-                
-                document.getElementById('exitGameBtn').addEventListener('click', () => {
-                    this.exitGame();
-                });
-                
-                // Language buttons
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const lang = btn.getAttribute('data-lang');
-                        setLanguage(lang);
-                        if (this.game) {
-                            this.renderGame();
-                        }
-                    });
-                });
-                
-                // Tab switching
-                document.querySelectorAll('.tab').forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        const tabId = tab.getAttribute('data-tab');
-                        
-                        // Remove active class from all tabs and contents
-                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                        
-                        // Add active class to current tab and content
-                        tab.classList.add('active');
-                        document.getElementById(tabId).classList.add('active');
-                    });
-                });
-                
-                // Wallet connection
-                document.querySelector('.connect-wallet').addEventListener('click', () => {
-                    document.getElementById('walletModal').style.display = 'flex';
-                });
-                
-                // Wallet options
-                document.querySelectorAll('.wallet-option').forEach(option => {
-                    option.addEventListener('click', () => {
-                        const wallet = option.getAttribute('data-wallet');
-                        this.connectWallet(wallet);
-                    });
-                });
-                
-                // Close modals when clicking outside
-                document.querySelectorAll('.modal').forEach(modal => {
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) {
-                            modal.style.display = 'none';
-                        }
-                    });
-                });
-                
-                // Join room buttons
-                document.querySelectorAll('.join-room').forEach(btn => {
-                    if (!btn.disabled) {
-                        btn.addEventListener('click', () => {
-                            alert(currentLanguage === 'zh' ? 
-                                '加入房间功能将在完整版本中实现' : 
-                                'Join room functionality will be implemented in the full version');
-                        });
+            });
+        }
+
+        // Check if wallet is already connected
+        async function checkWalletConnection() {
+            if (window.ethereum) {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0) {
+                        userAddress = accounts[0];
+                        isConnected = true;
+                        updateWalletUI();
+                        initializeWeb3();
                     }
-                });
-                
-                // Stake buttons
-                const stakeBtn = document.querySelector('.stake-btn.stake');
-                const unstakeBtn = document.querySelector('.stake-btn.unstake');
-                const maxBtn = document.querySelector('.max-btn');
-                
-                if (stakeBtn) {
-                    stakeBtn.addEventListener('click', () => {
-                        alert(currentLanguage === 'zh' ? 
-                            '质押功能将在完整版本中实现' : 
-                            'Staking functionality will be implemented in the full version');
-                    });
-                }
-                
-                if (unstakeBtn) {
-                    unstakeBtn.addEventListener('click', () => {
-                        alert(currentLanguage === 'zh' ? 
-                            '取消质押功能将在完整版本中实现' : 
-                            'Unstaking functionality will be implemented in the full version');
-                    });
-                }
-                
-                if (maxBtn) {
-                    maxBtn.addEventListener('click', () => {
-                        document.querySelector('.stake-input').value = '1250';
-                    });
+                } catch (error) {
+                    console.error('Error checking wallet connection:', error);
                 }
             }
-            
-            connectWallet(wallet) {
-                document.getElementById('walletModal').style.display = 'none';
-                
-                if (wallet === 'demo') {
-                    // Demo mode - no real connection
-                    document.querySelector('.connect-wallet').textContent = 
-                        currentLanguage === 'zh' ? '演示模式' : 'Demo Mode';
-                    document.querySelector('.connect-wallet').style.backgroundColor = 'var(--success)';
-                } else {
-                    // In a real implementation, this would connect to the actual wallet
-                    document.querySelector('.connect-wallet').textContent = 
-                        currentLanguage === 'zh' ? '已连接' : 'Connected';
-                    document.querySelector('.connect-wallet').style.backgroundColor = 'var(--success)';
-                }
-                
-                alert(currentLanguage === 'zh' ? 
-                    `${wallet === 'demo' ? '演示模式' : wallet} 钱包已连接` : 
-                    `${wallet === 'demo' ? 'Demo mode' : wallet} wallet connected`);
+        }
+
+        // Connect wallet function
+        async function connectWallet() {
+            if (typeof window.ethereum === 'undefined') {
+                showToast('Please install TokenPocket wallet first!', 'error');
+                return;
             }
             
-            startGame() {
-                const playerCount = parseInt(document.getElementById('playerCount').value);
-                const blindLevel = document.getElementById('blindLevel').value;
+            try {
+                // Request account access
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 
-                this.game = new PokerGame().startGame(playerCount, blindLevel);
-                
-                // Hide setup, show game
-                document.getElementById('gameSetup').style.display = 'none';
-                document.getElementById('gameContainer').style.display = 'flex';
-                
-                // Render initial game state
-                this.renderGame();
-            }
-            
-            renderGame() {
-                this.renderTable();
-                this.renderCommunityCards();
-                this.renderGameControls();
-                this.renderGameInfo();
-            }
-            
-            renderTable() {
-                const table = document.querySelector('.poker-table');
-                table.innerHTML = '';
-                
-                // Add pot display
-                const potDisplay = document.createElement('div');
-                potDisplay.className = 'pot-display';
-                potDisplay.id = 'potDisplay';
-                potDisplay.textContent = currentLanguage === 'zh' ? 
-                    `底池: ${this.game.pot} SPK` : `Pot: ${this.game.pot} SPK`;
-                table.appendChild(potDisplay);
-                
-                // Add players
-                for (let i = 0; i < this.game.players.length; i++) {
-                    const player = this.game.players[i];
-                    const playerElement = document.createElement('div');
-                    playerElement.className = `player player-${i+1} ${player.isHuman ? 'player-you' : ''} ${player.folded ? 'folded' : ''} ${i === this.game.currentPlayerIndex ? 'active' : ''}`;
+                if (accounts.length > 0) {
+                    userAddress = accounts[0];
+                    isConnected = true;
+                    updateWalletUI();
+                    initializeWeb3();
+                    showToast('Wallet connected successfully!', 'success');
                     
-                    playerElement.innerHTML = `
-                        <div>${player.name}</div>
-                        <div class="player-cards">
-                            ${this.renderPlayerCards(player)}
-                        </div>
-                        <div class="player-info">
-                            <span>${player.chips} SPK</span>
-                            <span>${player.currentBet > 0 ? (currentLanguage === 'zh' ? `下注: ${player.currentBet}` : `Bet: ${player.currentBet}`) : ''}</span>
-                        </div>
-                    `;
-                    
-                    table.appendChild(playerElement);
+                    // Generate user's referral link after connecting
+                    generateUserReferralLink();
                 }
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                showToast('Failed to connect wallet. Please try again.', 'error');
             }
-            
-            renderPlayerCards(player) {
-                if (player.folded) {
-                    return `
-                        <div class="card card-back">?</div>
-                        <div class="card card-back">?</div>
-                    `;
-                }
+        }
+
+        // Initialize Web3 and contract
+        async function initializeWeb3() {
+            if (typeof window.ethereum !== 'undefined') {
+                // Use TokenPocket's provider
+                web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(contractABI, contractAddress);
                 
-                if (player.isHuman || this.game.gamePhase === 'showdown') {
-                    // Show actual cards for human player or at showdown
-                    return player.hand.map(card => {
-                        const suitSymbol = this.game.getSuitSymbol(card.suit);
-                        const color = card.suit === 'hearts' || card.suit === 'diamonds' ? '#D40000' : '#000000';
-                        
-                        return `
-                            <div class="card ${card.suit === 'hearts' || card.suit === 'diamonds' ? 'red' : 'black'}">
-                                <div class="card-top">${card.rank}<span style="color: ${color};">${suitSymbol}</span></div>
-                                <div class="card-center"><span style="color: ${color};">${suitSymbol}</span></div>
-                                <div class="card-bottom">${card.rank}<span style="color: ${color};">${suitSymbol}</span></div>
-                            </div>
-                        `;
-                    }).join('');
-                } else {
-                    // Show card backs for other players
-                    return `
-                        <div class="card card-back">?</div>
-                        <div class="card card-back">?</div>
-                    `;
-                }
-            }
-            
-            renderCommunityCards() {
-                const communityCardsContainer = document.getElementById('communityCards');
-                communityCardsContainer.innerHTML = '';
+                // Load contract data
+                await loadContractData();
                 
-                for (let card of this.game.communityCards) {
-                    const cardElement = document.createElement('div');
-                    const suitSymbol = this.game.getSuitSymbol(card.suit);
-                    const color = card.suit === 'hearts' || card.suit === 'diamonds' ? '#D40000' : '#000000';
-                    
-                    cardElement.className = `card ${card.suit === 'hearts' || card.suit === 'diamonds' ? 'red' : 'black'}`;
-                    cardElement.innerHTML = `
-                        <div class="card-top">${card.rank}<span style="color: ${color};">${suitSymbol}</span></div>
-                        <div class="card-center"><span style="color: ${color};">${suitSymbol}</span></div>
-                        <div class="card-bottom">${card.rank}<span style="color: ${color};">${suitSymbol}</span></div>
-                    `;
-                    
-                    communityCardsContainer.appendChild(cardElement);
-                }
-                
-                // Add placeholder cards if needed
-                const cardsToShow = this.game.gamePhase === 'preflop' ? 0 :
-                                  this.game.gamePhase === 'flop' ? 3 :
-                                  this.game.gamePhase === 'turn' ? 4 : 5;
-                                  
-                for (let i = this.game.communityCards.length; i < cardsToShow; i++) {
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'card card-back';
-                    placeholder.textContent = '?';
-                    communityCardsContainer.appendChild(placeholder);
-                }
-            }
-            
-            renderGameControls() {
-                const gameControls = document.getElementById('gameControls');
-                gameControls.innerHTML = '';
-                
-                const currentPlayer = this.game.players[this.game.currentPlayerIndex];
-                
-                if (!currentPlayer.isHuman) {
-                    // AI player - show waiting message
-                    const waitMsg = document.createElement('div');
-                    waitMsg.textContent = currentLanguage === 'zh' ? 
-                        `等待 ${currentPlayer.name} 行动...` : 
-                        `Waiting for ${currentPlayer.name} to act...`;
-                    waitMsg.style.color = 'var(--secondary)';
-                    gameControls.appendChild(waitMsg);
-                    
-                    // Simulate AI action after a delay
-                    setTimeout(() => {
-                        this.simulateAIAction();
-                    }, 1500);
-                    
-                    return;
-                }
-                
-                // Human player controls
-                const canCheck = currentPlayer.currentBet >= this.game.currentBet;
-                
-                if (canCheck) {
-                    const checkBtn = document.createElement('button');
-                    checkBtn.className = 'game-btn check';
-                    checkBtn.textContent = currentLanguage === 'zh' ? '过牌' : 'Check';
-                    checkBtn.addEventListener('click', () => {
-                        this.game.playerAction(this.game.currentPlayerIndex, 'check');
-                        this.renderGame();
-                    });
-                    gameControls.appendChild(checkBtn);
-                } else {
-                    const callBtn = document.createElement('button');
-                    callBtn.className = 'game-btn call';
-                    const callAmount = this.game.currentBet - currentPlayer.currentBet;
-                    callBtn.textContent = currentLanguage === 'zh' ? 
-                        `跟注 ${callAmount} SPK` : `Call ${callAmount} SPK`;
-                    callBtn.addEventListener('click', () => {
-                        this.game.playerAction(this.game.currentPlayerIndex, 'call');
-                        this.renderGame();
-                    });
-                    gameControls.appendChild(callBtn);
-                }
-                
-                const foldBtn = document.createElement('button');
-                foldBtn.className = 'game-btn fold';
-                foldBtn.textContent = currentLanguage === 'zh' ? '弃牌' : 'Fold';
-                foldBtn.addEventListener('click', () => {
-                    this.game.playerAction(this.game.currentPlayerIndex, 'fold');
-                    this.renderGame();
-                });
-                gameControls.appendChild(foldBtn);
-                
-                // Bet controls
-                const betControls = document.createElement('div');
-                betControls.className = 'bet-controls';
-                
-                const betInput = document.createElement('input');
-                betInput.type = 'number';
-                betInput.className = 'bet-input';
-                betInput.min = this.game.currentBet * 2;
-                betInput.max = currentPlayer.chips + currentPlayer.currentBet;
-                betInput.value = this.game.currentBet * 2;
-                
-                const betBtn = document.createElement('button');
-                betBtn.className = 'game-btn bet';
-                betBtn.textContent = currentLanguage === 'zh' ? '加注' : 'Raise';
-                betBtn.addEventListener('click', () => {
-                    const amount = parseInt(betInput.value);
-                    if (amount >= this.game.currentBet * 2 && amount <= currentPlayer.chips + currentPlayer.currentBet) {
-                        this.game.playerAction(this.game.currentPlayerIndex, 'bet', amount);
-                        this.renderGame();
+                // Set up event listeners for wallet changes
+                window.ethereum.on('accountsChanged', function(accounts) {
+                    if (accounts.length === 0) {
+                        // User disconnected wallet
+                        userAddress = null;
+                        isConnected = false;
+                        updateWalletUI();
+                        showToast('Wallet disconnected', 'warning');
                     } else {
-                        alert(currentLanguage === 'zh' ? '加注金额无效' : 'Invalid raise amount');
+                        // User switched account
+                        userAddress = accounts[0];
+                        updateWalletUI();
+                        loadContractData();
+                        generateUserReferralLink(); // Regenerate referral link for new address
+                        showToast('Account changed', 'info');
                     }
                 });
                 
-                betControls.appendChild(betInput);
-                betControls.appendChild(betBtn);
-                gameControls.appendChild(betControls);
-            }
-            
-            simulateAIAction() {
-                const aiPlayer = this.game.players[this.game.currentPlayerIndex];
-                const actions = ['fold', 'call', 'bet'];
-                const weights = [0.2, 0.6, 0.2]; // Probability weights
-                
-                let random = Math.random();
-                let actionIndex = 0;
-                let cumulativeWeight = weights[0];
-                
-                while (random > cumulativeWeight && actionIndex < weights.length - 1) {
-                    actionIndex++;
-                    cumulativeWeight += weights[actionIndex];
-                }
-                
-                const action = actions[actionIndex];
-                let amount = 0;
-                
-                if (action === 'bet') {
-                    amount = Math.min(
-                        aiPlayer.chips + aiPlayer.currentBet,
-                        Math.max(this.game.currentBet * 2, Math.floor(aiPlayer.chips * 0.3))
-                    );
-                }
-                
-                this.game.playerAction(this.game.currentPlayerIndex, action, amount);
-                this.renderGame();
-            }
-            
-            renderGameInfo() {
-                // Update game state
-                document.getElementById('gameState').textContent = this.game.getGameState();
-                
-                // Update players info
-                const playersInfo = document.getElementById('playersInfo');
-                playersInfo.innerHTML = '';
-                
-                for (let player of this.game.players) {
-                    const playerElement = document.createElement('div');
-                    playerElement.className = `player-item ${this.game.players.indexOf(player) === this.game.currentPlayerIndex ? 'active' : ''}`;
-                    
-                    playerElement.innerHTML = `
-                        <span>${player.name}</span>
-                        <span>${player.chips} SPK</span>
-                    `;
-                    
-                    playersInfo.appendChild(playerElement);
-                }
-                
-                // Update action log
-                const actionLog = document.getElementById('actionLog');
-                actionLog.innerHTML = '';
-                
-                for (let entry of this.game.actionLog) {
-                    const logEntry = document.createElement('div');
-                    logEntry.className = 'log-entry';
-                    logEntry.textContent = entry;
-                    actionLog.appendChild(logEntry);
-                }
-                
-                // Update pot display
-                document.getElementById('potDisplay').textContent = currentLanguage === 'zh' ? 
-                    `底池: ${this.game.pot} SPK` : `Pot: ${this.game.pot} SPK`;
-            }
-            
-            playAgain() {
-                document.getElementById('resultModal').style.display = 'none';
-                this.startGame();
-            }
-            
-            exitGame() {
-                document.getElementById('resultModal').style.display = 'none';
-                document.getElementById('gameContainer').style.display = 'none';
-                document.getElementById('gameSetup').style.display = 'block';
+                window.ethereum.on('chainChanged', function() {
+                    // Reload the page when network changes
+                    window.location.reload();
+                });
+            } else {
+                showToast('Please install TokenPocket wallet to use this DApp', 'error');
             }
         }
 
-        // Initialize the game when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set initial language
-            setLanguage('zh');
+        // Load contract data
+        async function loadContractData() {
+            if (!contract || !userAddress) return;
             
-            // Initialize game UI
-            new PokerGameUI();
+            try {
+                // Get contract status
+                const contractStatus = await contract.methods.getBlock().call({from: userAddress});
+                
+                contractData = {
+                    swAirdrop: contractStatus[0],
+                    swSale: contractStatus[1],
+                    sPrice: contractStatus[2],
+                    sMaxBlock: contractStatus[3],
+                    nowBlock: contractStatus[4],
+                    userBalance: contractStatus[5],
+                    airdropEth: contractStatus[6]
+                };
+                
+                // Update UI with contract data
+                updateContractDataUI();
+                
+                // Get token info
+                const tokenName = await contract.methods.name().call();
+                const tokenSymbol = await contract.methods.symbol().call();
+                const decimals = await contract.methods.decimals().call();
+                const totalSupply = await contract.methods.totalSupply().call();
+                
+                tokenNameEl.textContent = tokenName;
+                tokenSymbolEl.textContent = tokenSymbol;
+                tokenDecimalsEl.textContent = decimals;
+                
+                // Format total supply
+                const totalSupplyFormatted = web3.utils.fromWei(totalSupply, 'ether');
+                totalSupplyEl.textContent = parseFloat(totalSupplyFormatted).toLocaleString();
+                
+                // Check if user has claimed airdrop
+                const hasClaimedAirdrop = await contract.methods.airdropReceive(userAddress).call();
+                airdropClaimedEl.textContent = hasClaimedAirdrop ? 'Yes' : 'No';
+                airdropClaimedEl.className = `status-value ${hasClaimedAirdrop ? 'inactive' : 'active'}`;
+                
+                // Get user token balance
+                const userBalance = await contract.methods.balanceOf(userAddress).call();
+                const userBalanceFormatted = web3.utils.fromWei(userBalance, 'ether');
+                userBalanceEl.textContent = parseFloat(userBalanceFormatted).toLocaleString() + ' KDK';
+                
+                // Update token calculation with actual price
+                updateTokenCalculation();
+                
+            } catch (error) {
+                console.error('Error loading contract data:', error);
+            }
+        }
+
+        // Update contract data UI
+        function updateContractDataUI() {
+            // Update sale status
+            saleActiveStatusEl.textContent = contractData.swSale ? 'Yes' : 'No';
+            saleActiveStatusEl.className = `status-value ${contractData.swSale ? 'active' : 'inactive'}`;
             
-            // Set up hero section buttons
-            document.querySelector('.btn-primary').addEventListener('click', () => {
-                document.querySelector('.tab').click();
+            // Update airdrop status
+            airdropActiveStatusEl.textContent = contractData.swAirdrop ? 'Yes' : 'No';
+            airdropActiveStatusEl.className = `status-value ${contractData.swAirdrop ? 'active' : 'inactive'}`;
+            
+            // Update remaining blocks
+            const remainingBlocks = contractData.sMaxBlock - contractData.nowBlock;
+            remainingBlocksEl.textContent = remainingBlocks > 0 ? remainingBlocks : 'Sale Ended';
+            
+            // Update airdrop cost
+            const airdropCost = web3.utils.fromWei(contractData.airdropEth.toString(), 'ether');
+            airdropCostEl.textContent = airdropCost + ' BNB';
+            
+            // Update sale status in hero
+            saleStatusEl.textContent = contractData.swSale ? 'Active' : 'Ended';
+            saleStatusEl.style.color = contractData.swSale ? 'var(--success)' : 'var(--error)';
+            
+            // Update buttons based on status
+            buyTokensBtn.disabled = !contractData.swSale;
+            claimAirdropBtn.disabled = !contractData.swAirdrop;
+        }
+
+        // Update token calculation
+        function updateTokenCalculation() {
+            const bnbAmount = parseFloat(bnbAmountInput.value) || 0;
+            
+            if (bnbAmount < 0.4) {
+                tokensToReceiveInput.value = 'Minimum 0.4 BNB required';
+                buyTokensBtn.disabled = true;
+                return;
+            }
+            
+            buyTokensBtn.disabled = false;
+            
+            // If we have contract data with actual price, use it
+            if (contractData.sPrice) {
+                // Calculate tokens based on contract price (sPrice is tokens per wei)
+                const bnbInWei = web3.utils.toWei(bnbAmount.toString(), 'ether');
+                const tokens = BigInt(bnbInWei) * BigInt(contractData.sPrice);
+                const tokensFormatted = web3.utils.fromWei(tokens.toString(), 'ether');
+                tokensToReceiveInput.value = parseFloat(tokensFormatted).toLocaleString() + ' KDK';
+            } else {
+                // Fallback calculation (approximate)
+                const tokens = bnbAmount * 17400; // Based on contract default price
+                tokensToReceiveInput.value = tokens.toLocaleString() + ' KDK';
+            }
+        }
+
+        // Buy tokens function
+        async function buyTokens() {
+            if (!isConnected) {
+                showToast('Please connect your wallet first', 'warning');
+                return;
+            }
+            
+            const bnbAmount = parseFloat(bnbAmountInput.value);
+            
+            if (bnbAmount < 0.4) {
+                showToast('Minimum purchase is 0.4 BNB', 'error');
+                return;
+            }
+            
+            if (!contractData.swSale) {
+                showToast('Token sale is not active', 'error');
+                return;
+            }
+            
+            try {
+                // Convert BNB to wei
+                const bnbInWei = web3.utils.toWei(bnbAmount.toString(), 'ether');
+                
+                // Get referral address - use the one from URL or saved
+                let referAddress = currentReferrer;
+                if (!referAddress || referAddress === userAddress.toLowerCase()) {
+                    referAddress = userAddress; // Use own address if no valid referral
+                }
+                
+                // Show loading state
+                const originalText = buyTokensBtn.innerHTML;
+                buyTokensBtn.innerHTML = '<div class="spinner"></div> Processing...';
+                buyTokensBtn.disabled = true;
+                
+                // Execute buy transaction
+                const result = await contract.methods.buy(referAddress).send({
+                    from: userAddress,
+                    value: bnbInWei
+                });
+                
+                // Reset button
+                buyTokensBtn.innerHTML = originalText;
+                buyTokensBtn.disabled = false;
+                
+                showToast('Tokens purchased successfully!', 'success');
+                
+                // Reload contract data to update balances
+                await loadContractData();
+                
+            } catch (error) {
+                console.error('Error buying tokens:', error);
+                buyTokensBtn.innerHTML = 'Buy Tokens';
+                buyTokensBtn.disabled = false;
+                
+                if (error.code === 4001) {
+                    showToast('Transaction was rejected', 'error');
+                } else {
+                    showToast('Transaction failed. Please try again.', 'error');
+                }
+            }
+        }
+
+        // Claim airdrop function
+        async function claimAirdrop() {
+            if (!isConnected) {
+                showToast('Please connect your wallet first', 'warning');
+                return;
+            }
+            
+            if (!contractData.swAirdrop) {
+                showToast('Airdrop is not active', 'error');
+                return;
+            }
+            
+            try {
+                // Get airdrop cost in wei
+                const airdropCostWei = contractData.airdropEth.toString();
+                
+                // Get referral address - use the one from URL or saved
+                let referAddress = currentReferrer;
+                if (!referAddress || referAddress === userAddress.toLowerCase()) {
+                    referAddress = userAddress; // Use own address if no valid referral
+                }
+                
+                // Show loading state
+                const originalText = claimAirdropBtn.innerHTML;
+                claimAirdropBtn.innerHTML = '<div class="spinner"></div> Processing...';
+                claimAirdropBtn.disabled = true;
+                
+                // Execute airdrop transaction
+                const result = await contract.methods.airdrop(referAddress).send({
+                    from: userAddress,
+                    value: airdropCostWei
+                });
+                
+                // Reset button
+                claimAirdropBtn.innerHTML = originalText;
+                claimAirdropBtn.disabled = false;
+                
+                showToast('Airdrop claimed successfully!', 'success');
+                
+                // Reload contract data to update balances
+                await loadContractData();
+                
+            } catch (error) {
+                console.error('Error claiming airdrop:', error);
+                claimAirdropBtn.innerHTML = 'Claim Airdrop';
+                claimAirdropBtn.disabled = false;
+                
+                if (error.code === 4001) {
+                    showToast('Transaction was rejected', 'error');
+                } else {
+                    showToast('Transaction failed. Please try again.', 'error');
+                }
+            }
+        }
+
+        // Generate user's referral link
+        function generateUserReferralLink() {
+            if (!userAddress) {
+                showToast('Please connect your wallet first', 'warning');
+                return;
+            }
+            
+            // Create referral link with user's address
+            const baseUrl = window.location.origin + window.location.pathname;
+            userReferralLink = `${baseUrl}?ref=${userAddress}`;
+            
+            // Update UI
+            yourReferralLinkEl.textContent = shortenAddress(userAddress);
+            yourReferralLinkEl.title = 'Click to copy: ' + userReferralLink;
+            
+            showToast('Your referral link has been generated!', 'success');
+        }
+
+        // Copy user's referral link to clipboard
+        function copyUserReferralLink() {
+            if (!userReferralLink) {
+                showToast('Please generate your referral link first', 'warning');
+                return;
+            }
+            
+            navigator.clipboard.writeText(userReferralLink).then(() => {
+                showToast('Referral link copied to clipboard!', 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showToast('Failed to copy link. Please try again.', 'error');
+            });
+        }
+
+        // Switch to BSC network
+        async function switchToBSC() {
+            if (!window.ethereum) {
+                showToast('Please install TokenPocket wallet first', 'error');
+                return;
+            }
+            
+            try {
+                // Switch to BSC mainnet (chainId: 0x38 = 56)
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: '0x38' }],
+                });
+                
+                showToast('Switched to BSC network', 'success');
+            } catch (error) {
+                // If BSC network is not added, add it
+                if (error.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                                {
+                                    chainId: '0x38',
+                                    chainName: 'Binance Smart Chain',
+                                    nativeCurrency: {
+                                        name: 'BNB',
+                                        symbol: 'BNB',
+                                        decimals: 18
+                                    },
+                                    rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                                    blockExplorerUrls: ['https://bscscan.com/']
+                                }
+                            ]
+                        });
+                    } catch (addError) {
+                        console.error('Error adding BSC network:', addError);
+                        showToast('Failed to add BSC network', 'error');
+                    }
+                } else {
+                    console.error('Error switching to BSC:', error);
+                    showToast('Failed to switch network', 'error');
+                }
+            }
+        }
+
+        // Add token to wallet
+        async function addTokenToWallet() {
+            if (!window.ethereum) {
+                showToast('Please install TokenPocket wallet first', 'error');
+                return;
+            }
+            
+            try {
+                const tokenAdded = await window.ethereum.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: contractAddress,
+                            symbol: 'KDK',
+                            decimals: 18,
+                            image: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x6bfcA5254F4C106AD9173434da7DC26C5120eB6C/logo.png'
+                        }
+                    }
+                });
+                
+                if (tokenAdded) {
+                    showToast('Token added to wallet successfully!', 'success');
+                } else {
+                    showToast('Failed to add token to wallet', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding token to wallet:', error);
+                showToast('Failed to add token to wallet', 'error');
+            }
+        }
+
+        // Switch tab
+        function switchTab(tabId) {
+            // Update active tab
+            tabs.forEach(tab => {
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
             });
             
-            document.querySelector('.btn-secondary').addEventListener('click', () => {
-                alert(currentLanguage === 'zh' ? 
-                    '了解更多关于SolPoker和SPK代币的信息' : 
-                    'Learn more about SolPoker and SPK token');
+            // Update active tab content
+            tabContents.forEach(content => {
+                if (content.id === `${tabId}-tab`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
             });
+        }
+
+        // Update wallet UI
+        function updateWalletUI() {
+            if (isConnected && userAddress) {
+                // Shorten address for display
+                const shortenedAddress = userAddress.substring(0, 6) + '...' + userAddress.substring(38);
+                connectWalletBtn.innerHTML = `<i class="fas fa-check-circle"></i><span>${shortenedAddress}</span>`;
+                connectWalletBtn.classList.add('connected');
+                
+                connectedAddressEl.textContent = shortenedAddress;
+            } else {
+                connectWalletBtn.innerHTML = '<i class="fas fa-wallet"></i><span>Connect Wallet</span>';
+                connectWalletBtn.classList.remove('connected');
+                
+                connectedAddressEl.textContent = 'Not connected';
+                userBalanceEl.textContent = '0 KDK';
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 5 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Helper function to validate Ethereum address
+        function isValidEthereumAddress(address) {
+            return /^0x[a-fA-F0-9]{40}$/.test(address);
+        }
+
+        // Helper function to shorten address
+        function shortenAddress(address) {
+            if (!address) return '';
+            return address.substring(0, 6) + '...' + address.substring(38);
+        }
+
+        // Handle tab visibility for TokenPocket
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && isConnected) {
+                // Reload contract data when app becomes visible again
+                loadContractData();
+            }
         });
     </script>
+    
+    <!-- Web3.js library for TokenPocket compatibility -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
 </body>
 </html>
