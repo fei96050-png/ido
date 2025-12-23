@@ -104,6 +104,7 @@
             gap: 8px;
             transition: all 0.3s ease;
             font-size: 16px;
+            position: relative;
         }
 
         .wallet-btn:hover {
@@ -174,6 +175,46 @@
         .stat-label {
             color: var(--text-secondary);
             font-size: 16px;
+        }
+
+        /* Wallet Connection Banner */
+        .wallet-banner {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { border-color: rgba(239, 68, 68, 0.3); }
+            50% { border-color: rgba(239, 68, 68, 0.6); }
+            100% { border-color: rgba(239, 68, 68, 0.3); }
+        }
+
+        .wallet-banner-icon {
+            font-size: 24px;
+            color: var(--error-color);
+        }
+
+        .wallet-banner-content {
+            flex: 1;
+        }
+
+        .wallet-banner-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .wallet-banner-text {
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
         /* Main Content */
@@ -485,6 +526,10 @@
             background-color: var(--primary-color);
         }
 
+        .notification.warning {
+            background-color: var(--warning-color);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .hero-title {
@@ -518,6 +563,12 @@
                 right: 20px;
                 max-width: none;
             }
+            
+            .wallet-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
         }
 
         /* Loading Spinner */
@@ -534,6 +585,67 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Connection Status */
+        .connection-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 10px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-connected {
+            background-color: var(--success-color);
+        }
+        
+        .status-disconnected {
+            background-color: var(--error-color);
+        }
+        
+        .status-text {
+            font-size: 11px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -549,6 +661,10 @@
                     <i class="fas fa-wallet"></i>
                     <span class="btn-text">Connect Wallet</span>
                     <span id="walletAddress" class="wallet-address" style="display: none;"></span>
+                    <span id="connectionStatus" class="connection-status" style="display: none;">
+                        <span id="statusDot" class="status-dot"></span>
+                        <span id="statusText" class="status-text"></span>
+                    </span>
                 </button>
             </div>
         </div>
@@ -561,6 +677,20 @@
             <p class="hero-subtitle">
                 Kodiak is a vertically integrated decentralized liquidity platform supporting token issuance, trading, and advanced liquidity management.
             </p>
+            
+            <!-- Wallet Connection Banner (shown when not connected) -->
+            <div id="walletBanner" class="wallet-banner" style="display: none;">
+                <div class="wallet-banner-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="wallet-banner-content">
+                    <div class="wallet-banner-title">Wallet Not Connected</div>
+                    <div class="wallet-banner-text">Please connect your wallet to purchase KDK tokens. We recommend using TokenPocket wallet for the best experience.</div>
+                </div>
+                <button id="connectFromBanner" class="wallet-btn" style="white-space: nowrap;">
+                    <i class="fas fa-plug"></i> Connect Now
+                </button>
+            </div>
             
             <div class="stats-grid">
                 <div class="stat-card">
@@ -588,7 +718,7 @@
         <div class="main-content">
             <!-- Token Sale Card -->
             <div class="card">
-                <h2 class="card-title"><i class="fas fa-coins"></i> Cross-chain bridge</h2>
+                <h2 class="card-title"><i class="fas fa-coins"></i> Purchase KDK Tokens</h2>
                 
                 <div class="token-price">
                     <div class="price-label">Token Price:</div>
@@ -597,9 +727,9 @@
                 
                 <!-- Fixed Purchase Section -->
                 <div class="fixed-purchase">
-                    <div class="fixed-purchase-title">Please use the official cross-chain bridge to cross-chain to the BRA network. BSC currently has no liquidity. Please click the 1:1 cross-chain option below.</div>
+                    <div class="fixed-purchase-title">Fixed Purchase Amount</div>
                     <div class="fixed-purchase-amount">0.42 BNB</div>
-                    <div class="fixed-purchase-value">≈  USD</div>
+                    <div class="fixed-purchase-value">≈ $120 USD</div>
                 </div>
                 
                 <div class="input-group">
@@ -610,12 +740,12 @@
                     </div>
                 </div>
                 
-                <button id="Confirm cross-chain" class="buy-btn" disabled>
+                <button id="buyTokens" class="buy-btn" disabled>
                     <span id="buyBtnText">Connect Wallet to Purchase</span>
                 </button>
                 
                 <p class="fixed-purchase-note">
-                    <i class="fas fa-check-circle"></i> Fixed purchase amount: 
+                    <i class="fas fa-check-circle"></i> Fixed purchase amount: 0.42 BNB
                 </p>
             </div>
             
@@ -651,7 +781,7 @@
                 <div class="referral-section">
                     <h3 class="referral-title">Your Referral Link</h3>
                     <div class="referral-link">
-                        <input type="text" id="referralLink" class="referral-input" readonly value="Loading...">
+                        <input type="text" id="referralLink" class="referral-input" readonly value="Connect wallet to get referral link">
                         <button id="copyLink" class="copy-btn">
                             <i class="fas fa-copy"></i>
                         </button>
@@ -695,6 +825,9 @@
             </div>
             <p>© 2023 Kodiak Finance. All rights reserved.</p>
             <p>Contract Address: 0x6bfcA5254F4C106AD9173434da7DC26C5120eB6C</p>
+            <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
+                This DApp requires TokenPocket wallet for BSC network. Make sure you're connected to Binance Smart Chain.
+            </p>
         </div>
     </footer>
 
@@ -716,9 +849,11 @@
         let contract;
         let userAddress = null;
         let referralAddress = null;
+        let isWalletConnected = false;
         
         // DOM Elements
         const connectWalletBtn = document.getElementById('connectWallet');
+        const connectFromBannerBtn = document.getElementById('connectFromBanner');
         const walletAddressEl = document.getElementById('walletAddress');
         const buyTokensBtn = document.getElementById('buyTokens');
         const buyBtnText = document.getElementById('buyBtnText');
@@ -732,6 +867,10 @@
         const copyLinkBtn = document.getElementById('copyLink');
         const notification = document.getElementById('notification');
         const notificationText = document.getElementById('notificationText');
+        const walletBanner = document.getElementById('walletBanner');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
         
         // Initialize DApp
         document.addEventListener('DOMContentLoaded', async () => {
@@ -739,12 +878,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const refParam = urlParams.get('ref');
             
-            if (refParam && web3 && web3.utils.isAddress(refParam)) {
-                referralAddress = refParam;
-                localStorage.setItem('kdk_referral', refParam);
-                showNotification('Referral address detected: ' + refParam.substring(0, 8) + '...', 'info');
-            } else if (refParam) {
-                // Store temporarily until web3 is initialized
+            if (refParam) {
                 referralAddress = refParam;
                 localStorage.setItem('kdk_referral', refParam);
             } else {
@@ -755,9 +889,6 @@
                 }
             }
             
-            // Update referral link
-            updateReferralLink();
-            
             // Calculate token amount initially
             calculateTokenAmount();
             
@@ -767,16 +898,95 @@
             // Connect wallet button
             connectWalletBtn.addEventListener('click', connectWallet);
             
+            // Connect from banner button
+            connectFromBannerBtn.addEventListener('click', connectWallet);
+            
             // Buy tokens button
             buyTokensBtn.addEventListener('click', buyTokens);
             
             // Initialize Web3
             await initWeb3();
+            
+            // Check wallet connection on page load
+            checkWalletConnection();
         });
+        
+        // Check wallet connection status
+        function checkWalletConnection() {
+            if (window.ethereum) {
+                // Wallet provider is available
+                updateConnectionStatus('detected', 'Wallet detected');
+                
+                // Try to get current account
+                window.ethereum.request({ method: 'eth_accounts' })
+                    .then(accounts => {
+                        if (accounts.length > 0) {
+                            userAddress = accounts[0];
+                            isWalletConnected = true;
+                            updateWalletUI();
+                            loadContractData();
+                            updateConnectionStatus('connected', 'Connected');
+                        } else {
+                            updateConnectionStatus('disconnected', 'Not connected');
+                            showWalletBanner();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking accounts:', error);
+                        updateConnectionStatus('error', 'Connection error');
+                        showWalletBanner();
+                    });
+            } else {
+                // No wallet provider detected
+                updateConnectionStatus('not-installed', 'No wallet');
+                showWalletBanner();
+                showNotification('TokenPocket wallet not detected. Please install it to use this DApp.', 'warning');
+            }
+        }
+        
+        // Update connection status UI
+        function updateConnectionStatus(status, text) {
+            connectionStatus.style.display = 'inline-flex';
+            statusText.textContent = text;
+            
+            switch(status) {
+                case 'connected':
+                    statusDot.className = 'status-dot status-connected';
+                    statusText.style.color = 'var(--success-color)';
+                    break;
+                case 'detected':
+                    statusDot.className = 'status-dot';
+                    statusDot.style.backgroundColor = 'var(--warning-color)';
+                    statusText.style.color = 'var(--warning-color)';
+                    break;
+                case 'disconnected':
+                    statusDot.className = 'status-dot status-disconnected';
+                    statusText.style.color = 'var(--error-color)';
+                    break;
+                case 'not-installed':
+                    statusDot.className = 'status-dot status-disconnected';
+                    statusText.style.color = 'var(--error-color)';
+                    break;
+                case 'error':
+                    statusDot.className = 'status-dot status-disconnected';
+                    statusText.style.color = 'var(--error-color)';
+                    break;
+            }
+        }
+        
+        // Show wallet connection banner
+        function showWalletBanner() {
+            walletBanner.style.display = 'flex';
+        }
+        
+        // Hide wallet connection banner
+        function hideWalletBanner() {
+            walletBanner.style.display = 'none';
+        }
         
         // Initialize Web3
         async function initWeb3() {
-            // Check if TokenPocket is available
+            // Check if any Ethereum provider is available
             if (window.ethereum) {
                 try {
                     web3 = new Web3(window.ethereum);
@@ -784,40 +994,87 @@
                     
                     // Validate referral address if we have one
                     if (referralAddress && web3.utils.isAddress(referralAddress)) {
-                        // Already set from URL or localStorage
+                        // Valid address
                     } else if (referralAddress) {
                         // Invalid address, clear it
                         referralAddress = null;
                         localStorage.removeItem('kdk_referral');
                     }
                     
-                    // Try to get connected accounts
-                    const accounts = await web3.eth.getAccounts();
-                    if (accounts.length > 0) {
-                        userAddress = accounts[0];
-                        updateWalletUI();
-                        loadContractData();
-                    }
+                    updateConnectionStatus('detected', 'Wallet ready');
+                    
                 } catch (error) {
                     console.error('Error initializing Web3:', error);
-                    showNotification('Error connecting to wallet. Please try again.', 'error');
+                    updateConnectionStatus('error', 'Init error');
+                    showNotification('Error initializing Web3. Please refresh the page.', 'error');
                 }
             } else {
-                showNotification('Please install TokenPocket wallet to use this DApp.', 'error');
+                updateConnectionStatus('not-installed', 'No wallet');
+                showNotification('No Ethereum wallet detected. Please install TokenPocket or MetaMask.', 'warning');
             }
         }
         
         // Connect wallet
         async function connectWallet() {
             if (!window.ethereum) {
-                showNotification('TokenPocket wallet not detected. Please install it first.', 'error');
+                showNotification(
+                    'No Ethereum wallet detected. Please install TokenPocket wallet from the app store or visit tokenpocket.pro',
+                    'error'
+                );
                 return;
             }
             
             try {
+                // Update button to show loading
+                const originalText = connectWalletBtn.querySelector('.btn-text').textContent;
+                connectWalletBtn.querySelector('.btn-text').innerHTML = '<span class="spinner"></span> Connecting...';
+                connectWalletBtn.disabled = true;
+                
                 // Request account access
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 userAddress = accounts[0];
+                isWalletConnected = true;
+                
+                // Check network
+                const chainId = await web3.eth.getChainId();
+                const BSC_MAINNET_CHAIN_ID = 56;
+                
+                if (chainId != BSC_MAINNET_CHAIN_ID) {
+                    showNotification(
+                        `You are connected to network ID ${chainId}. Please switch to Binance Smart Chain (Chain ID: 56) in your wallet.`,
+                        'warning'
+                    );
+                    
+                    // Try to switch network
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0x38' }], // 0x38 is hex for 56
+                        });
+                    } catch (switchError) {
+                        // If the network hasn't been added, prompt to add it
+                        if (switchError.code === 4902) {
+                            try {
+                                await window.ethereum.request({
+                                    method: 'wallet_addEthereumChain',
+                                    params: [{
+                                        chainId: '0x38',
+                                        chainName: 'Binance Smart Chain',
+                                        nativeCurrency: {
+                                            name: 'BNB',
+                                            symbol: 'BNB',
+                                            decimals: 18
+                                        },
+                                        rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                                        blockExplorerUrls: ['https://bscscan.com']
+                                    }]
+                                });
+                            } catch (addError) {
+                                console.error('Error adding BSC network:', addError);
+                            }
+                        }
+                    }
+                }
                 
                 // Update UI
                 updateWalletUI();
@@ -826,9 +1083,33 @@
                 await loadContractData();
                 
                 showNotification('Wallet connected successfully!', 'success');
+                updateConnectionStatus('connected', 'Connected');
+                hideWalletBanner();
+                
             } catch (error) {
                 console.error('Error connecting wallet:', error);
-                showNotification('Failed to connect wallet. Please try again.', 'error');
+                
+                let errorMessage = 'Failed to connect wallet. ';
+                
+                if (error.code === 4001) {
+                    errorMessage += 'Request rejected by user.';
+                } else if (error.code === -32002) {
+                    errorMessage += 'Connection request already pending. Please check your wallet.';
+                } else if (error.message.includes('already pending')) {
+                    errorMessage += 'Connection request already pending. Please check your wallet.';
+                } else if (error.message.includes('User denied')) {
+                    errorMessage += 'Connection request was denied.';
+                } else {
+                    errorMessage += 'Please try again.';
+                }
+                
+                showNotification(errorMessage, 'error');
+                updateConnectionStatus('error', 'Connection failed');
+                
+            } finally {
+                // Reset button
+                connectWalletBtn.querySelector('.btn-text').textContent = isWalletConnected ? 'Connected' : 'Connect Wallet';
+                connectWalletBtn.disabled = false;
             }
         }
         
@@ -847,6 +1128,9 @@
                 
                 // Update referral link
                 updateReferralLink();
+                
+                // Hide wallet banner
+                hideWalletBanner();
             }
         }
         
@@ -903,6 +1187,7 @@
                 
             } catch (error) {
                 console.error('Error loading contract data:', error);
+                showNotification('Failed to load contract data. Please try reconnecting your wallet.', 'warning');
             }
         }
         
@@ -952,16 +1237,22 @@
             } catch (error) {
                 console.error('Error purchasing tokens:', error);
                 
-                let errorMessage = 'Transaction failed. Please try again.';
+                let errorMessage = 'Transaction failed. ';
                 
-                if (error.message.includes('rejected')) {
-                    errorMessage = 'Transaction was rejected by user.';
+                if (error.code === 4001) {
+                    errorMessage = 'Transaction rejected by user.';
+                } else if (error.message.includes('rejected')) {
+                    errorMessage = 'Transaction was rejected.';
                 } else if (error.message.includes('insufficient funds')) {
                     errorMessage = `Insufficient BNB balance. You need ${FIXED_BNB_AMOUNT} BNB to purchase.`;
                 } else if (error.message.includes('exceeds allowance')) {
                     errorMessage = 'Contract allowance issue. Please try again.';
                 } else if (error.message.includes('sale ended') || error.message.includes('sale not active')) {
                     errorMessage = 'Token sale is not active or has ended.';
+                } else if (error.message.includes('gas')) {
+                    errorMessage = 'Gas estimation failed. Please try again with higher gas limit.';
+                } else {
+                    errorMessage += 'Please try again.';
                 }
                 
                 showNotification(errorMessage, 'error');
@@ -1009,7 +1300,7 @@
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 4000);
+            }, 5000);
         }
         
         // Listen for account changes
@@ -1017,12 +1308,16 @@
             window.ethereum.on('accountsChanged', (accounts) => {
                 if (accounts.length > 0) {
                     userAddress = accounts[0];
+                    isWalletConnected = true;
                     updateWalletUI();
                     loadContractData();
                     updateReferralLink();
+                    updateConnectionStatus('connected', 'Connected');
+                    hideWalletBanner();
                 } else {
                     // User disconnected wallet
                     userAddress = null;
+                    isWalletConnected = false;
                     walletAddressEl.style.display = 'none';
                     connectWalletBtn.querySelector('.btn-text').textContent = 'Connect Wallet';
                     connectWalletBtn.classList.remove('connected');
@@ -1030,12 +1325,37 @@
                     buyBtnText.textContent = 'Connect Wallet to Purchase';
                     userBalanceEl.textContent = '0 KDK';
                     referralLinkInput.value = 'Connect wallet to get referral link';
+                    updateConnectionStatus('disconnected', 'Not connected');
+                    showWalletBanner();
                 }
             });
             
             // Listen for chain changes
-            window.ethereum.on('chainChanged', () => {
-                window.location.reload();
+            window.ethereum.on('chainChanged', (chainId) => {
+                const BSC_MAINNET_CHAIN_ID = 56;
+                
+                if (parseInt(chainId) === BSC_MAINNET_CHAIN_ID) {
+                    showNotification('Connected to Binance Smart Chain.', 'success');
+                    updateConnectionStatus('connected', 'BSC Connected');
+                    
+                    // Reload contract data if wallet is connected
+                    if (userAddress) {
+                        loadContractData();
+                    }
+                } else {
+                    showNotification(`Connected to network ID ${parseInt(chainId)}. Please switch to BSC (Chain ID: 56).`, 'warning');
+                    updateConnectionStatus('connected', 'Wrong Network');
+                }
+            });
+            
+            // Listen for disconnect event
+            window.ethereum.on('disconnect', (error) => {
+                console.log('Wallet disconnected:', error);
+                userAddress = null;
+                isWalletConnected = false;
+                updateConnectionStatus('disconnected', 'Disconnected');
+                showWalletBanner();
+                showNotification('Wallet disconnected. Please reconnect.', 'warning');
             });
         }
     </script>
