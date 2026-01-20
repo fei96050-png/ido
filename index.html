@@ -173,29 +173,63 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-        /* Info Grid */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
+        /* Bridge Section */
+        .bridge-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(147, 51, 234, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
         }
-        .info-item {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
+        .bridge-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #9333ea);
         }
-        .info-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 5px;
+        .bridge-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 15px;
         }
-        .info-value {
-            font-size: 1.1rem;
-            font-weight: 600;
+        .bridge-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
             color: var(--text);
-            word-break: break-all;
+        }
+        .bridge-description {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .bridge-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .benefit-item i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        .benefit-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
         /* Buttons */
         .btn {
@@ -227,6 +261,15 @@
         }
         .btn-connect:hover {
             border-color: var(--primary);
+        }
+        .btn-bridge {
+            background: linear-gradient(135deg, var(--primary), #9333ea);
+            color: white;
+            margin-top: 20px;
+        }
+        .btn-bridge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(99, 102, 241, 0.4);
         }
         /* Inputs */
         .input-group {
@@ -333,8 +376,7 @@
         }
         /* Responsive */
         @media (max-width: 400px) {
-            .stats-container,
-            .info-grid {
+            .stats-container {
                 grid-template-columns: 1fr;
             }
             .card {
@@ -438,6 +480,55 @@
             </div>
         </div>
 
+        <!-- Cross-Chain Bridge Section -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-bridge"></i> Cross-Chain Bridge
+            </div>
+            
+            <div class="bridge-section">
+                <div class="bridge-icon">
+                    <i class="fas fa-arrow-right-arrow-left"></i>
+                </div>
+                <div class="bridge-title">Bridge to Ethereum Mainnet</div>
+                <div class="bridge-description">
+                    Seamlessly transfer your IMU tokens from Base to Ethereum Mainnet. Expand your access to the broader DeFi ecosystem, liquidity pools, and trading platforms while maintaining full ownership and security of your assets.
+                </div>
+                
+                <div class="bridge-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-shield-check"></i>
+                        <div class="benefit-text">Secure & Audited Bridge Infrastructure</div>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-bolt"></i>
+                        <div class="benefit-text">Fast Cross-Chain Transfers</div>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-coins"></i>
+                        <div class="benefit-text">Access Ethereum's Vast Ecosystem</div>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <div class="benefit-text">Maintain Full Asset Control</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-bridge" id="bridgeButton">
+                    <i class="fas fa-bridge"></i> Launch Cross-Chain Bridge
+                </button>
+                
+                <div style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i class="fas fa-info-circle"></i> You'll be redirected to our secure bridge interface
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <i class="fas fa-lightbulb"></i>
+                <strong>Why Bridge to Ethereum?</strong> Ethereum Mainnet offers the widest range of DeFi applications, deepest liquidity pools, and highest security guarantees. Bridging your IMU tokens unlocks access to this expansive ecosystem while keeping your assets protected by Immunefi's security infrastructure.
+            </div>
+        </div>
+
         <!-- Wallet Connection Card -->
         <div class="card" id="connectCard">
             <div class="card-title">
@@ -464,14 +555,14 @@
                 <div class="balance-label" id="userAddress"></div>
             </div>
 
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="info-label">Current ETH Price</div>
-                    <div class="info-value" id="ethUsdPrice">Loading...</div>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-label">Current ETH Price</div>
+                    <div class="stat-value" id="ethUsdPrice">Loading...</div>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">Your ETH Balance</div>
-                    <div class="info-value" id="ethBalance">0</div>
+                <div class="stat-item">
+                    <div class="stat-label">Your ETH Balance</div>
+                    <div class="stat-value" id="ethBalance">0</div>
                 </div>
             </div>
 
@@ -648,6 +739,33 @@
             
             document.getElementById('ethUsdPrice').textContent = formattedPrice;
             document.getElementById('currentEthPriceDisplay').textContent = formattedPrice;
+        }
+
+        // ==================== Bridge Button Handler ====================
+        function setupBridgeButton() {
+            const bridgeButton = document.getElementById('bridgeButton');
+            
+            bridgeButton.addEventListener('click', function() {
+                // Show a confirmation dialog with bridge information
+                const userConfirmed = confirm(
+                    "Cross-Chain Bridge\n\n" +
+                    "You are about to be redirected to the IMU Cross-Chain Bridge interface.\n\n" +
+                    "Bridge Functionality:\n" +
+                    "• Transfer IMU tokens from Base to Ethereum Mainnet\n" +
+                    "• Secure and audited bridge infrastructure\n" +
+                    "• Estimated time: 5-15 minutes\n\n" +
+                    "Note: Bridge functionality will be available soon. Stay tuned for updates!"
+                );
+                
+                if (userConfirmed) {
+                    // In a real implementation, this would redirect to the actual bridge interface
+                    // For now, we'll show a message since the bridge isn't implemented yet
+                    alert("Bridge Interface Coming Soon!\n\nThe IMU Cross-Chain Bridge is currently under development and will be available soon. Follow our official channels for updates on the bridge launch.");
+                    
+                    // In production, you would uncomment this line and replace with your actual bridge URL
+                    // window.open('https://bridge.immunefi.com', '_blank');
+                }
+            });
         }
 
         // ==================== Invite Link Processing ====================
@@ -903,6 +1021,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize public data
             initializePublicData();
+            
+            // Set up bridge button
+            setupBridgeButton();
             
             // Check if wallet is already connected
             if (typeof window.ethereum !== 'undefined') {
