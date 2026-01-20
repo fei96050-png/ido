@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #6366f1; /* Immunefi风格的主色调 */
+            --primary: #6366f1;
             --primary-dark: #4f46e5;
             --dark: #0f172a;
             --dark-light: #1e293b;
@@ -37,28 +37,40 @@
             width: 100%;
             flex: 1;
         }
-        /* 头部 */
+        /* Header */
         header {
             text-align: center;
-            padding: 20px 0 30px;
+            padding: 20px 0 25px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
-        .logo {
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+        .logo-text {
             font-size: 2.2rem;
             font-weight: 800;
             color: var(--text);
-            margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
-        .logo span {
+        .logo-text span {
             color: var(--primary);
         }
         .tagline {
             color: var(--text-muted);
             font-size: 0.95rem;
+            max-width: 400px;
+            margin: 0 auto;
         }
-        /* 卡片 */
+        /* Cards */
         .card {
             background: var(--dark-light);
             border-radius: 20px;
@@ -78,7 +90,66 @@
             margin-right: 12px;
             color: var(--primary);
         }
-        /* 状态信息 */
+        /* About Section */
+        .about-content {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .about-content p {
+            margin-bottom: 15px;
+        }
+        .about-content strong {
+            color: var(--primary);
+        }
+        /* Token Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .stat-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .stat-subtext {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        /* Sale Status */
+        .sale-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 15px 0;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            width: 100%;
+            justify-content: center;
+        }
+        .sale-status.inactive {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+        /* Info Grid */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -102,7 +173,7 @@
             color: var(--text);
             word-break: break-all;
         }
-        /* 按钮 */
+        /* Buttons */
         .btn {
             display: block;
             width: 100%;
@@ -133,7 +204,7 @@
         .btn-connect:hover {
             border-color: var(--primary);
         }
-        /* 输入框 */
+        /* Inputs */
         .input-group {
             margin-bottom: 20px;
         }
@@ -170,7 +241,7 @@
             font-weight: 600;
             white-space: nowrap;
         }
-        /* 余额与状态 */
+        /* Balance Display */
         .balance-display {
             text-align: center;
             padding: 15px;
@@ -188,24 +259,7 @@
             color: var(--primary);
             margin: 5px 0;
         }
-        .status {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-        .status-active {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-        }
-        .status-inactive {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-        }
-        /* 底部 */
+        /* Footer */
         footer {
             text-align: center;
             padding: 25px 0 15px;
@@ -220,17 +274,26 @@
             word-break: break-all;
             display: inline-block;
             margin-top: 10px;
+            font-size: 0.8rem;
         }
-        /* 响应式调整 */
+        /* Responsive */
         @media (max-width: 400px) {
+            .stats-container,
             .info-grid {
                 grid-template-columns: 1fr;
             }
             .card {
                 padding: 20px;
             }
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .logo-text {
+                font-size: 1.8rem;
+            }
         }
-        /* 加载与提示 */
+        /* Utility */
         .loading {
             text-align: center;
             padding: 20px;
@@ -239,61 +302,109 @@
         .hidden {
             display: none !important;
         }
+        .note-box {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .note-box i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">IMU<span>Token</span></div>
-            <p class="tagline">Secure the future of on-chain economy with Immunefi</p>
+            <div class="logo-container">
+                <img src="https://immunefi.com/images/logo-white.svg" alt="Immunefi Logo" class="logo-img">
+                <div class="logo-text">IMU<span>Token</span></div>
+            </div>
+            <p class="tagline">Secure the future of on-chain economy with Immunefi's security ecosystem</p>
         </header>
 
-        <!-- 钱包连接卡片 -->
+        <!-- About Immunefi Card -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-shield-alt"></i> About Immunefi
+            </div>
+            <div class="about-content">
+                <p><strong>Immunefi</strong> is the leading security infrastructure platform in the blockchain ecosystem. Its core product, the Immunefi Platform, provides zero-day security protection services, helping projects safeguard their code and defend against catastrophic attacks.</p>
+                <p>The broader Immunefi ecosystem—encompassing the platform itself, integration partners, and security researchers—is united by the <strong>IMU Token</strong>, creating a cohesive force to secure the global on-chain economy.</p>
+            </div>
+        </div>
+
+        <!-- Token Overview Card (Always Visible) -->
+        <div class="card" id="overviewCard">
+            <div class="card-title">
+                <i class="fas fa-chart-line"></i> IMU Token Overview
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-label">Token</div>
+                    <div class="stat-value" id="overviewTokenName">IMU</div>
+                    <div class="stat-subtext">ERC-20 Token</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Supply</div>
+                    <div class="stat-value" id="overviewTotalSupply">1B</div>
+                    <div class="stat-subtext" id="overviewSupplyDetails">1,000,000,000</div>
+                </div>
+            </div>
+            
+            <div class="sale-status" id="overviewSaleStatus">
+                <i class="fas fa-circle"></i> Token Sale Active
+            </div>
+            
+            <div class="note-box">
+                <i class="fas fa-info-circle"></i>
+                Connect your wallet to view your balance and participate in the token sale.
+            </div>
+        </div>
+
+        <!-- Wallet Connection Card -->
         <div class="card" id="connectCard">
             <div class="card-title">
-                <i class="fas fa-wallet"></i> Wallet Connection
+                <i class="fas fa-wallet"></i> Connect Wallet
             </div>
-            <p style="margin-bottom:20px; color: var(--text-muted);">Connect your TokenPocket wallet on Base network to interact with the IMU token.</p>
+            <p style="margin-bottom:20px; color: var(--text-muted);">Connect your TokenPocket wallet on Base network to view your balance and purchase IMU tokens.</p>
             <button class="btn btn-connect" id="connectWalletBtn">
                 <i class="fas fa-plug"></i> Connect TokenPocket
             </button>
             <p style="margin-top:15px; font-size:0.9rem; color: var(--text-muted);">
-                <i class="fas fa-info-circle"></i> Make sure your wallet is switched to the <strong>Base</strong> network.
+                <i class="fas fa-info-circle"></i> Ensure your wallet is switched to the <strong>Base</strong> network (Chain ID: 8453).
             </p>
         </div>
 
-        <!-- 代币信息卡片 (连接后显示) -->
-        <div class="card hidden" id="infoCard">
+        <!-- Token Dashboard Card (shown after connection) -->
+        <div class="card hidden" id="dashboardCard">
             <div class="card-title">
-                <i class="fas fa-coins"></i> IMU Token Dashboard
+                <i class="fas fa-coins"></i> Your IMU Dashboard
             </div>
+            
             <div class="balance-display">
                 <div class="balance-label">Your IMU Balance</div>
                 <div class="balance-amount" id="userBalance">0</div>
                 <div class="balance-label" id="userAddress"></div>
-                <div class="status status-active" id="saleStatus">Sale Active</div>
             </div>
 
             <div class="info-grid">
                 <div class="info-item">
-                    <div class="info-label">Token Name</div>
-                    <div class="info-value" id="tokenName">IMU</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Symbol</div>
-                    <div class="info-value" id="tokenSymbol">IMU</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Total Supply</div>
-                    <div class="info-value" id="totalSupply">1B</div>
-                </div>
-                <div class="info-item">
                     <div class="info-label">Current Price</div>
                     <div class="info-value" id="tokenPrice">Loading...</div>
                 </div>
+                <div class="info-item">
+                    <div class="info-label">Your ETH Balance</div>
+                    <div class="info-value" id="ethBalance">0</div>
+                </div>
             </div>
 
-            <!-- 邀请地址 (从URL自动获取) -->
+            <!-- Referral Address (Auto-filled from URL) -->
             <div class="input-group">
                 <div class="input-label">
                     <i class="fas fa-user-friends"></i> Referral Address (Auto-filled from your invite link)
@@ -307,11 +418,12 @@
             </div>
         </div>
 
-        <!-- 购买卡片 (连接后显示) -->
-        <div class="card hidden" id="buyCard">
+        <!-- Purchase Card (shown after connection) -->
+        <div class="card hidden" id="purchaseCard">
             <div class="card-title">
-                <i class="fas fa-shopping-cart"></i> Buy IMU Tokens
+                <i class="fas fa-shopping-cart"></i> Purchase IMU Tokens
             </div>
+            
             <p style="margin-bottom:20px; color: var(--text-muted);">Purchase IMU tokens directly with ETH. Minimum purchase: <strong>0.1 ETH</strong>.</p>
 
             <div class="input-group">
@@ -321,7 +433,7 @@
                     <div class="input-unit">ETH</div>
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:0.9rem; margin-top:8px;">
-                    <span style="color:var(--text-muted);">Min: 0.1 ETH</span>
+                    <span style="color:var(--text-muted);">Minimum: 0.1 ETH</span>
                     <span style="color:var(--primary); cursor:pointer;" id="setMaxBalance">Use Max Balance</span>
                 </div>
             </div>
@@ -337,298 +449,376 @@
             <button class="btn btn-primary" id="buyTokensBtn">
                 <i class="fas fa-bolt"></i> Buy IMU Tokens
             </button>
-            <p style="font-size:0.85rem; margin-top:15px; color:var(--text-muted); text-align:center;">
-                <i class="fas fa-shield-alt"></i> Secured by Immunefi Ecosystem
-            </p>
+            
+            <div style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.03); border-radius:12px;">
+                <div style="display:flex; align-items:center; margin-bottom:10px;">
+                    <i class="fas fa-shield-alt" style="color:var(--primary); margin-right:10px;"></i>
+                    <div style="font-size:0.9rem; color:var(--text-muted);">
+                        <strong>Secure Transaction</strong><br>
+                        Powered by Immunefi's security infrastructure
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <footer>
         <p>IMU Token is the cornerstone of the Immunefi Ecosystem, securing the global on-chain economy.</p>
-        <a href="https://basescan.org/address/0x1257ABd184082fA9a7F370A43e2EE2c14A73Fb36" target="_blank" class="contract-link">
-            0x1257ABd184082fA9a7F370A43e2EE2c14A73Fb36
-        </a>
+        <a href="#" target="_blank" class="contract-link" id="contractLink">View Contract on BaseScan</a>
         <p style="margin-top:10px;">© 2026 Immunefi Ecosystem. All rights reserved.</p>
     </footer>
 
     <script>
-        // ==================== 配置 ====================
-        const contractAddress = "0x1257ABd184082fA9a7F370A43e2EE2c14A73Fb36"; // 你的Base链合约地址
-        const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}]; // 你提供的完整ABI
-        const MIN_ETH = 0.1; // 最低购买金额
+        // ==================== Configuration ====================
+        const contractAddress = "0x1257ABd184082fA9a7F370A43e2EE2c14A73Fb36";
+        const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+        const MIN_ETH = 0.1;
+        const BASE_CHAIN_ID = '0x2105'; // 8453 in hex
 
-        // ==================== 全局变量 ====================
+        // ==================== Global Variables ====================
         let web3;
         let contract;
         let userAccount = null;
-        let referralFromUrl = "0x0000000000000000000000000000000000000000"; // 默认无邀请
+        let referralFromUrl = "0x0000000000000000000000000000000000000000";
 
-        // ==================== 邀请链接处理 ====================
+        // ==================== Initialize Public Data ====================
+        async function initializePublicData() {
+            try {
+                // Use a public RPC provider for initial data
+                const publicWeb3 = new Web3('https://mainnet.base.org');
+                const publicContract = new publicWeb3.eth.Contract(contractABI, contractAddress);
+                
+                // Load basic token info
+                const name = await publicContract.methods.name().call();
+                const symbol = await publicContract.methods.symbol().call();
+                const totalSupplyWei = await publicContract.methods.totalSupply().call();
+                
+                // Format total supply
+                const totalSupplyEth = publicWeb3.utils.fromWei(totalSupplyWei, 'ether');
+                const totalSupplyFormatted = (parseFloat(totalSupplyEth) / 1e9).toFixed(0) + 'B';
+                const supplyDetails = parseFloat(totalSupplyEth).toLocaleString('en-US');
+                
+                // Update overview card
+                document.getElementById('overviewTokenName').textContent = `${name} (${symbol})`;
+                document.getElementById('overviewTotalSupply').textContent = totalSupplyFormatted;
+                document.getElementById('overviewSupplyDetails').textContent = supplyDetails;
+                
+                // Load sale status
+                const saleData = await publicContract.methods.getBlock().call();
+                const isSaleActive = saleData.swSale;
+                const priceWei = saleData.sPrice;
+                
+                // Update sale status
+                const statusElement = document.getElementById('overviewSaleStatus');
+                if (isSaleActive) {
+                    statusElement.innerHTML = '<i class="fas fa-circle"></i> Token Sale Active';
+                    statusElement.className = 'sale-status';
+                } else {
+                    statusElement.innerHTML = '<i class="fas fa-circle"></i> Token Sale Inactive';
+                    statusElement.className = 'sale-status inactive';
+                }
+                
+                // Set contract link
+                document.getElementById('contractLink').href = `https://basescan.org/address/${contractAddress}`;
+                
+            } catch (error) {
+                console.error("Error loading public data:", error);
+                document.getElementById('overviewSaleStatus').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Data Loading Error';
+                document.getElementById('overviewSaleStatus').className = 'sale-status inactive';
+            }
+        }
+
+        // ==================== Invite Link Processing ====================
         function processInviteLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const ref = urlParams.get('ref');
-            if (ref && web3.utils.isAddress(ref)) {
+            if (ref && web3 && web3.utils.isAddress(ref)) {
                 referralFromUrl = ref;
                 console.log("Referral address from URL:", referralFromUrl);
             }
-            // 设置当前用户的邀请链接
-            if (userAccount) {
+            if (userAccount && web3) {
                 const currentUrl = window.location.origin + window.location.pathname;
                 const inviteLink = currentUrl + '?ref=' + userAccount;
                 document.getElementById('inviteLink').textContent = inviteLink;
             }
         }
 
-        // ==================== 钱包连接 ====================
+        // ==================== Wallet Connection ====================
         async function connectWallet() {
             try {
                 if (typeof window.ethereum === 'undefined') {
-                    alert('Please install TokenPocket or another Web3 wallet!');
+                    alert('Please install TokenPocket or another Web3 wallet to connect!');
                     return;
                 }
-                // 请求账户连接
+                
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 userAccount = accounts[0];
                 console.log("Connected account:", userAccount);
 
-                // 初始化Web3和合约
                 web3 = new Web3(window.ethereum);
                 contract = new web3.eth.Contract(contractABI, contractAddress);
 
-                // 切换到Base链 (链ID: 8453)
-                try {
-                    await window.ethereum.request({
-                        method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x2105' }], // 8453 in hex
-                    });
-                } catch (switchError) {
-                    // 如果Base链未添加，则添加它
-                    if (switchError.code === 4902) {
-                        await window.ethereum.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [{
-                                chainId: '0x2105',
-                                chainName: 'Base Mainnet',
-                                nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
-                                rpcUrls: ['https://mainnet.base.org'],
-                                blockExplorerUrls: ['https://basescan.org/']
-                            }]
-                        });
-                    }
-                }
+                // Switch to Base network if needed
+                await switchToBaseNetwork();
 
-                // 更新UI
-                document.getElementById('connectCard').classList.add('hidden');
-                document.getElementById('infoCard').classList.remove('hidden');
-                document.getElementById('buyCard').classList.remove('hidden');
-                document.getElementById('userAddress').textContent = userAccount.substring(0, 8) + '...' + userAccount.substring(userAccount.length - 6);
-                document.getElementById('referralAddress').value = referralFromUrl;
+                // Update UI
+                updateUIAfterConnection();
+                
+                // Load user-specific data
+                loadUserData();
 
-                // 处理邀请链接
-                processInviteLink();
-
-                // 加载数据
-                loadTokenInfo();
-                loadUserBalance();
-
-                // 监听账户变化
-                window.ethereum.on('accountsChanged', (accounts) => {
-                    if (accounts.length > 0) {
-                        userAccount = accounts[0];
-                        location.reload(); // 简单处理：刷新页面
-                    } else {
-                        disconnectWallet();
-                    }
-                });
+                // Set up account change listener
+                window.ethereum.on('accountsChanged', handleAccountsChanged);
+                window.ethereum.on('chainChanged', handleChainChanged);
 
             } catch (error) {
                 console.error("Connection error:", error);
-                alert('Connection failed: ' + (error.message || error));
+                alert('Connection failed: ' + (error.message || 'Please check your wallet and try again.'));
             }
+        }
+
+        async function switchToBaseNetwork() {
+            try {
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                
+                if (chainId !== BASE_CHAIN_ID) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: BASE_CHAIN_ID }],
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: BASE_CHAIN_ID,
+                                    chainName: 'Base Mainnet',
+                                    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+                                    rpcUrls: ['https://mainnet.base.org'],
+                                    blockExplorerUrls: ['https://basescan.org/']
+                                }]
+                            });
+                        } else {
+                            throw switchError;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Network switch error:", error);
+                throw error;
+            }
+        }
+
+        function updateUIAfterConnection() {
+            document.getElementById('connectCard').classList.add('hidden');
+            document.getElementById('dashboardCard').classList.remove('hidden');
+            document.getElementById('purchaseCard').classList.remove('hidden');
+            
+            const shortAddress = userAccount.substring(0, 6) + '...' + userAccount.substring(userAccount.length - 4);
+            document.getElementById('userAddress').textContent = shortAddress;
+            document.getElementById('referralAddress').value = referralFromUrl;
+            
+            processInviteLink();
+        }
+
+        function handleAccountsChanged(accounts) {
+            if (accounts.length === 0) {
+                disconnectWallet();
+            } else if (accounts[0] !== userAccount) {
+                userAccount = accounts[0];
+                location.reload();
+            }
+        }
+
+        function handleChainChanged() {
+            location.reload();
         }
 
         function disconnectWallet() {
             userAccount = null;
             document.getElementById('connectCard').classList.remove('hidden');
-            document.getElementById('infoCard').classList.add('hidden');
-            document.getElementById('buyCard').classList.add('hidden');
+            document.getElementById('dashboardCard').classList.add('hidden');
+            document.getElementById('purchaseCard').classList.add('hidden');
         }
 
-        // ==================== 加载代币信息 ====================
-        async function loadTokenInfo() {
+        // ==================== Load User Data ====================
+        async function loadUserData() {
+            if (!userAccount || !web3) return;
+            
             try {
-                // 获取基本信息
-                const name = await contract.methods.name().call();
-                const symbol = await contract.methods.symbol().call();
-                const totalSupplyWei = await contract.methods.totalSupply().call();
-                const decimals = await contract.methods.decimals().call();
-
-                // 格式化总供应量
-                const totalSupplyFormatted = (parseFloat(web3.utils.fromWei(totalSupplyWei, 'ether')) / 1e9).toFixed(0) + 'B'; // 转换为10亿单位
-
-                document.getElementById('tokenName').textContent = name;
-                document.getElementById('tokenSymbol').textContent = symbol;
-                document.getElementById('totalSupply').textContent = totalSupplyFormatted;
-
-                // 获取销售状态和价格
-                const saleData = await contract.methods.getBlock().call({ from: userAccount });
-                const isSaleActive = saleData.swSale;
-                const priceWei = saleData.sPrice;
-
-                // 计算价格：1 ETH = ? IMU
-                const tokensPerEth = priceWei / 1e18;
-                document.getElementById('tokenPrice').textContent = `1 ETH = ${(tokensPerEth/1e6).toFixed(1)}M IMU`;
-
-                // 更新销售状态
-                const statusElement = document.getElementById('saleStatus');
-                if (isSaleActive) {
-                    statusElement.textContent = "Sale Active";
-                    statusElement.className = "status status-active";
-                } else {
-                    statusElement.textContent = "Sale Inactive";
-                    statusElement.className = "status status-inactive";
-                }
-
-            } catch (error) {
-                console.error("Error loading token info:", error);
-            }
-        }
-
-        // ==================== 加载用户余额 ====================
-        async function loadUserBalance() {
-            if (!userAccount) return;
-            try {
-                const balanceWei = await contract.methods.balanceOf(userAccount).call();
-                const balanceEth = web3.utils.fromWei(balanceWei, 'ether');
-                // 格式化显示
-                let formattedBalance;
-                if (balanceEth >= 1e9) formattedBalance = (balanceEth / 1e9).toFixed(2) + 'B';
-                else if (balanceEth >= 1e6) formattedBalance = (balanceEth / 1e6).toFixed(2) + 'M';
-                else if (balanceEth >= 1e3) formattedBalance = (balanceEth / 1e3).toFixed(2) + 'K';
-                else formattedBalance = parseFloat(balanceEth).toFixed(2);
-
-                document.getElementById('userBalance').textContent = formattedBalance;
-
-                // 同时获取用户ETH余额，用于"最大"按钮
+                // Load token balance
+                const tokenBalanceWei = await contract.methods.balanceOf(userAccount).call();
+                const tokenBalanceEth = web3.utils.fromWei(tokenBalanceWei, 'ether');
+                const formattedTokenBalance = formatNumber(tokenBalanceEth);
+                document.getElementById('userBalance').textContent = formattedTokenBalance;
+                
+                // Load ETH balance
                 const ethBalanceWei = await web3.eth.getBalance(userAccount);
                 const ethBalance = parseFloat(web3.utils.fromWei(ethBalanceWei, 'ether')).toFixed(4);
+                document.getElementById('ethBalance').textContent = ethBalance + ' ETH';
                 window.userEthBalance = ethBalance;
-
+                
+                // Load sale price
+                const saleData = await contract.methods.getBlock().call({ from: userAccount });
+                const priceWei = saleData.sPrice;
+                const tokensPerEth = priceWei / 1e18;
+                document.getElementById('tokenPrice').textContent = `1 ETH = ${(tokensPerEth/1e6).toFixed(1)}M IMU`;
+                
+                // Re-calculate tokens based on current input
+                calculateTokens();
+                
             } catch (error) {
-                console.error("Error loading balance:", error);
+                console.error("Error loading user data:", error);
             }
         }
 
-        // ==================== 计算可获得的代币 ====================
+        function formatNumber(numStr) {
+            const num = parseFloat(numStr);
+            if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
+            return num.toFixed(2);
+        }
+
+        // ==================== Calculate Tokens ====================
         async function calculateTokens() {
             const ethInput = document.getElementById('ethAmount');
             let ethValue = parseFloat(ethInput.value);
 
             if (isNaN(ethValue) || ethValue < MIN_ETH) {
-                document.getElementById('tokenAmount').value = `Min ${MIN_ETH} ETH`;
+                document.getElementById('tokenAmount').value = `Minimum: ${MIN_ETH} ETH`;
                 return;
             }
 
             try {
                 const saleData = await contract.methods.getBlock().call({ from: userAccount });
                 const priceWei = saleData.sPrice;
-                // 计算：代币数量 = ETH数量 * 价格
                 const tokenWei = ethValue * priceWei;
                 const tokenFormatted = (tokenWei / 1e18).toLocaleString('en-US', { maximumFractionDigits: 0 });
                 document.getElementById('tokenAmount').value = `${tokenFormatted} IMU`;
             } catch (error) {
-                document.getElementById('tokenAmount').value = "Error calculating";
+                document.getElementById('tokenAmount').value = "Calculating...";
             }
         }
 
-        // ==================== 购买代币 ====================
+        // ==================== Buy Tokens ====================
         async function buyTokens() {
             const ethInput = document.getElementById('ethAmount');
             const ethValue = parseFloat(ethInput.value);
 
-            // 验证输入
             if (isNaN(ethValue) || ethValue < MIN_ETH) {
                 alert(`Minimum purchase amount is ${MIN_ETH} ETH`);
                 return;
             }
 
-            // 获取邀请地址（优先使用URL中的，否则为空）
             const refAddress = document.getElementById('referralAddress').value;
             const referToUse = refAddress && web3.utils.isAddress(refAddress) ? refAddress : "0x0000000000000000000000000000000000000000";
 
             try {
-                document.getElementById('buyTokensBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-                document.getElementById('buyTokensBtn').disabled = true;
+                const buyButton = document.getElementById('buyTokensBtn');
+                const originalText = buyButton.innerHTML;
+                buyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Transaction...';
+                buyButton.disabled = true;
 
                 const weiAmount = web3.utils.toWei(ethValue.toString(), 'ether');
 
-                // 调用合约的buy函数
                 await contract.methods.buy(referToUse).send({
                     from: userAccount,
                     value: weiAmount,
-                    gas: 200000
+                    gas: 250000
                 });
 
                 alert('Purchase successful! Your IMU tokens have been transferred to your wallet.');
-                // 刷新余额
-                loadUserBalance();
+                
+                // Refresh user data
+                loadUserData();
+                
+                // Reset form
+                document.getElementById('ethAmount').value = MIN_ETH;
+                calculateTokens();
 
             } catch (error) {
                 console.error("Buy error:", error);
                 let errorMsg = "Transaction failed. ";
-                if (error.message.includes("user rejected")) errorMsg += "You rejected the transaction.";
-                else if (error.message.includes("insufficient funds")) errorMsg += "Insufficient ETH balance.";
-                else errorMsg += error.message.substring(0, 100);
+                if (error.message.includes("user rejected") || error.code === 4001) {
+                    errorMsg += "You rejected the transaction.";
+                } else if (error.message.includes("insufficient funds")) {
+                    errorMsg += "Insufficient ETH balance.";
+                } else if (error.message.includes("sale is not active")) {
+                    errorMsg += "Token sale is not active.";
+                } else {
+                    errorMsg += error.message.substring(0, 120);
+                }
                 alert(errorMsg);
             } finally {
-                document.getElementById('buyTokensBtn').innerHTML = '<i class="fas fa-bolt"></i> Buy IMU Tokens';
-                document.getElementById('buyTokensBtn').disabled = false;
+                const buyButton = document.getElementById('buyTokensBtn');
+                buyButton.innerHTML = '<i class="fas fa-bolt"></i> Buy IMU Tokens';
+                buyButton.disabled = false;
             }
         }
 
-        // ==================== 事件监听器 ====================
+        // ==================== Event Listeners ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // 自动尝试连接钱包（如果之前连接过）
+            // Initialize public data
+            initializePublicData();
+            
+            // Check if wallet is already connected
             if (typeof window.ethereum !== 'undefined') {
                 window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
                     if (accounts.length > 0) {
-                        // 自动连接
-                        connectWallet();
-                    } else {
-                        // 处理URL中的邀请参数（即使未连接钱包）
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const ref = urlParams.get('ref');
-                        if (ref) {
-                            referralFromUrl = ref;
-                            document.getElementById('referralAddress').value = ref;
-                        }
+                        // Auto-connect if wallet is already connected
+                        userAccount = accounts[0];
+                        web3 = new Web3(window.ethereum);
+                        contract = new web3.eth.Contract(contractABI, contractAddress);
+                        updateUIAfterConnection();
+                        loadUserData();
                     }
                 });
             }
-
-            // 连接钱包按钮
-            document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
-
-            // ETH输入变化时计算代币数量
-            document.getElementById('ethAmount').addEventListener('input', calculateTokens);
-
-            // "使用最大余额"按钮
-            document.getElementById('setMaxBalance').addEventListener('click', function() {
-                if (window.userEthBalance) {
-                    const maxEth = Math.max(MIN_ETH, parseFloat(window.userEthBalance) - 0.005); // 留一点Gas费
-                    document.getElementById('ethAmount').value = maxEth.toFixed(2);
-                    calculateTokens();
+            
+            // Process invite link from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const ref = urlParams.get('ref');
+            if (ref) {
+                referralFromUrl = ref;
+                if (document.getElementById('referralAddress')) {
+                    document.getElementById('referralAddress').value = ref;
                 }
-            });
+            }
 
-            // 购买按钮
-            document.getElementById('buyTokensBtn').addEventListener('click', buyTokens);
-
-            // 初始化计算
-            calculateTokens();
+            // Set up event listeners
+            document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
+            
+            const ethAmountInput = document.getElementById('ethAmount');
+            if (ethAmountInput) {
+                ethAmountInput.addEventListener('input', calculateTokens);
+                ethAmountInput.addEventListener('change', calculateTokens);
+            }
+            
+            const setMaxBalance = document.getElementById('setMaxBalance');
+            if (setMaxBalance) {
+                setMaxBalance.addEventListener('click', function() {
+                    if (window.userEthBalance) {
+                        const maxEth = Math.max(MIN_ETH, parseFloat(window.userEthBalance) - 0.01);
+                        document.getElementById('ethAmount').value = maxEth.toFixed(3);
+                        calculateTokens();
+                    }
+                });
+            }
+            
+            const buyTokensBtn = document.getElementById('buyTokensBtn');
+            if (buyTokensBtn) {
+                buyTokensBtn.addEventListener('click', buyTokens);
+            }
+            
+            // Initial calculation
+            if (ethAmountInput) {
+                calculateTokens();
+            }
         });
     </script>
-    <!-- 引入Web3库 -->
+    <!-- Web3 Library -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
 </body>
 </html>
