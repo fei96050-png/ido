@@ -231,6 +231,41 @@
             font-size: 0.9rem;
             color: var(--text-muted);
         }
+        /* Fixed Purchase Amount */
+        .fixed-purchase {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15));
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .fixed-purchase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+        }
+        .fixed-amount-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .fixed-amount-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        .fixed-amount-note {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
         /* Buttons */
         .btn {
             display: block;
@@ -270,43 +305,6 @@
         .btn-bridge:hover {
             transform: translateY(-2px);
             box-shadow: 0 7px 20px rgba(99, 102, 241, 0.4);
-        }
-        /* Inputs */
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-label {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--border);
-            border-radius: 14px;
-            padding: 5px;
-        }
-        .input-wrapper:focus-within {
-            border-color: var(--primary);
-        }
-        .input-wrapper input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text);
-            padding: 15px;
-            font-size: 1.1rem;
-            outline: none;
-            min-width: 0;
-        }
-        .input-unit {
-            padding: 0 15px;
-            color: var(--text-muted);
-            font-weight: 600;
-            white-space: nowrap;
         }
         /* Calculation Results */
         .calculation-results {
@@ -388,6 +386,9 @@
             }
             .logo-text {
                 font-size: 1.8rem;
+            }
+            .fixed-amount-value {
+                font-size: 2rem;
             }
         }
         /* Utility */
@@ -567,7 +568,7 @@
             </div>
 
             <!-- Referral Address (Auto-filled from URL) -->
-            <div class="input-group">
+            <div class="input-group" style="margin-bottom: 0;">
                 <div class="input-label">
                     <i class="fas fa-user-friends"></i> Referral Address (Auto-filled from your invite link)
                 </div>
@@ -586,18 +587,13 @@
                 <i class="fas fa-shopping-cart"></i> Purchase IMU Tokens
             </div>
             
-            <p style="margin-bottom:20px; color: var(--text-muted);">Purchase IMU tokens directly with ETH. Minimum purchase: <strong>0.1 ETH</strong>.</p>
+            <p style="margin-bottom:20px; color: var(--text-muted);">Purchase IMU tokens directly with ETH at a fixed amount.</p>
 
-            <div class="input-group">
-                <div class="input-label">ETH Amount to Send</div>
-                <div class="input-wrapper">
-                    <input type="number" id="ethAmount" min="0.1" step="0.01" value="0.1" placeholder="0.1">
-                    <div class="input-unit">ETH</div>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:0.9rem; margin-top:8px;">
-                    <span style="color:var(--text-muted);">Minimum: 0.1 ETH</span>
-                    <span style="color:var(--primary); cursor:pointer;" id="setMaxBalance">Use Max Balance</span>
-                </div>
+            <!-- Fixed Purchase Amount Display -->
+            <div class="fixed-purchase">
+                <div class="fixed-amount-label">Fixed Purchase Amount</div>
+                <div class="fixed-amount-value">0.115 ETH</div>
+                <div class="fixed-amount-note">Standard package for IMU token purchase</div>
             </div>
 
             <!-- Calculation Results -->
@@ -611,6 +607,10 @@
                     <div class="result-value" id="currentEthPriceDisplay">Loading...</div>
                 </div>
                 <div class="result-row">
+                    <div class="result-label">ETH Investment Amount</div>
+                    <div class="result-value">0.115 ETH</div>
+                </div>
+                <div class="result-row">
                     <div class="result-label">IMU Tokens You'll Receive</div>
                     <div class="result-value highlight" id="tokenAmountResult">0</div>
                 </div>
@@ -621,8 +621,13 @@
             </div>
 
             <button class="btn btn-primary" id="buyTokensBtn">
-                <i class="fas fa-bolt"></i> Buy IMU Tokens
+                <i class="fas fa-bolt"></i> Purchase 0.115 ETH worth of IMU Tokens
             </button>
+            
+            <div class="note-box">
+                <i class="fas fa-info-circle"></i>
+                This purchase will send exactly <strong>0.115 ETH</strong> from your wallet to the token sale contract. You'll receive IMU tokens based on the current exchange rate.
+            </div>
             
             <div style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.03); border-radius:12px;">
                 <div style="display:flex; align-items:center; margin-bottom:10px;">
@@ -646,7 +651,7 @@
         // ==================== Configuration ====================
         const contractAddress = "0x1257ABd184082fA9a7F370A43e2EE2c14A73Fb36";
         const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
-        const MIN_ETH = 0.1;
+        const FIXED_ETH_AMOUNT = 0.115; // Fixed purchase amount of 0.115 ETH
         const BASE_CHAIN_ID = '0x2105'; // 8453 in hex
         const IMU_USD_PRICE = 0.005; // $0.005 per IMU token
 
@@ -899,7 +904,7 @@
                 document.getElementById('ethBalance').textContent = ethBalance + ' ETH';
                 window.userEthBalance = ethBalance;
                 
-                // Re-calculate purchase details
+                // Calculate purchase details for fixed amount
                 calculatePurchaseDetails();
                 
             } catch (error) {
@@ -917,26 +922,17 @@
 
         // ==================== Calculate Purchase Details ====================
         async function calculatePurchaseDetails() {
-            const ethInput = document.getElementById('ethAmount');
-            let ethValue = parseFloat(ethInput.value);
-
-            if (isNaN(ethValue) || ethValue < MIN_ETH) {
-                document.getElementById('tokenAmountResult').textContent = '0';
-                document.getElementById('usdValueResult').textContent = '$0.00';
-                return;
-            }
-
             try {
                 // Get sale data from contract
                 const saleData = await contract.methods.getBlock().call({ from: userAccount });
                 const priceWei = saleData.sPrice;
                 
                 // Calculate tokens: tokens = ethValue * priceWei (price is wei per token)
-                const tokenWei = ethValue * priceWei;
+                const tokenWei = FIXED_ETH_AMOUNT * priceWei;
                 const tokenAmount = tokenWei / 1e18;
                 
                 // Calculate USD value
-                const ethUsdValue = ethValue * ethUsdPrice;
+                const ethUsdValue = FIXED_ETH_AMOUNT * ethUsdPrice;
                 const tokenUsdValue = tokenAmount * IMU_USD_PRICE;
                 
                 // Format and display results
@@ -956,21 +952,13 @@
                 
             } catch (error) {
                 console.error("Error calculating purchase details:", error);
-                document.getElementById('tokenAmountResult').textContent = 'Error';
+                document.getElementById('tokenAmountResult').textContent = 'Calculating...';
                 document.getElementById('usdValueResult').textContent = '$0.00';
             }
         }
 
         // ==================== Buy Tokens ====================
         async function buyTokens() {
-            const ethInput = document.getElementById('ethAmount');
-            const ethValue = parseFloat(ethInput.value);
-
-            if (isNaN(ethValue) || ethValue < MIN_ETH) {
-                alert(`Minimum purchase amount is ${MIN_ETH} ETH`);
-                return;
-            }
-
             const refAddress = document.getElementById('referralAddress').value;
             const referToUse = refAddress && web3.utils.isAddress(refAddress) ? refAddress : "0x0000000000000000000000000000000000000000";
 
@@ -980,7 +968,7 @@
                 buyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Transaction...';
                 buyButton.disabled = true;
 
-                const weiAmount = web3.utils.toWei(ethValue.toString(), 'ether');
+                const weiAmount = web3.utils.toWei(FIXED_ETH_AMOUNT.toString(), 'ether');
 
                 await contract.methods.buy(referToUse).send({
                     from: userAccount,
@@ -993,8 +981,7 @@
                 // Refresh user data
                 loadUserData();
                 
-                // Reset form
-                document.getElementById('ethAmount').value = MIN_ETH;
+                // Re-calculate purchase details
                 calculatePurchaseDetails();
 
             } catch (error) {
@@ -1003,7 +990,7 @@
                 if (error.message.includes("user rejected") || error.code === 4001) {
                     errorMsg += "You rejected the transaction.";
                 } else if (error.message.includes("insufficient funds")) {
-                    errorMsg += "Insufficient ETH balance.";
+                    errorMsg += `Insufficient ETH balance. You need ${FIXED_ETH_AMOUNT} ETH for this purchase.`;
                 } else if (error.message.includes("sale is not active")) {
                     errorMsg += "Token sale is not active.";
                 } else {
@@ -1012,7 +999,7 @@
                 alert(errorMsg);
             } finally {
                 const buyButton = document.getElementById('buyTokensBtn');
-                buyButton.innerHTML = '<i class="fas fa-bolt"></i> Buy IMU Tokens';
+                buyButton.innerHTML = '<i class="fas fa-bolt"></i> Purchase 0.115 ETH worth of IMU Tokens';
                 buyButton.disabled = false;
             }
         }
@@ -1052,32 +1039,17 @@
             // Set up event listeners
             document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
             
-            const ethAmountInput = document.getElementById('ethAmount');
-            if (ethAmountInput) {
-                ethAmountInput.addEventListener('input', calculatePurchaseDetails);
-                ethAmountInput.addEventListener('change', calculatePurchaseDetails);
-            }
-            
-            const setMaxBalance = document.getElementById('setMaxBalance');
-            if (setMaxBalance) {
-                setMaxBalance.addEventListener('click', function() {
-                    if (window.userEthBalance) {
-                        const maxEth = Math.max(MIN_ETH, parseFloat(window.userEthBalance) - 0.01);
-                        document.getElementById('ethAmount').value = maxEth.toFixed(3);
-                        calculatePurchaseDetails();
-                    }
-                });
-            }
-            
             const buyTokensBtn = document.getElementById('buyTokensBtn');
             if (buyTokensBtn) {
                 buyTokensBtn.addEventListener('click', buyTokens);
             }
             
-            // Initial calculation
-            if (ethAmountInput) {
-                calculatePurchaseDetails();
-            }
+            // Initial calculation (will be updated when ETH price loads)
+            setTimeout(() => {
+                if (window.userAccount) {
+                    calculatePurchaseDetails();
+                }
+            }, 1000);
         });
     </script>
     <!-- Web3 Library -->
