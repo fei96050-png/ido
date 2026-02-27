@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ROBO Token · Fabric Network</title>
+    <!-- Web3 library loaded first -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -54,7 +56,7 @@
         .logo-img {
             height: 50px;
             width: auto;
-            filter: brightness(0) invert(1); /* make white */
+            filter: brightness(0) invert(1);
         }
         .logo-text {
             font-size: 2.2rem;
@@ -419,7 +421,6 @@
     <div class="container">
         <header>
             <div class="logo-container">
-                <!-- Simple robot icon instead of logo image -->
                 <i class="fas fa-robot" style="font-size: 3rem; color: var(--primary);"></i>
                 <div class="logo-text">ROBO<span>Token</span></div>
             </div>
@@ -564,7 +565,7 @@
                 </div>
             </div>
 
-            <!-- Referral input removed as per requirement (use zero address) -->
+            <!-- Referral input removed as per requirement -->
         </div>
 
         <!-- Purchase Card (shown after connection) -->
@@ -634,6 +635,14 @@
     </footer>
 
     <script>
+        // ==================== Ensure Web3 is loaded ====================
+        if (typeof Web3 === 'undefined') {
+            document.addEventListener('DOMContentLoaded', function() {
+                alert('Web3 library failed to load. Please refresh or check your internet connection.');
+            });
+            throw new Error('Web3 not loaded');
+        }
+
         // ==================== Configuration ====================
         const contractAddress = "0xE1CFBCb94c688079f372c2967c3139037B81C1B5";
         const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
@@ -850,7 +859,7 @@
 
         // ==================== Load User Data ====================
         async function loadUserData() {
-            if (!userAccount || !web3) return;
+            if (!userAccount || !web3 || !contract) return;
             
             try {
                 // Load token balance
@@ -892,6 +901,12 @@
 
         // ==================== Calculate Purchase Details ====================
         async function calculatePurchaseDetails() {
+            if (!web3 || !contractPriceWei || contractPriceWei == 0) {
+                document.getElementById('tokenAmountResult').textContent = '0';
+                document.getElementById('usdValueResult').textContent = '$0.00';
+                return;
+            }
+
             const ethInput = document.getElementById('ethAmount');
             let ethValue = parseFloat(ethInput.value);
 
@@ -902,13 +917,6 @@
             }
 
             try {
-                // Use stored contractPriceWei (already fetched in loadUserData)
-                if (!contractPriceWei || contractPriceWei == 0) {
-                    document.getElementById('tokenAmountResult').textContent = '0';
-                    document.getElementById('usdValueResult').textContent = '$0.00';
-                    return;
-                }
-                
                 // Calculate tokens: tokens = (ethValue * 1e18) / contractPriceWei
                 const ethWei = web3.utils.toWei(ethValue.toString(), 'ether');
                 const tokenWei = (BigInt(ethWei) * BigInt(10**18)) / BigInt(contractPriceWei); // ROBO has 18 decimals
@@ -941,6 +949,11 @@
 
         // ==================== Buy Tokens ====================
         async function buyTokens() {
+            if (!web3 || !contract || !userAccount) {
+                alert('Wallet not connected. Please connect first.');
+                return;
+            }
+
             const ethInput = document.getElementById('ethAmount');
             const ethValue = parseFloat(ethInput.value);
 
@@ -1048,7 +1061,5 @@
             }
         });
     </script>
-    <!-- Web3 Library -->
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
 </body>
 </html>
