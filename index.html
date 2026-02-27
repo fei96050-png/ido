@@ -175,8 +175,8 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-        /* Bridge Section */
-        .bridge-section {
+        /* Bridge Section (template for purchase section) */
+        .bridge-section, .purchase-fixed-section {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
             border: 1px solid var(--primary);
             border-radius: 15px;
@@ -185,7 +185,7 @@
             position: relative;
             overflow: hidden;
         }
-        .bridge-section::before {
+        .bridge-section::before, .purchase-fixed-section::before {
             content: '';
             position: absolute;
             top: 0;
@@ -194,44 +194,79 @@
             height: 3px;
             background: linear-gradient(90deg, var(--primary), #9333ea);
         }
-        .bridge-icon {
-            font-size: 2.5rem;
+        .bridge-icon, .purchase-icon {
+            font-size: 2rem;
             color: var(--primary);
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        .bridge-title {
-            font-size: 1.5rem;
+        .bridge-title, .purchase-title {
+            font-size: 1.3rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: var(--text);
         }
-        .bridge-description {
+        .bridge-description, .purchase-description {
             color: var(--text-muted);
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
-        .bridge-benefits {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+        /* Fixed amount display (compact) */
+        .fixed-amount-compact {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .fixed-amount-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .benefit-item i {
+        .fixed-amount-value {
+            font-size: 2rem;
+            font-weight: 700;
             color: var(--primary);
-            font-size: 1rem;
+            line-height: 1.2;
         }
-        .benefit-text {
+        .fixed-amount-eth {
             font-size: 0.9rem;
             color: var(--text-muted);
+        }
+        /* Compact calculation results */
+        .calc-results-compact {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+        }
+        .result-row-compact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+        }
+        .result-row-compact:last-child {
+            border-bottom: none;
+        }
+        .result-label-compact {
+            color: var(--text-muted);
+        }
+        .result-value-compact {
+            font-weight: 600;
+            color: var(--text);
+        }
+        .result-value-compact.highlight {
+            color: var(--primary);
+            font-weight: 700;
         }
         /* Buttons */
         .btn {
@@ -272,54 +307,6 @@
         .btn-bridge:hover {
             transform: translateY(-2px);
             box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
-        }
-        /* Fixed Amount Display */
-        .fixed-amount-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--border);
-            border-radius: 14px;
-            padding: 18px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        .fixed-amount-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-        /* Calculation Results */
-        .calculation-results {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 25px 0;
-            border: 1px solid var(--border);
-        }
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .result-row:last-child {
-            border-bottom: none;
-        }
-        .result-label {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-        .result-value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-        .result-value.highlight {
-            color: var(--primary);
-            font-weight: 700;
         }
         /* Balance Display */
         .balance-display {
@@ -474,36 +461,11 @@
                 </div>
                 <div class="bridge-title">ROBO Bridge to Ethereum</div>
                 <div class="bridge-description">
-                    Seamlessly transfer your ROBO tokens from Base to Ethereum Mainnet. Expand your access to the broader DeFi ecosystem, liquidity pools, and trading platforms while maintaining full ownership.
+                    Seamlessly transfer your ROBO tokens from Base to Ethereum Mainnet. Expand your access to the broader DeFi ecosystem.
                 </div>
-                
-                <div class="bridge-benefits">
-                    <div class="benefit-item">
-                        <i class="fas fa-shield-check"></i>
-                        <div class="benefit-text">Secure & Audited Bridge Infrastructure</div>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-bolt"></i>
-                        <div class="benefit-text">Fast Cross-Chain Transfers</div>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-coins"></i>
-                        <div class="benefit-text">Access Ethereum's Vast Ecosystem</div>
-                    </div>
-                </div>
-                
                 <button class="btn btn-bridge" id="bridgeButton">
                     <i class="fas fa-bridge"></i> Launch ROBO Bridge
                 </button>
-                
-                <div style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i class="fas fa-info-circle"></i> You'll be redirected to the official ROBO bridge
-                </div>
-            </div>
-            
-            <div class="note-box">
-                <i class="fas fa-lightbulb"></i>
-                <strong>Why Bridge to Ethereum?</strong> Ethereum Mainnet offers the widest range of DeFi applications and deepest liquidity pools. Bridging your ROBO tokens unlocks this ecosystem while keeping your assets secure.
             </div>
         </div>
 
@@ -545,56 +507,59 @@
             </div>
         </div>
 
-        <!-- Purchase Card (shown after connection) - Fixed 0.24 ETH -->
+        <!-- Purchase Card (shown after connection) - Fixed 0.24 ETH with bridge-like style -->
         <div class="card hidden" id="purchaseCard">
             <div class="card-title">
                 <i class="fas fa-shopping-cart"></i> Purchase ROBO Tokens
             </div>
             
-            <p style="margin-bottom:20px; color: var(--text-muted);">Purchase a fixed amount of <strong>0.24 ETH</strong> worth of ROBO tokens.</p>
+            <!-- Purchase fixed section mimicking bridge style -->
+            <div class="purchase-fixed-section">
+                <div class="purchase-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="purchase-title">Fixed Amount Purchase</div>
+                <div class="purchase-description">
+                    Pay a fixed <strong>0.24 ETH</strong> and receive ROBO tokens at the current contract rate.
+                </div>
 
-            <!-- Fixed amount display (no input) -->
-            <div class="fixed-amount-box">
-                <div class="fixed-amount-label">You send</div>
-                0.24 ETH
-            </div>
+                <!-- Compact fixed amount display -->
+                <div class="fixed-amount-compact">
+                    <div class="fixed-amount-label">You Pay</div>
+                    <div class="fixed-amount-value">0.24 <span class="fixed-amount-eth">ETH</span></div>
+                </div>
 
-            <!-- Calculation Results -->
-            <div class="calculation-results">
-                <div class="result-row">
-                    <div class="result-label">ROBO Fixed Price</div>
-                    <div class="result-value">$0.01</div>
-                </div>
-                <div class="result-row">
-                    <div class="result-label">ETH Current Price</div>
-                    <div class="result-value" id="currentEthPriceDisplay">Loading...</div>
-                </div>
-                <div class="result-row">
-                    <div class="result-label">Contract Price per ROBO</div>
-                    <div class="result-value" id="contractPriceEth">—</div>
-                </div>
-                <div class="result-row">
-                    <div class="result-label">ROBO Tokens You'll Receive</div>
-                    <div class="result-value highlight" id="tokenAmountResult">0</div>
-                </div>
-                <div class="result-row">
-                    <div class="result-label">Total Value (USD)</div>
-                    <div class="result-value highlight" id="usdValueResult">$0.00</div>
-                </div>
-            </div>
-
-            <button class="btn btn-primary" id="buyTokensBtn">
-                <i class="fas fa-bolt"></i> Buy ROBO Tokens (0.24 ETH)
-            </button>
-            
-            <div style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.03); border-radius:12px;">
-                <div style="display:flex; align-items:center; margin-bottom:10px;">
-                    <i class="fas fa-shield-alt" style="color:var(--primary); margin-right:10px;"></i>
-                    <div style="font-size:0.9rem; color:var(--text-muted);">
-                        <strong>Secure Transaction</strong><br>
-                        Powered by Fabric network security
+                <!-- Compact calculation results -->
+                <div class="calc-results-compact">
+                    <div class="result-row-compact">
+                        <span class="result-label-compact">ROBO Price</span>
+                        <span class="result-value-compact">$0.01</span>
+                    </div>
+                    <div class="result-row-compact">
+                        <span class="result-label-compact">ETH Price</span>
+                        <span class="result-value-compact" id="currentEthPriceDisplay">Loading...</span>
+                    </div>
+                    <div class="result-row-compact">
+                        <span class="result-label-compact">Contract Price</span>
+                        <span class="result-value-compact" id="contractPriceEth">—</span>
+                    </div>
+                    <div class="result-row-compact">
+                        <span class="result-label-compact">ROBO to Receive</span>
+                        <span class="result-value-compact highlight" id="tokenAmountResult">0</span>
+                    </div>
+                    <div class="result-row-compact">
+                        <span class="result-label-compact">Total Value (USD)</span>
+                        <span class="result-value-compact highlight" id="usdValueResult">$0.00</span>
                     </div>
                 </div>
+
+                <button class="btn btn-primary" id="buyTokensBtn">
+                    <i class="fas fa-bolt"></i> Buy ROBO Tokens (0.24 ETH)
+                </button>
+            </div>
+
+            <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.03); border-radius:12px; text-align:center; font-size:0.85rem; color:var(--text-muted);">
+                <i class="fas fa-shield-alt" style="color:var(--primary); margin-right:5px;"></i> Secure transaction powered by Fabric
             </div>
         </div>
     </div>
@@ -717,17 +682,11 @@
                 const userConfirmed = confirm(
                     "ROBO Cross-Chain Bridge\n\n" +
                     "You are about to be redirected to the official ROBO Bridge interface.\n\n" +
-                    "Bridge Functionality:\n" +
-                    "• Transfer ROBO tokens from Base to Ethereum Mainnet\n" +
-                    "• Secure and audited bridge infrastructure\n" +
-                    "• Estimated time: 5-15 minutes\n\n" +
                     "Note: Bridge will be available soon. Stay tuned!"
                 );
                 
                 if (userConfirmed) {
-                    // Placeholder - in production, replace with actual bridge URL
                     alert("ROBO Bridge is currently under development and will be available soon. Follow Fabric's official channels for updates.");
-                    // window.open('https://bridge.fabric.network', '_blank');
                 }
             });
         }
