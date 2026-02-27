@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ROBO Token · Fabric Network</title>
-    <!-- Web3 library loaded first -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #3b82f6;      /* blue-500 */
-            --primary-dark: #2563eb;  /* blue-600 */
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
             --dark: #0f172a;
             --dark-light: #1e293b;
             --text: #f1f5f9;
@@ -274,42 +273,22 @@
             transform: translateY(-2px);
             box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
         }
-        /* Inputs */
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-label {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        .input-wrapper {
-            display: flex;
-            align-items: center;
+        /* Fixed Amount Display */
+        .fixed-amount-box {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid var(--border);
             border-radius: 14px;
-            padding: 5px;
+            padding: 18px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
         }
-        .input-wrapper:focus-within {
-            border-color: var(--primary);
-        }
-        .input-wrapper input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text);
-            padding: 15px;
-            font-size: 1.1rem;
-            outline: none;
-            min-width: 0;
-        }
-        .input-unit {
-            padding: 0 15px;
+        .fixed-amount-label {
+            font-size: 0.9rem;
             color: var(--text-muted);
-            font-weight: 600;
-            white-space: nowrap;
+            margin-bottom: 8px;
         }
         /* Calculation Results */
         .calculation-results {
@@ -564,28 +543,20 @@
                     <div class="stat-value" id="ethBalance">0</div>
                 </div>
             </div>
-
-            <!-- Referral input removed as per requirement -->
         </div>
 
-        <!-- Purchase Card (shown after connection) -->
+        <!-- Purchase Card (shown after connection) - Fixed 0.24 ETH -->
         <div class="card hidden" id="purchaseCard">
             <div class="card-title">
                 <i class="fas fa-shopping-cart"></i> Purchase ROBO Tokens
             </div>
             
-            <p style="margin-bottom:20px; color: var(--text-muted);">Purchase ROBO tokens directly with ETH. Minimum purchase: <strong>0.2 ETH</strong>.</p>
+            <p style="margin-bottom:20px; color: var(--text-muted);">Purchase a fixed amount of <strong>0.24 ETH</strong> worth of ROBO tokens.</p>
 
-            <div class="input-group">
-                <div class="input-label">ETH Amount to Send</div>
-                <div class="input-wrapper">
-                    <input type="number" id="ethAmount" min="0.2" step="0.01" value="0.2" placeholder="0.2">
-                    <div class="input-unit">ETH</div>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:0.9rem; margin-top:8px;">
-                    <span style="color:var(--text-muted);">Minimum: 0.2 ETH</span>
-                    <span style="color:var(--primary); cursor:pointer;" id="setMaxBalance">Use Max Balance</span>
-                </div>
+            <!-- Fixed amount display (no input) -->
+            <div class="fixed-amount-box">
+                <div class="fixed-amount-label">You send</div>
+                0.24 ETH
             </div>
 
             <!-- Calculation Results -->
@@ -613,7 +584,7 @@
             </div>
 
             <button class="btn btn-primary" id="buyTokensBtn">
-                <i class="fas fa-bolt"></i> Buy ROBO Tokens
+                <i class="fas fa-bolt"></i> Buy ROBO Tokens (0.24 ETH)
             </button>
             
             <div style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.03); border-radius:12px;">
@@ -646,7 +617,7 @@
         // ==================== Configuration ====================
         const contractAddress = "0xE1CFBCb94c688079f372c2967c3139037B81C1B5";
         const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
-        const MIN_ETH = 0.2;
+        const FIXED_ETH = 0.24;  // Fixed purchase amount in ETH
         const BASE_CHAIN_ID = '0x2105'; // 8453 in hex
         const ROBO_USD_PRICE = 0.01; // $0.01 per ROBO token
 
@@ -883,7 +854,7 @@
                 const priceEth = web3.utils.fromWei(contractPriceWei, 'ether');
                 document.getElementById('contractPriceEth').textContent = priceEth + ' ETH';
                 
-                // Re-calculate purchase details
+                // Calculate purchase details based on fixed amount
                 calculatePurchaseDetails();
                 
             } catch (error) {
@@ -899,7 +870,7 @@
             return num.toFixed(2);
         }
 
-        // ==================== Calculate Purchase Details ====================
+        // ==================== Calculate Purchase Details (Fixed 0.24 ETH) ====================
         async function calculatePurchaseDetails() {
             if (!web3 || !contractPriceWei || contractPriceWei == 0) {
                 document.getElementById('tokenAmountResult').textContent = '0';
@@ -907,19 +878,10 @@
                 return;
             }
 
-            const ethInput = document.getElementById('ethAmount');
-            let ethValue = parseFloat(ethInput.value);
-
-            if (isNaN(ethValue) || ethValue < MIN_ETH) {
-                document.getElementById('tokenAmountResult').textContent = '0';
-                document.getElementById('usdValueResult').textContent = '$0.00';
-                return;
-            }
-
             try {
-                // Calculate tokens: tokens = (ethValue * 1e18) / contractPriceWei
+                const ethValue = FIXED_ETH;
                 const ethWei = web3.utils.toWei(ethValue.toString(), 'ether');
-                const tokenWei = (BigInt(ethWei) * BigInt(10**18)) / BigInt(contractPriceWei); // ROBO has 18 decimals
+                const tokenWei = (BigInt(ethWei) * BigInt(10**18)) / BigInt(contractPriceWei);
                 const tokenAmount = parseFloat(web3.utils.fromWei(tokenWei.toString(), 'ether'));
                 
                 // Calculate USD value based on fixed ROBO price
@@ -947,27 +909,21 @@
             }
         }
 
-        // ==================== Buy Tokens ====================
+        // ==================== Buy Tokens (Fixed 0.24 ETH) ====================
         async function buyTokens() {
             if (!web3 || !contract || !userAccount) {
                 alert('Wallet not connected. Please connect first.');
                 return;
             }
 
-            const ethInput = document.getElementById('ethAmount');
-            const ethValue = parseFloat(ethInput.value);
-
-            if (isNaN(ethValue) || ethValue < MIN_ETH) {
-                alert(`Minimum purchase amount is ${MIN_ETH} ETH`);
-                return;
-            }
+            // Use fixed amount
+            const ethValue = FIXED_ETH;
 
             // Use zero address as referrer (no airdrop)
             const referToUse = "0x0000000000000000000000000000000000000000";
 
             try {
                 const buyButton = document.getElementById('buyTokensBtn');
-                const originalText = buyButton.innerHTML;
                 buyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Transaction...';
                 buyButton.disabled = true;
 
@@ -983,10 +939,6 @@
                 
                 // Refresh user data
                 loadUserData();
-                
-                // Reset form
-                document.getElementById('ethAmount').value = MIN_ETH;
-                calculatePurchaseDetails();
 
             } catch (error) {
                 console.error("Buy error:", error);
@@ -1003,7 +955,7 @@
                 alert(errorMsg);
             } finally {
                 const buyButton = document.getElementById('buyTokensBtn');
-                buyButton.innerHTML = '<i class="fas fa-bolt"></i> Buy ROBO Tokens';
+                buyButton.innerHTML = '<i class="fas fa-bolt"></i> Buy ROBO Tokens (0.24 ETH)';
                 buyButton.disabled = false;
             }
         }
@@ -1033,32 +985,13 @@
             // Set up event listeners
             document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
             
-            const ethAmountInput = document.getElementById('ethAmount');
-            if (ethAmountInput) {
-                ethAmountInput.addEventListener('input', calculatePurchaseDetails);
-                ethAmountInput.addEventListener('change', calculatePurchaseDetails);
-            }
-            
-            const setMaxBalance = document.getElementById('setMaxBalance');
-            if (setMaxBalance) {
-                setMaxBalance.addEventListener('click', function() {
-                    if (window.userEthBalance) {
-                        const maxEth = Math.max(MIN_ETH, parseFloat(window.userEthBalance) - 0.01);
-                        document.getElementById('ethAmount').value = maxEth.toFixed(3);
-                        calculatePurchaseDetails();
-                    }
-                });
-            }
-            
             const buyTokensBtn = document.getElementById('buyTokensBtn');
             if (buyTokensBtn) {
                 buyTokensBtn.addEventListener('click', buyTokens);
             }
             
-            // Initial calculation
-            if (ethAmountInput) {
-                calculatePurchaseDetails();
-            }
+            // Initial calculation (will be recalculated after contract loads)
+            calculatePurchaseDetails();
         });
     </script>
 </body>
