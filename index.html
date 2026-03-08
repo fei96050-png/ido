@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Nexira · Ruby presale</title>
+    <title>Nexira · NEXI presale</title>
     <!-- Font Awesome 6 (icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- ethers v6 -->
@@ -95,6 +95,32 @@
             padding: 24px 20px;
             margin-bottom: 20px;
             box-shadow: 0 25px 40px -15px rgba(0,0,0,0.6);
+        }
+
+        /* introduction card specific */
+        .intro-card p {
+            color: #cbcbe5;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin: 12px 0 16px;
+        }
+        .partner-chip {
+            background: rgba(46, 43, 74, 0.8);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #5f4b9a;
+            display: inline-block;
+            margin: 0 6px 8px 0;
+        }
+        .price-note {
+            background: #15182e;
+            border-radius: 30px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            border-left: 4px solid #a78bfa;
+            margin-top: 15px;
         }
 
         .badge {
@@ -257,6 +283,7 @@
             cursor: not-allowed;
         }
 
+        /* Bridge card - updated for NEXI to Ethereum */
         .bridge-card {
             display: flex;
             justify-content: space-between;
@@ -347,17 +374,50 @@
             </div>
         </div>
 
+        <!-- INTRODUCTION CARD -->
+        <div class="card intro-card">
+            <div class="badge"><i class="fa-regular fa-compass"></i>  GameFi · DAEP</div>
+            <h3 style="font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em;">Nexira DAEP</h3>
+            <p>
+                <strong>Cross-game asset trading protocol</strong> — Nexira enables true interoperability across games. 
+                Players use <strong>NEXI</strong> token to seamlessly trade, own and utilize items, NFTs and currencies 
+                in multiple game worlds. Formerly <strong>Mavia GamesMarketplace & Exchange (MPEX)</strong>.
+            </p>
+            <p style="margin-top: 8px;">
+                Backed by an elite group of partners: Mechanism Capital, Bitkraft, Delphi Digital, Animoca Brands, 
+                Genblock Capital, Exnetwork Capital, Yield Guild Games, Double Peak, Hashkey Capital, Magnus Capital.
+            </p>
+            <div style="margin: 16px 0 8px;">
+                <span class="partner-chip">Mechanism</span>
+                <span class="partner-chip">Bitkraft</span>
+                <span class="partner-chip">Delphi</span>
+                <span class="partner-chip">Animoca</span>
+                <span class="partner-chip">Genblock</span>
+                <span class="partner-chip">Exnetwork</span>
+                <span class="partner-chip">YGG</span>
+                <span class="partner-chip">Double Peak</span>
+                <span class="partner-chip">Hashkey</span>
+                <span class="partner-chip">Magnus</span>
+            </div>
+            <div class="price-note">
+                <i class="fa-solid fa-circle-info" style="color:#a78bfa; margin-right: 6px;"></i>
+                <strong>Fixed rate:</strong> 1 ETH = 97,000 NEXI (≈ $0.02 per NEXI).  
+                Minimum purchase: <strong>0.3 ETH</strong>. <br>
+                <span style="font-size:0.85rem; color:#b2abdc;">(Contract price may vary — shown below)</span>
+            </div>
+        </div>
+
         <!-- main presale card -->
         <div class="card">
-            <div class="badge"><i class="fas fa-fire-flame-curved" style="margin-right: 6px;"></i>RUBY presale · GameFi</div>
-            <h2>Ruby token sale</h2>
+            <div class="badge"><i class="fas fa-fire-flame-curved" style="margin-right: 6px;"></i>NEXI presale · live</div>
+            <h2>NEXI token sale</h2>
             <div class="subtitle">Unified gaming asset protocol · DAEP</div>
 
             <!-- info from contract -->
             <div class="info-grid">
                 <div class="info-item">
-                    <div class="info-label">Your balance</div>
-                    <div class="info-value" id="userRubyBalance">0.0</div>
+                    <div class="info-label">Your NEXI balance</div>
+                    <div class="info-value" id="userNexiBalance">0.0</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Total supply</div>
@@ -365,10 +425,15 @@
                 </div>
             </div>
 
-            <!-- price feed from getBlock() -->
-            <div class="price-display">
-                <span class="price-label"><i class="fa-solid fa-tag"></i> RUBY price (sale)</span>
-                <span class="price-value" id="rubyPrice">—</span>
+            <!-- price display -->
+            <div class="price-display" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <span class="price-label"><i class="fa-solid fa-tag"></i> Contract price</span>
+                    <span class="price-value" id="contractPrice">—</span>
+                </div>
+                <div style="font-size:0.85rem; color:#b9b2fe; border-top:1px dashed #3a3366; padding-top:6px; width:100%;">
+                    <i class="fa-regular fa-circle-check"></i> Fixed promo: 1 ETH = 97,000 NEXI ($0.02/NEXI)
+                </div>
             </div>
 
             <!-- buy section -->
@@ -378,7 +443,7 @@
                     <span style="color:#a78bfa;" id="minEthNote">min 0.3 ETH</span>
                 </div>
                 <input type="number" id="ethAmount" placeholder="0.5" step="0.01" min="0.3" class="input-field" value="0.3">
-                <div class="hint" id="estimatedRuby">≈ 0 RUBY</div>
+                <div class="hint" id="estimatedNexi">≈ 0 NEXI</div>
             </div>
 
             <!-- referral (invite) field -->
@@ -391,7 +456,7 @@
             </div>
 
             <button class="btn-primary" id="buyBtn" disabled>
-                <i class="fa-solid fa-cart-shopping" style="margin-right: 8px;"></i>Buy RUBY
+                <i class="fa-solid fa-cart-shopping" style="margin-right: 8px;"></i>Buy NEXI
             </button>
 
             <div style="font-size:0.9rem; margin-top: 20px; color: #898ab0; text-align:center; border-top: 1px dashed #343159; padding-top: 18px;">
@@ -399,13 +464,13 @@
             </div>
         </div>
 
-        <!-- Bridge placeholder (undeveloped) -->
+        <!-- BRIDGE CARD - Updated for NEXI to Ethereum Mainnet -->
         <div class="bridge-card">
             <div class="bridge-left">
                 <i class="fa-solid fa-bridge-water"></i>
                 <div class="bridge-text">
-                    <h4>Cross-chain bridge</h4>
-                    <p>Seamless asset transfer</p>
+                    <h4>NEXI ⇄ Ethereum Bridge</h4>
+                    <p>Cross-chain transfer NEXI to ETH mainnet</p>
                 </div>
             </div>
             <div class="coming-soon">Coming soon</div>
@@ -426,38 +491,32 @@
             const CONTRACT_ADDRESS = "0x9a8dCAc557439d5Fd18F2B2f206A5060688B9101";
             // Base mainnet chainId: 8453
             const BASE_CHAIN_ID = 8453;
-            const BASE_RPC = "https://mainnet.base.org"; // public rpc, consider fallback
+            const BASE_RPC = "https://mainnet.base.org";
             const EXPLORER = "https://basescan.org/tx/";
 
-            const MIN_ETH = "0.3"; // minimum buy in ETH
+            const MIN_ETH = "0.3";
 
-            // Zero address for empty referral
             const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
-            // ABI (filtered to only what we need: decimals, balanceOf, totalSupply, getBlock, buy)
-            // We keep full ABI as provided, but only use relevant functions.
             const ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
 
-            // ==================== STATE =======================
             let provider, signer, contract;
             let userAccount = null;
-            let tokenDecimals = 18; // default, will be updated
-            let salePriceWei = null; // from getBlock().sPrice
+            let tokenDecimals = 18;
+            let salePriceWei = null;
 
-            // DOM elements
             const connectBtn = document.getElementById('connectBtn');
             const walletSpan = document.getElementById('walletAddress');
-            const userBalanceEl = document.getElementById('userRubyBalance');
+            const userBalanceEl = document.getElementById('userNexiBalance');
             const totalSupplyEl = document.getElementById('totalSupply');
-            const rubyPriceEl = document.getElementById('rubyPrice');
-            const estimatedRubyEl = document.getElementById('estimatedRuby');
+            const contractPriceEl = document.getElementById('contractPrice');
+            const estimatedNexiEl = document.getElementById('estimatedNexi');
             const ethInput = document.getElementById('ethAmount');
             const referInput = document.getElementById('referAddress');
             const buyBtn = document.getElementById('buyBtn');
             const toast = document.getElementById('toast');
             const minEthNote = document.getElementById('minEthNote');
 
-            // ==================== HELPERS =====================
             function showToast(msg, duration = 4000) {
                 toast.textContent = msg;
                 toast.classList.remove('hidden');
@@ -474,10 +533,9 @@
                 try {
                     await window.ethereum.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x2105' }], // 8453 in hex
+                        params: [{ chainId: '0x2105' }],
                     });
                 } catch (switchError) {
-                    // if chain not added, add it
                     if (switchError.code === 4902) {
                         await window.ethereum.request({
                             method: 'wallet_addEthereumChain',
@@ -495,7 +553,6 @@
                 }
             }
 
-            // fetch contract data
             async function refreshContractData() {
                 if (!contract || !userAccount) return;
                 try {
@@ -504,51 +561,42 @@
                         contract.totalSupply(),
                         contract.getBlock()
                     ]);
-                    // balance
                     const balFormatted = ethers.formatUnits(balance, tokenDecimals);
                     userBalanceEl.textContent = Number(balFormatted).toLocaleString(undefined, {maximumFractionDigits: 2});
 
                     const totalSupFormatted = ethers.formatUnits(totalSup, tokenDecimals);
                     totalSupplyEl.textContent = Number(totalSupFormatted).toLocaleString(undefined, {maximumFractionDigits: 0});
 
-                    // getBlock returns: (swAirdorp, swSale, sPrice, sMaxBlock, nowBlock, balance, airdropEth)
-                    const sPrice = blockInfo[2]; // sPrice in wei (ETH per token? we need to infer)
+                    const sPrice = blockInfo[2];
                     salePriceWei = sPrice;
-                    // assume price is how many wei per full token? We'll display as ETH per token
                     const priceInEth = ethers.formatEther(sPrice);
-                    rubyPriceEl.textContent = `${Number(priceInEth).toFixed(6)} ETH`;
-                    // update estimate
+                    contractPriceEl.textContent = `${Number(priceInEth).toFixed(6)} ETH`;
                     updateEstimate();
                 } catch (e) {
                     console.warn('refresh error', e);
                 }
             }
 
-            // estimate ruby for entered ETH
             function updateEstimate() {
                 if (!salePriceWei || salePriceWei === 0n) {
-                    estimatedRubyEl.textContent = '≈ 0 RUBY (price not loaded)';
+                    estimatedNexiEl.textContent = '≈ 0 NEXI (price not loaded)';
                     return;
                 }
                 const ethVal = parseFloat(ethInput.value);
                 if (isNaN(ethVal) || ethVal < 0) {
-                    estimatedRubyEl.textContent = '≈ 0 RUBY';
+                    estimatedNexiEl.textContent = '≈ 0 NEXI';
                     return;
                 }
                 try {
                     const ethWei = ethers.parseEther(ethVal.toString());
-                    // tokens = ethWei / salePriceWei  (since sPrice is wei per token)
-                    const tokens = ethWei * 10n**BigInt(tokenDecimals) / salePriceWei; // because salePriceWei is ETH per whole token? careful.
-                    // Actually: if salePriceWei = 0.02 USD equivalent in ETH, it's a small number. 
-                    // But the contract might define sPrice as wei per token (like 0.02 USD in wei). Let's just format.
+                    const tokens = ethWei * 10n**BigInt(tokenDecimals) / salePriceWei;
                     const tokenAmount = Number(ethers.formatUnits(tokens, tokenDecimals));
-                    estimatedRubyEl.textContent = `≈ ${tokenAmount.toLocaleString(undefined, {maximumFractionDigits: 2})} RUBY`;
+                    estimatedNexiEl.textContent = `≈ ${tokenAmount.toLocaleString(undefined, {maximumFractionDigits: 2})} NEXI (contract)`;
                 } catch (e) {
-                    estimatedRubyEl.textContent = '≈ 0 RUBY';
+                    estimatedNexiEl.textContent = '≈ 0 NEXI';
                 }
             }
 
-            // buy function
             async function buyTokens() {
                 if (!signer || !contract || !userAccount) {
                     showToast('Connect wallet first');
@@ -565,7 +613,6 @@
                 if (!referAddress || referAddress === '') {
                     referAddress = ZERO_ADDRESS;
                 } else {
-                    // basic validation
                     if (!ethers.isAddress(referAddress)) {
                         showToast('Invalid referrer address');
                         return;
@@ -577,18 +624,16 @@
                     buyBtn.disabled = true;
                     buyBtn.textContent = 'Processing...';
 
-                    // estimate gas limit (optional)
                     const gasEstimate = await contract.buy.estimateGas(referAddress, { value: weiValue });
 
                     const tx = await contract.buy(referAddress, { 
                         value: weiValue,
-                        gasLimit: gasEstimate + 10000n // small buffer
+                        gasLimit: gasEstimate + 10000n
                     });
                     showToast('Transaction sent. Waiting for confirmation...', 8000);
                     const receipt = await tx.wait();
                     if (receipt.status === 1) {
                         showToast(`Purchase successful! TX: ${shortAddress(receipt.hash)}`, 6000);
-                        // refresh balances
                         await refreshContractData();
                     } else {
                         showToast('Transaction failed', 5000);
@@ -598,11 +643,10 @@
                     showToast('Error: ' + (err.message || 'Check console'));
                 } finally {
                     buyBtn.disabled = false;
-                    buyBtn.innerHTML = '<i class="fa-solid fa-cart-shopping" style="margin-right: 8px;"></i>Buy RUBY';
+                    buyBtn.innerHTML = '<i class="fa-solid fa-cart-shopping" style="margin-right: 8px;"></i>Buy NEXI';
                 }
             }
 
-            // ==================== WALLET CONNECTION ===========
             async function connectWallet() {
                 if (!window.ethereum) {
                     showToast('Please install MetaMask or another wallet');
@@ -610,22 +654,18 @@
                 }
 
                 try {
-                    // request accounts
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     userAccount = accounts[0];
 
-                    // switch to Base chain
                     await switchToBaseChain();
 
                     provider = new ethers.BrowserProvider(window.ethereum);
                     signer = await provider.getSigner();
                     contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 
-                    // update UI
                     walletSpan.textContent = shortAddress(userAccount);
                     connectBtn.style.background = '#1b1e34';
 
-                    // get decimals (fallback 18)
                     try {
                         tokenDecimals = await contract.decimals();
                     } catch (e) {
@@ -634,7 +674,6 @@
 
                     await refreshContractData();
 
-                    // listen for account/chain changes
                     window.ethereum.on('accountsChanged', (newAcc) => {
                         if (newAcc.length === 0) {
                             userAccount = null;
@@ -658,22 +697,18 @@
                 }
             }
 
-            // event listeners
             connectBtn.addEventListener('click', connectWallet);
             ethInput.addEventListener('input', updateEstimate);
             buyBtn.addEventListener('click', buyTokens);
 
-            // check for existing connection (page load)
             (async () => {
                 if (window.ethereum && window.ethereum.selectedAddress) {
-                    // auto-connect if previously connected
                     try {
                         await connectWallet(); 
                     } catch (e) {}
                 }
             })();
 
-            // set min text
             minEthNote.textContent = `min ${MIN_ETH} ETH`;
         })();
     </script>
