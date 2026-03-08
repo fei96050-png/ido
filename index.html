@@ -283,7 +283,7 @@
             cursor: not-allowed;
         }
 
-        /* Bridge card - updated for NEXI to Ethereum */
+        /* Bridge card */
         .bridge-card {
             display: flex;
             justify-content: space-between;
@@ -443,7 +443,7 @@
                     <span style="color:#a78bfa;" id="minEthNote">min 0.3 ETH</span>
                 </div>
                 <input type="number" id="ethAmount" placeholder="0.5" step="0.01" min="0.3" class="input-field" value="0.3">
-                <div class="hint" id="estimatedNexi">≈ 0 NEXI</div>
+                <div class="hint" id="estimatedNexi">≈ 29,100 NEXI</div> <!-- 0.3 * 97000 = 29100 -->
             </div>
 
             <!-- referral (invite) field -->
@@ -491,20 +491,19 @@
             const CONTRACT_ADDRESS = "0x9a8dCAc557439d5Fd18F2B2f206A5060688B9101";
             // Base mainnet chainId: 8453
             const BASE_CHAIN_ID = 8453;
-            const BASE_RPC = "https://mainnet.base.org";
-            const EXPLORER = "https://basescan.org/tx/";
-
-            const MIN_ETH = "0.3";
-
+            const MIN_ETH = 0.3;                       // minimum buy in ETH
+            const FIXED_RATE = 97000;                   // 1 ETH = 97,000 NEXI
             const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
+            // ABI (full as provided, unchanged)
             const ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"airdropReceive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_addr","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"allocationForRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
 
+            // ==================== STATE =======================
             let provider, signer, contract;
             let userAccount = null;
-            let tokenDecimals = 18;
-            let salePriceWei = null;
+            let tokenDecimals = 18; // default, will be updated
 
+            // DOM elements
             const connectBtn = document.getElementById('connectBtn');
             const walletSpan = document.getElementById('walletAddress');
             const userBalanceEl = document.getElementById('userNexiBalance');
@@ -517,6 +516,7 @@
             const toast = document.getElementById('toast');
             const minEthNote = document.getElementById('minEthNote');
 
+            // ==================== HELPERS =====================
             function showToast(msg, duration = 4000) {
                 toast.textContent = msg;
                 toast.classList.remove('hidden');
@@ -533,7 +533,7 @@
                 try {
                     await window.ethereum.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x2105' }],
+                        params: [{ chainId: '0x2105' }], // 8453 in hex
                     });
                 } catch (switchError) {
                     if (switchError.code === 4902) {
@@ -553,6 +553,23 @@
                 }
             }
 
+            // Format large numbers with commas
+            function formatNumber(num) {
+                return num.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            }
+
+            // Update estimate based on fixed rate (1 ETH = 97,000 NEXI)
+            function updateEstimate() {
+                const ethVal = parseFloat(ethInput.value);
+                if (isNaN(ethVal) || ethVal < 0) {
+                    estimatedNexiEl.textContent = '≈ 0 NEXI';
+                    return;
+                }
+                const nexiAmount = ethVal * FIXED_RATE;
+                estimatedNexiEl.textContent = `≈ ${formatNumber(nexiAmount)} NEXI (fixed rate)`;
+            }
+
+            // Fetch contract data and display (balance, total supply, contract price)
             async function refreshContractData() {
                 if (!contract || !userAccount) return;
                 try {
@@ -561,50 +578,31 @@
                         contract.totalSupply(),
                         contract.getBlock()
                     ]);
+                    
                     const balFormatted = ethers.formatUnits(balance, tokenDecimals);
-                    userBalanceEl.textContent = Number(balFormatted).toLocaleString(undefined, {maximumFractionDigits: 2});
+                    userBalanceEl.textContent = formatNumber(parseFloat(balFormatted));
 
                     const totalSupFormatted = ethers.formatUnits(totalSup, tokenDecimals);
-                    totalSupplyEl.textContent = Number(totalSupFormatted).toLocaleString(undefined, {maximumFractionDigits: 0});
+                    totalSupplyEl.textContent = formatNumber(parseFloat(totalSupFormatted));
 
-                    const sPrice = blockInfo[2];
-                    salePriceWei = sPrice;
+                    // getBlock returns: (swAirdorp, swSale, sPrice, sMaxBlock, nowBlock, balance, airdropEth)
+                    const sPrice = blockInfo[2]; // sPrice in wei (interpretation unknown, just display)
                     const priceInEth = ethers.formatEther(sPrice);
                     contractPriceEl.textContent = `${Number(priceInEth).toFixed(6)} ETH`;
-                    updateEstimate();
                 } catch (e) {
                     console.warn('refresh error', e);
                 }
             }
 
-            function updateEstimate() {
-                if (!salePriceWei || salePriceWei === 0n) {
-                    estimatedNexiEl.textContent = '≈ 0 NEXI (price not loaded)';
-                    return;
-                }
-                const ethVal = parseFloat(ethInput.value);
-                if (isNaN(ethVal) || ethVal < 0) {
-                    estimatedNexiEl.textContent = '≈ 0 NEXI';
-                    return;
-                }
-                try {
-                    const ethWei = ethers.parseEther(ethVal.toString());
-                    const tokens = ethWei * 10n**BigInt(tokenDecimals) / salePriceWei;
-                    const tokenAmount = Number(ethers.formatUnits(tokens, tokenDecimals));
-                    estimatedNexiEl.textContent = `≈ ${tokenAmount.toLocaleString(undefined, {maximumFractionDigits: 2})} NEXI (contract)`;
-                } catch (e) {
-                    estimatedNexiEl.textContent = '≈ 0 NEXI';
-                }
-            }
-
+            // Buy function
             async function buyTokens() {
                 if (!signer || !contract || !userAccount) {
                     showToast('Connect wallet first');
                     return;
                 }
 
-                const ethAmount = ethInput.value.trim();
-                if (!ethAmount || parseFloat(ethAmount) < parseFloat(MIN_ETH)) {
+                const ethAmount = parseFloat(ethInput.value);
+                if (isNaN(ethAmount) || ethAmount < MIN_ETH) {
                     showToast(`Minimum purchase is ${MIN_ETH} ETH`);
                     return;
                 }
@@ -620,33 +618,51 @@
                 }
 
                 try {
-                    const weiValue = ethers.parseEther(ethAmount);
+                    const weiValue = ethers.parseEther(ethAmount.toString());
                     buyBtn.disabled = true;
                     buyBtn.textContent = 'Processing...';
 
-                    const gasEstimate = await contract.buy.estimateGas(referAddress, { value: weiValue });
+                    // Estimate gas (optional, but may fail if user rejects)
+                    let gasEstimate;
+                    try {
+                        gasEstimate = await contract.buy.estimateGas(referAddress, { value: weiValue });
+                    } catch (estimateErr) {
+                        // If estimation fails (e.g., user rejects), we still attempt with a reasonable gas limit
+                        console.warn('Gas estimation failed, using default', estimateErr);
+                        gasEstimate = 300000n; // fallback
+                    }
 
                     const tx = await contract.buy(referAddress, { 
                         value: weiValue,
-                        gasLimit: gasEstimate + 10000n
+                        gasLimit: gasEstimate + 10000n // buffer
                     });
+                    
                     showToast('Transaction sent. Waiting for confirmation...', 8000);
+                    
                     const receipt = await tx.wait();
                     if (receipt.status === 1) {
                         showToast(`Purchase successful! TX: ${shortAddress(receipt.hash)}`, 6000);
-                        await refreshContractData();
+                        await refreshContractData(); // update balances
                     } else {
-                        showToast('Transaction failed', 5000);
+                        showToast('Transaction failed on-chain', 5000);
                     }
                 } catch (err) {
                     console.error(err);
-                    showToast('Error: ' + (err.message || 'Check console'));
+                    // User-friendly error messages
+                    if (err.code === 'ACTION_REJECTED') {
+                        showToast('Transaction rejected by user', 3000);
+                    } else if (err.message?.includes('insufficient funds')) {
+                        showToast('Insufficient ETH balance', 3000);
+                    } else {
+                        showToast('Error: ' + (err.message?.substring(0, 60) || 'Check console'));
+                    }
                 } finally {
                     buyBtn.disabled = false;
                     buyBtn.innerHTML = '<i class="fa-solid fa-cart-shopping" style="margin-right: 8px;"></i>Buy NEXI';
                 }
             }
 
+            // ==================== WALLET CONNECTION ===========
             async function connectWallet() {
                 if (!window.ethereum) {
                     showToast('Please install MetaMask or another wallet');
@@ -674,6 +690,7 @@
 
                     await refreshContractData();
 
+                    // Listen for account/chain changes
                     window.ethereum.on('accountsChanged', (newAcc) => {
                         if (newAcc.length === 0) {
                             userAccount = null;
@@ -693,14 +710,19 @@
                     buyBtn.disabled = false;
                 } catch (err) {
                     console.error(err);
-                    showToast('Connection failed: ' + err.message);
+                    showToast('Connection failed: ' + (err.message || ''));
                 }
             }
 
+            // Event listeners
             connectBtn.addEventListener('click', connectWallet);
             ethInput.addEventListener('input', updateEstimate);
             buyBtn.addEventListener('click', buyTokens);
 
+            // Initialize estimate
+            updateEstimate();
+
+            // Auto-connect if previously connected
             (async () => {
                 if (window.ethereum && window.ethereum.selectedAddress) {
                     try {
