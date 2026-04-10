@@ -1,1 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SUPERFORM | Buy Token on Base</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: radial-gradient(circle at 10% 20%, rgba(0,20,40,1) 0%, rgba(0,0,0,0.95) 100%); min-height: 100vh; }
+        .glass-card { background: rgba(20, 30, 45, 0.65); backdrop-filter: blur(12px); border: 1px solid rgba(66, 153, 225, 0.3); border-radius: 2rem; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.5); }
+        .gradient-text { background: linear-gradient(135deg, #A0E9FF, #3B82F6, #2563EB); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .btn-primary { background: linear-gradient(100deg, #2563EB, #1E40AF); transition: all 0.2s ease; }
+        .btn-primary:hover { transform: scale(1.02); box-shadow: 0 10px 20px -5px #1e3a8a80; }
+        .input-dark { background: #0F172A; border: 1px solid #334155; transition: all 0.2s; color: #F1F5F9; }
+        .input-dark:focus { border-color: #3B82F6; outline: none; box-shadow: 0 0 0 2px rgba(59,130,246,0.3); }
+        .loader { border: 2px solid rgba(59,130,246,0.2); border-top: 2px solid #3B82F6; border-radius: 50%; width: 20px; height: 20px; animation: spin 0.8s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .copy-btn:hover { background: #1e293b; }
+    </style>
+</head>
+<body class="text-gray-200">
 
+    <div class="max-w-6xl mx-auto px-4 py-6 md:py-10">
+        <!-- Header & Wallet -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                    <span class="font-bold text-lg">S</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold tracking-tight"><span class="gradient-text">SUPERFORM</span></h1>
+                    <p class="text-xs text-gray-400">Decentralized challenger neobank | Powered by Base</p>
+                </div>
+            </div>
+            <div class="flex gap-3 items-center">
+                <div id="networkStatus" class="text-xs bg-gray-800/70 px-3 py-1.5 rounded-full border border-gray-700 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span> <span id="networkText">Base Chain</span>
+                </div>
+                <button id="connectWalletBtn" class="bg-blue-600 hover:bg-blue-500 transition px-5 py-2.5 rounded-full font-semibold shadow-md flex items-center gap-2">🔌 Connect Wallet</button>
+            </div>
+        </div>
+
+        <!-- Hero / Project intro -->
+        <div class="glass-card p-5 md:p-6 mb-8">
+            <div class="flex flex-wrap justify-between items-start gap-3">
+                <div>
+                    <h2 class="text-xl font-bold">⚡ Superform Vaults & Smart Accounts</h2>
+                    <p class="text-gray-300 text-sm mt-1 max-w-2xl">Backed by VanEck, Polychain, Circle, BlockTower, Arthur Hayes & Shayne Coplan. $14.5M raised • 180k+ users • $185M peak TVL • 0 incidents.</p>
+                </div>
+                <div class="bg-black/40 rounded-2xl px-4 py-2 text-right">
+                    <div class="text-xs text-gray-400">$SUPERFORM token</div>
+                    <div class="font-mono text-sm"><span id="tokenSymbol">SUPERFORM</span> · 18 decimals</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main grid: left (buy + referral) / right (stats) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- LEFT COLUMN: Purchase & Referral Link -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- BUY CARD -->
+                <div class="glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold flex items-center gap-2">🛒 Buy SUPERFORM</h3>
+                        <span id="saleStatusBadge" class="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-500/30">Active</span>
+                    </div>
+                    <div class="bg-black/30 rounded-xl p-4 mb-5 text-sm flex flex-wrap justify-between gap-2">
+                        <div><span class="text-gray-400">💎 Fixed price:</span> <span class="font-mono text-cyan-300">1 SUPERFORM = $0.01 USD</span></div>
+                        <div><span class="text-gray-400">🔄 1 ETH ≈</span> <span id="tokenPerEth" class="font-mono">--</span> SUPERFORM</div>
+                        <div><span class="text-gray-400">⚡ Min purchase:</span> <span class="font-bold text-yellow-300">0.13 ETH</span></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">ETH Amount (≥ 0.13 ETH)</label>
+                            <input type="number" id="buyEthAmount" step="0.01" min="0.13" value="0.13" class="input-dark w-full rounded-xl px-4 py-3" placeholder="0.13 ETH">
+                            <p class="text-right text-xs text-gray-400 mt-1">You receive ≈ <span id="estimatedTokens">0</span> SUPERFORM</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Referral address (optional)</label>
+                            <input type="text" id="buyReferral" class="input-dark w-full rounded-xl px-4 py-3" placeholder="0x... friend gets 20% token reward">
+                            <p class="text-xs text-gray-400 mt-1">Referrer receives 20% of purchased tokens (0% ETH). If you were referred, the address is auto-filled from invite link.</p>
+                        </div>
+                        <button id="buyButton" class="btn-primary w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">🚀 Buy SUPERFORM</button>
+                    </div>
+                </div>
+
+                <!-- REFERRAL LINK CARD (auto-generate invite link) -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold flex items-center gap-2 mb-3">🔗 Your Invite Link</h3>
+                    <p class="text-sm text-gray-300 mb-3">Share this link — anyone who clicks and buys will automatically have you as referrer.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 items-center">
+                        <div class="relative flex-1 w-full">
+                            <input type="text" id="inviteLinkInput" readonly class="input-dark w-full rounded-xl px-4 py-3 pr-24 text-sm font-mono" value="Connect wallet to generate link">
+                            <button id="copyInviteBtn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-600 text-xs px-3 py-1.5 rounded-lg transition">Copy</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-xs text-gray-400 bg-gray-900/40 p-2 rounded-lg">
+                        💡 <strong>How it works:</strong> When a user lands on your invite link (?ref=YOUR_WALLET), the referral field is pre-filled. They get 20% token bonus, you earn 20% tokens from their purchase.
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Stats, user info, contract data -->
+            <div class="space-y-6">
+                <!-- User summary -->
+                <div class="glass-card p-5">
+                    <h4 class="font-semibold text-lg mb-2">👤 Dashboard</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-gray-700 pb-2"><span>Wallet</span><span id="walletAddress" class="font-mono text-xs truncate max-w-[160px]">Not connected</span></div>
+                        <div class="flex justify-between"><span>💰 ETH Balance</span><span id="ethBalance" class="font-mono">--</span></div>
+                        <div class="flex justify-between"><span>🪙 SUPERFORM Balance</span><span id="tokenBalance" class="font-mono text-cyan-300 font-semibold">--</span></div>
+                        <div class="flex justify-between"><span>🏦 Total Supply</span><span id="totalSupplyDisplay" class="font-mono">--</span></div>
+                    </div>
+                </div>
+
+                <!-- Sales & Block Info -->
+                <div class="glass-card p-5">
+                    <h4 class="font-semibold text-lg mb-2">📊 Market Status</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between"><span>Sale Price (wei/token)</span><span id="salePriceWei" class="font-mono">--</span></div>
+                        <div class="flex justify-between"><span>🔗 Current Block</span><span id="currentBlock" class="font-mono">--</span></div>
+                        <div class="flex justify-between"><span>⏱️ Sale End Block</span><span id="maxBlock" class="font-mono">--</span></div>
+                        <div class="flex justify-between"><span>⏳ Remaining Blocks</span><span id="remainingBlocks" class="font-mono text-yellow-300">--</span></div>
+                        <div class="flex justify-between"><span>🟢 Sale Active</span><span id="saleActiveFlag" class="text-green-400">--</span></div>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-gray-700 text-xs text-gray-400">
+                        <div>✅ Referral reward: <strong class="text-emerald-300">20% of purchased tokens</strong> to referrer</div>
+                        <div>💰 Token price fixed at <strong>$0.01 USD</strong> (on-chain exchange rate dynamic based on ETH/USD)</div>
+                    </div>
+                </div>
+
+                <!-- Info note -->
+                <div class="glass-card p-4 bg-blue-950/30 border border-blue-800/50">
+                    <div class="flex gap-2 items-start">
+                        <span class="text-blue-300 text-lg">ℹ️</span>
+                        <div class="text-xs space-y-1">
+                            <p>• Minimum purchase <strong>0.13 ETH</strong> enforced by DApp.</p>
+                            <p>• Your invite link automatically fills the referral field for new users.</p>
+                            <p>• Contract deployed on Base mainnet. Ensure wallet is connected to Base.</p>
+                            <p>• All transactions are secured by the SUPERFORM smart contract.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center text-xs text-gray-500 border-t border-gray-800 pt-5">⚡ SUPERFORM — Non-custodial vaults & smart accounts | Zero security incidents | Powered by Base</div>
+    </div>
+
+    <script>
+        // CONFIGURATION
+        const CONTRACT_ADDRESS = "0x3653b073665cD27546b914014d0044894e379536";
+        const BASE_CHAIN_ID = "0x2105"; // 8453 decimal
+        const BASE_CHAIN_ID_DEC = 8453;
+        const BASE_RPC = "https://mainnet.base.org";
+        const EXPLORER = "https://basescan.org";
+
+        // ABI (only needed functions: buy, balanceOf, totalSupply, getBlock, symbol, decimals)
+        const ABI = [
+            "function name() view returns (string)",
+            "function symbol() view returns (string)",
+            "function decimals() view returns (uint8)",
+            "function totalSupply() view returns (uint256)",
+            "function balanceOf(address) view returns (uint256)",
+            "function getBlock() view returns (bool swAirdorp, bool swSale, uint256 sPrice, uint256 sMaxBlock, uint256 nowBlock, uint256 balance, uint256 airdropEth)",
+            "function buy(address _refer) payable returns (bool)"
+        ];
+
+        let provider, signer, contract;
+        let userAddress = null;
+        let currentContractData = { swSale: false, salePrice: "0", saleMaxBlock: 0, nowBlock: 0 };
+        let ethPriceUSD = 0; // for display reference only
+
+        // DOM Elements
+        const connectBtn = document.getElementById("connectWalletBtn");
+        const walletSpan = document.getElementById("walletAddress");
+        const ethBalanceSpan = document.getElementById("ethBalance");
+        const tokenBalanceSpan = document.getElementById("tokenBalance");
+        const totalSupplySpan = document.getElementById("totalSupplyDisplay");
+        const tokenPerEthSpan = document.getElementById("tokenPerEth");
+        const buyEthInput = document.getElementById("buyEthAmount");
+        const estimatedTokensSpan = document.getElementById("estimatedTokens");
+        const buyBtn = document.getElementById("buyButton");
+        const saleStatusBadge = document.getElementById("saleStatusBadge");
+        const salePriceWeiSpan = document.getElementById("salePriceWei");
+        const currentBlockSpan = document.getElementById("currentBlock");
+        const maxBlockSpan = document.getElementById("maxBlock");
+        const remainingBlocksSpan = document.getElementById("remainingBlocks");
+        const saleActiveFlagSpan = document.getElementById("saleActiveFlag");
+        const buyReferralInput = document.getElementById("buyReferral");
+        const inviteLinkInput = document.getElementById("inviteLinkInput");
+        const copyInviteBtn = document.getElementById("copyInviteBtn");
+
+        // Helper: format token amount
+        function formatTokenAmount(wei, decimals = 18) {
+            if (!wei) return "0";
+            const formatted = ethers.formatUnits(wei, decimals);
+            return parseFloat(formatted).toLocaleString(undefined, { maximumFractionDigits: 4, minimumFractionDigits: 0 });
+        }
+
+        // Fetch ETH/USD price for display only
+        async function fetchEthPrice() {
+            try {
+                const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd");
+                const data = await res.json();
+                ethPriceUSD = data.ethereum?.usd || 2600;
+            } catch(e) { ethPriceUSD = 2800; }
+            updateTokenPerEthDisplay();
+        }
+
+        function updateTokenPerEthDisplay() {
+            if (!currentContractData.salePrice || currentContractData.salePrice === "0") return;
+            const tokenPerEthRaw = parseFloat(ethers.formatEther(currentContractData.salePrice));
+            tokenPerEthSpan.innerText = tokenPerEthRaw.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        }
+
+        // Load contract data (sale status, price, block)
+        async function refreshContractAndUI() {
+            if (!contract) return;
+            try {
+                const data = await contract.getBlock();
+                currentContractData = {
+                    swSale: data[1],
+                    salePrice: data[2],
+                    saleMaxBlock: Number(data[3]),
+                    nowBlock: Number(data[4])
+                };
+                salePriceWeiSpan.innerText = ethers.formatUnits(currentContractData.salePrice, "wei") + " wei";
+                currentBlockSpan.innerText = currentContractData.nowBlock;
+                maxBlockSpan.innerText = currentContractData.saleMaxBlock;
+                const remaining = currentContractData.saleMaxBlock - currentContractData.nowBlock;
+                remainingBlocksSpan.innerText = remaining > 0 ? remaining : 0;
+                const saleActive = currentContractData.swSale && (remaining > 0);
+                saleActiveFlagSpan.innerText = saleActive ? "✅ Yes" : "❌ Ended/Disabled";
+                saleStatusBadge.innerText = saleActive ? "🟢 Sale Active" : "🔴 Sale Inactive";
+                saleStatusBadge.className = saleActive ? "bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-500/30" : "bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-xs font-semibold border border-red-500/30";
+                updateTokenPerEthDisplay();
+                if (buyEthInput.value) updateEstimatedTokens();
+            } catch(e) { console.warn(e); }
+        }
+
+        async function updateUserBalances() {
+            if (!contract || !userAddress) return;
+            try {
+                const ethBalanceWei = await provider.getBalance(userAddress);
+                ethBalanceSpan.innerText = parseFloat(ethers.formatEther(ethBalanceWei)).toFixed(5) + " ETH";
+                const tokenWei = await contract.balanceOf(userAddress);
+                tokenBalanceSpan.innerText = formatTokenAmount(tokenWei) + " SUPERFORM";
+                const totalSup = await contract.totalSupply();
+                totalSupplySpan.innerText = formatTokenAmount(totalSup);
+            } catch(e) { console.error(e); }
+        }
+
+        function updateEstimatedTokens() {
+            let ethVal = parseFloat(buyEthInput.value);
+            if (isNaN(ethVal)) ethVal = 0;
+            if (currentContractData.salePrice) {
+                const pricePerTokenEth = 1 / parseFloat(ethers.formatEther(currentContractData.salePrice));
+                const tokens = ethVal / pricePerTokenEth;
+                estimatedTokensSpan.innerText = tokens.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            }
+        }
+
+        // Generate invite link based on current wallet address
+        function updateInviteLink() {
+            if (!userAddress) {
+                inviteLinkInput.value = "Connect wallet to generate invite link";
+                return;
+            }
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set("ref", userAddress);
+            inviteLinkInput.value = currentUrl.toString();
+        }
+
+        // Copy invite link to clipboard
+        function copyInviteLink() {
+            if (!userAddress) {
+                alert("Connect wallet first to generate your invite link.");
+                return;
+            }
+            navigator.clipboard.writeText(inviteLinkInput.value);
+            const originalText = copyInviteBtn.innerText;
+            copyInviteBtn.innerText = "Copied!";
+            setTimeout(() => { copyInviteBtn.innerText = originalText; }, 2000);
+        }
+
+        // Read referral from URL params and pre-fill the input field
+        function setReferralFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refAddress = urlParams.get("ref");
+            if (refAddress && ethers.isAddress(refAddress)) {
+                buyReferralInput.value = refAddress;
+                // Show small visual feedback
+                const note = document.createElement('div');
+                note.className = 'text-xs text-green-400 mt-1';
+                note.innerText = '✅ Referral address auto-filled from invite link!';
+                const parent = buyReferralInput.parentElement;
+                const existing = parent.querySelector('.ref-note');
+                if(existing) existing.remove();
+                const msg = document.createElement('div');
+                msg.className = 'text-xs text-green-400 mt-1 ref-note';
+                msg.innerText = '✅ Referral address auto-filled from invite link!';
+                parent.appendChild(msg);
+                setTimeout(() => msg.remove(), 4000);
+            }
+        }
+
+        // Buy function
+        async function buyTokens() {
+            if (!contract || !userAddress) return alert("Connect wallet first");
+            let ethAmount = parseFloat(buyEthInput.value);
+            if (isNaN(ethAmount) || ethAmount < 0.13) return alert("Minimum purchase is 0.13 ETH");
+            let referralAddr = buyReferralInput.value.trim();
+            let referFinal = ethers.ZeroAddress;
+            if (referralAddr && ethers.isAddress(referralAddr) && referralAddr !== userAddress) {
+                referFinal = referralAddr;
+            } else if (referralAddr && !ethers.isAddress(referralAddr)) {
+                alert("Invalid referral address (must be valid Ethereum address)");
+                return;
+            }
+            const weiValue = ethers.parseEther(ethAmount.toString());
+            buyBtn.disabled = true;
+            buyBtn.innerText = "Processing...";
+            try {
+                const tx = await contract.buy(referFinal, { value: weiValue, gasLimit: 350000 });
+                await tx.wait();
+                alert(`Purchase successful! Tx: ${EXPLORER}/tx/${tx.hash}`);
+                await updateUserBalances();
+                await refreshContractAndUI();
+            } catch(e) {
+                console.error(e);
+                let errMsg = e.reason || e.message;
+                if (errMsg.includes("Transaction recovery")) errMsg = "Transaction failed: insufficient ETH or contract condition not met.";
+                alert("Transaction failed: " + errMsg);
+            } finally {
+                buyBtn.disabled = false;
+                buyBtn.innerText = "🚀 Buy SUPERFORM";
+            }
+        }
+
+        // Wallet connection + switch to Base
+        async function connectWallet() {
+            if (!window.ethereum) return alert("Please install MetaMask or another Web3 wallet!");
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                if (chainId !== BASE_CHAIN_ID) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: BASE_CHAIN_ID }],
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: BASE_CHAIN_ID,
+                                    chainName: 'Base Mainnet',
+                                    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+                                    rpcUrls: [BASE_RPC],
+                                    blockExplorerUrls: [EXPLORER]
+                                }]
+                            });
+                        } else throw switchError;
+                    }
+                }
+                provider = new ethers.BrowserProvider(window.ethereum);
+                signer = await provider.getSigner();
+                userAddress = await signer.getAddress();
+                contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+                walletSpan.innerText = userAddress.slice(0,6)+"..."+userAddress.slice(-4);
+                connectBtn.innerText = "🟢 Connected";
+                connectBtn.disabled = true;
+                await refreshContractAndUI();
+                await updateUserBalances();
+                updateInviteLink();
+                // Listen to account/network changes
+                window.ethereum.on('accountsChanged', (accounts) => { if(accounts.length) window.location.reload(); else resetUI() });
+                window.ethereum.on('chainChanged', () => window.location.reload());
+            } catch(err) { console.error(err); alert("Connection failed: "+err.message); }
+        }
+
+        function resetUI() {
+            userAddress = null;
+            walletSpan.innerText = "Not connected";
+            connectBtn.disabled = false;
+            connectBtn.innerText = "🔌 Connect Wallet";
+            buyBtn.disabled = true;
+            inviteLinkInput.value = "Connect wallet to generate link";
+        }
+
+        // Event listeners
+        buyEthInput.addEventListener("input", updateEstimatedTokens);
+        connectBtn.addEventListener("click", connectWallet);
+        buyBtn.addEventListener("click", buyTokens);
+        copyInviteBtn.addEventListener("click", copyInviteLink);
+        
+        // Initialize
+        buyBtn.disabled = true;
+        fetchEthPrice();
+        setReferralFromURL(); // Auto fill referral if URL has ?ref=
+        setInterval(() => { if(contract && userAddress) { refreshContractAndUI(); updateUserBalances(); } }, 15000);
+        setInterval(fetchEthPrice, 60000);
+    </script>
+</body>
+</html>
